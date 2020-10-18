@@ -1,4 +1,4 @@
-package feat2;
+package main;
 
 public class Account {
 	private String accID;

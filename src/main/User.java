@@ -1,4 +1,4 @@
-package feat2;
+package main;
 
 import java.util.ArrayList;
 
