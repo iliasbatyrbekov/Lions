@@ -1,22 +1,22 @@
 package feat2;
 
 public class Account {
-	private String name;
+	private String accID;
 	private double debt;
 	private double asset;
 	private double balance;
 	private String password;
 	
-	public Account(String name, String password) {
-		this.name = name;
+	public Account(String accID, String password) {
+		this.accID = accID;
 		this.asset =  0;
 		this.balance = 0;
 		this.debt = 0;
 		this.password = password;
 	}
 	
-	public Account(String name, String password, double balance) {
-		this.name = name;
+	public Account(String accID, String password, double balance) {
+		this.accID = accID;
 		this.asset =  0;
 		this.balance = balance;
 		this.debt = 0;
@@ -32,8 +32,8 @@ public class Account {
 	public double getBalance() {
 		return balance;
 	}
-	public String getName() {
-		return name;
+	public String getaccID() {
+		return accID;
 	}
 	
 	public double setAsset(double asset, String password) {
@@ -57,8 +57,8 @@ public class Account {
 		}
 		return -2.0;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public void setaccID(String accID) {
+		this.accID = accID;
 	}
 	
 }
