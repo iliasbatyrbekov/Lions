@@ -16,6 +16,12 @@ public class View {
 	
 	public void viewAllAccountBalance() {
 		
+		HashMap<String, Double> account_balance = new HashMap<String, Double>();
+		for(Account acc : accList) {
+			account_balance.put(acc.getaccID(), acc.getBalance());
+		}
+			
+		System.out.println(account_balance);
 	}
 	
 	public void viewExpensebyAccount() {
