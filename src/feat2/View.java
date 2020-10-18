@@ -2,8 +2,6 @@ package feat2;
 
 import java.util.ArrayList;
 
-import test.Account;
-
 public class View {
 	private ArrayList<Transaction> tranHist;
 	private ArrayList<Account>accList;

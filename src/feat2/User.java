@@ -2,8 +2,6 @@ package feat2;
 
 import java.util.ArrayList;
 
-import test.Account;
-
 public class User {
 	private String userID;
 	private String password;
