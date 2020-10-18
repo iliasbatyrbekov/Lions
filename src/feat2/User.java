@@ -9,6 +9,7 @@ public class User {
 	private String password;
 	private ArrayList<Transaction> transactionRecords;
 	private ArrayList<Account> accountList;
+	private View view;
 	
 	public String getUserID() {
 		return userID;
@@ -35,11 +36,5 @@ public class User {
 		this.accountList = accountList;
 	}
 	
-	public void viewAllAccountsBalance() {
-		for (Account acc : accountList) {
-			System.out.println(acc.getName());
-			System.out.println(acc.getBalance());
-		}
-	}
 	
 }
