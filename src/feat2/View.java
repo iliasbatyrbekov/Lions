@@ -14,4 +14,8 @@ public class View {
 		accList=AL;
 		planList=PL;
 	}
+	
+	public void viewAllAccountBalance() {
+		
+	}
 }
