@@ -14,14 +14,14 @@ public class View {
 		planList=PL;
 	}
 	
-	public void viewAllAccountBalance() {
+	public String viewAllAccountBalance() {
 		
 		HashMap<String, Double> account_balance = new HashMap<String, Double>();
 		for(Account acc : accList) {
 			account_balance.put(acc.getaccID(), acc.getBalance());
 		}
 			
-		System.out.println(account_balance);
+		return account_balance.toString();
 	}
 	//test
 	public void viewExpensebyAccount() {
