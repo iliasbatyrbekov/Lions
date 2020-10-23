@@ -1,9 +1,5 @@
 package main;
 
-<<<<<<< Updated upstream
-public class testViewAllAccountBalance {
-
-=======
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
@@ -17,5 +13,4 @@ public class testViewAllAccountBalance {
 		String result = view.viewAllAccountBalance();
 		assertEquals(,result);
 	}
->>>>>>> Stashed changes
 }
