@@ -1,11 +1,15 @@
 package main;
 
 public class Expense extends Transaction {
+	public Expense(String transactionID) {
+		super(transactionID);
+	}
+
 	private String category;
 	private String member;
 
 	public String getCategory() {
-		return category;
+		return this.category;
 	}
 
 	public void setCategory(String category) {
@@ -19,6 +23,4 @@ public class Expense extends Transaction {
 	public void setMember(String member) {
 		this.member = member;
 	}
-
-	
 }

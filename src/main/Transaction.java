@@ -5,8 +5,7 @@ import java.sql.Date;
 public class Transaction { 
 	private String transactionID; 
 	private double amount; 
-	private Date date; 
-	private String type; 
+	private Date date;
 	private String accountID; 
 	private String description; 
  
@@ -40,21 +39,13 @@ public class Transaction {
  
 	public void setAmount(double amount) { 
 		this.amount = amount; 
-	} 
- 
-	public String getType() { 
-		return this.type; 
-	} 
- 
-	public void setType(String type) { 
-		this.type = type; 
-	} 
+	}
  
 	public String getAccount() { 
 		return this.accountID; 
 	} 
  
 	public void setAccount(String accID) { 
-		this.accountID = accID; 
+		this.accountID = accID;
 	}	 
 } 

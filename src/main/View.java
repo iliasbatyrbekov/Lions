@@ -14,14 +14,18 @@ public class View {
 		planList=PL;
 	}
 	
-	public String viewAllAccountBalance() {
+	public HashMap<String, Double> viewAllAccountBalance() {
 		
 		HashMap<String, Double> account_balance = new HashMap<String, Double>();
 		for(Account acc : accList) {
 			account_balance.put(acc.getaccID(), acc.getBalance());
 		}
+		if(account_balance.isEmpty()) {
+			return null;
+		} 
+		return account_balance;
+
 			
-		return account_balance.toString();
 	}
 	//test
 	public void viewExpensebyAccount() {
@@ -34,13 +38,12 @@ public class View {
 		
 		//BAD CODE SMELL: maybe consider recording transactions history in Accounts too
 		for (Transaction tra: tranHist) {
-			if(tra.getType().equals("Expense")) {
+			if(tra instanceof Expense) {
 				String targetaccID=tra.getAccount();
 				double amount =tra.getAmount();
 				acc_exp.put(targetaccID, acc_exp.get(targetaccID)+amount);
 			}
 		}
-//		lolololololololol
 		
 		//print
 		for (String acc:acc_exp.keySet()) {
@@ -54,7 +57,7 @@ public class View {
 		for (Transaction tra: tranHist) {
 			
 			//BAD DESIGN: transaction should'nt know that its children class "expense" has attribute "category"
-			if(tra.getType().equals("Expense")) {
+			if(tra instanceof Expense) {
 				String cat=((Expense)tra).getCategory();
 				cat_exp.put(cat,cat_exp.get(cat)+tra.getAmount());
 			}
@@ -65,9 +68,9 @@ public class View {
 			System.out.println(cat+" : "+cat_exp.get(cat));
 		}
 	}
-	public void viewExpensebyMember() {
-		
-	}
+//	public void viewExpensebyMember() {
+//		
+//	}
 
 
 

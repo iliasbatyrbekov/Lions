@@ -1,11 +1,15 @@
 package main;
 
 public class Income extends Transaction {
+	public Income(String transactionID) {
+		super(transactionID);
+	}
+
 	private String category;
 	private String member;
 
 	public String getCategory() {
-		return category;
+		return this.category;
 	}
 
 	public void setCategory(String category) {
