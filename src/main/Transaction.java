@@ -9,8 +9,12 @@ public class Transaction {
 	private String accountID; 
 	private String description; 
  
-	public Transaction(String transactionID) { 
-		this.transactionID = transactionID; 
+	public Transaction(String transactionID, Date date, double amount, String accountID, String description) { 
+		this.transactionID = transactionID;
+		this.date = date;
+		this.accountID = accountID;
+		this.amount = amount;
+		this.description = description;
 	} 
  
 	public String getTransactionID() { 
@@ -19,33 +23,17 @@ public class Transaction {
 	 
 	public String getDate() { 
 		return this.date.toString(); 
-	} 
- 
-	public void setDate(Date date) { 
-		this.date = date; 
-	} 
+	}
  
 	public String getDescription() { 
 		return this.description; 
-	} 
- 
-	public void setDescription(String description) { 
-		this.description = description; 
-	} 
- 
+	}
+	
 	public double getAmount() { 
 		return this.amount; 
-	} 
- 
-	public void setAmount(double amount) { 
-		this.amount = amount; 
 	}
- 
-	public String getAccount() { 
+	
+	public String getAccountId() { 
 		return this.accountID; 
-	} 
- 
-	public void setAccount(String accID) { 
-		this.accountID = accID;
-	}	 
-} 
+	}
+}
