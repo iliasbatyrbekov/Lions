@@ -14,14 +14,18 @@ public class View {
 		planList=PL;
 	}
 	
-	public String viewAllAccountBalance() {
+	public HashMap<String, Double> viewAllAccountBalance() {
 		
 		HashMap<String, Double> account_balance = new HashMap<String, Double>();
 		for(Account acc : accList) {
 			account_balance.put(acc.getaccID(), acc.getBalance());
 		}
+		if(account_balance.isEmpty()) {
+			return null;
+		} 
+		return account_balance;
+
 			
-		return account_balance.toString();
 	}
 	//test
 	public void viewExpensebyAccount() {
@@ -64,9 +68,9 @@ public class View {
 			System.out.println(cat+" : "+cat_exp.get(cat));
 		}
 	}
-	public void viewExpensebyMember() {
-		
-	}
+//	public void viewExpensebyMember() {
+//		
+//	}
 
 
 
