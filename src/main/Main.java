@@ -9,9 +9,9 @@ public class Main {
 		Scanner inputFileName = new Scanner(System.in);
 		System.out.print("Please input the file pathname: ");
 		String filepathname = inputFileName.nextLine();
-		Scanner inputFile = new Scanner(new File(filepathname));
+		Scanner in = new Scanner(new File(filepathname));
 		
-		inputFile.close();			
+		in.close();
 		inputFileName.close();
 	}
 }

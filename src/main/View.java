@@ -14,10 +14,20 @@ public class View {
 		planList=PL;
 	}
 	
-	public void viewAllAccountBalance() {
+	public HashMap<String, Double> viewAllAccountBalance() {
 		
+		HashMap<String, Double> account_balance = new HashMap<String, Double>();
+		for(Account acc : accList) {
+			account_balance.put(acc.getaccID(), acc.getBalance());
+		}
+		if(account_balance.isEmpty()) {
+			return null;
+		} 
+		return account_balance;
+
+			
 	}
-	
+	//test
 	public void viewExpensebyAccount() {
 		HashMap<String, Double> acc_exp = new HashMap<String, Double>();
 		
@@ -28,7 +38,7 @@ public class View {
 		
 		//BAD CODE SMELL: maybe consider recording transactions history in Accounts too
 		for (Transaction tra: tranHist) {
-			if(tra.getType().equals("Expense")) {
+			if(tra instanceof Expense) {
 				String targetaccID=tra.getAccount();
 				double amount =tra.getAmount();
 				acc_exp.put(targetaccID, acc_exp.get(targetaccID)+amount);
@@ -40,12 +50,34 @@ public class View {
 			System.out.println(acc+" : "+acc_exp.get(acc));
 		}
 	}
-	public void viewExpensebyCategory() {
+	public ArrayList<String> viewExpensebyCategory() {
+		HashMap<String, Double> cat_exp = new HashMap<String, Double>();
 		
-	}
-	public void viewExpensebyMember() {
+		//BAD CODE SMELL: maybe consider recording transactions history in Accounts too
+		for (Transaction tra: tranHist) {
+			
+			//BAD DESIGN: transaction should'nt know that its children class "expense" has attribute "category"
+			if(tra instanceof Expense) {
+				String cat=((Expense)tra).getCategory();
+				if (cat_exp.containsKey(cat)) {
+					cat_exp.put(cat, cat_exp.get(cat)+tra.getAmount());
+				} else {
+					cat_exp.put(cat, tra.getAmount());
+				}
+			}
+		}
 		
+		//print
+		ArrayList<String> result = new ArrayList<>();
+ 		for (String cat:cat_exp.keySet()) {
+			System.out.println(cat+" : "+cat_exp.get(cat));
+ 			result.add(cat + ": "+cat_exp.get(cat));
+		}
+ 		return result;
 	}
+//	public void viewExpensebyMember() {
+//		
+//	}
 
 
 
