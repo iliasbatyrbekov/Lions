@@ -1,15 +1,15 @@
 package main;
 
-import java.util.Date;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 
 public class User { 
 	private String userID;
 	private String password;
 	private ArrayList<Transaction> transactionRecords; 
 	private ArrayList<Account> accountList; 
-	private ArrayList<Plan> planList; 
+	private ArrayList<Plan> planList;
 	private View view;
 	
 	public User(String userID, String password) { 
@@ -47,10 +47,26 @@ public class User {
 		return Transaction.searchTransaction(transactionRecords, transactionId);
 	}
 	
-	public void addTransaction(Double amount, String accountId, String description) {
+	public void addTransaction(String transType, Double amount, String accountId, String description, Date date) {
+		
 		int transactionId = this.transactionRecords.get(this.transactionRecords.size()-1).getTransactionID();
-		Transaction trans = new Transaction(transactionId, amount, accountId, description);
-		this.transactionRecords.add(trans);
+		
+		if(transType.equals("Expense")){
+			Expense expenseTrans = new Expense(transactionId, amount, accountId, description, date);
+			this.transactionRecords.add(expenseTrans);
+		} else if (transType.equals("Income")) {
+			Income incomeTrans = new Income(transactionId, amount, accountId, description, date);
+			this.transactionRecords.add(incomeTrans);
+		} else if (transType.equals("TransferReceive")) {
+			TransferReceive transReceive = new TransferReceive(transactionId, amount, accountId, description, date);
+			this.transactionRecords.add(transReceive);
+		} else if (transType.equals("TransferRemit")) {
+			TransferRemit transRemit = new TransferRemit(transactionId, amount, accountId, description, date);
+			this.transactionRecords.add(transRemit);
+		} else {
+			System.out.printf("%s", "There is no ", transType, " type.");
+		}
+		
 		Collections.sort(this.transactionRecords);
 	}
  

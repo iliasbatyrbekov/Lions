@@ -16,7 +16,6 @@ public class LoanPlan extends Plan{
 	private String debtOwner;
 	
 	
-	
 	public double getInterestRate() {
 		return interestRate;
 	}
