@@ -20,8 +20,12 @@ public class View {
 		for(Account acc : accList) {
 			account_balance.put(acc.getaccID(), acc.getBalance());
 		}
-			
+		if(account_balance.isEmpty()) {
+			return null;
+		} 
 		return account_balance;
+
+			
 	}
 	//test
 	public void viewExpensebyAccount() {
