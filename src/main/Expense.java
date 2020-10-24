@@ -1,8 +1,10 @@
 package main;
 
+import java.sql.Date;
+
 public class Expense extends Transaction {
-	public Expense(String transactionID) {
-		super(transactionID);
+	public Expense(String transactionID, Date date, double amount, String accountID, String description) {
+		super(transactionID, date, amount, accountID, description);
 	}
 
 	private String category;
