@@ -1,19 +1,19 @@
 package main;
 
-import java.sql.Date;
+import java.util.Date;
 
 public class TransferReceive extends Transaction {
-	public TransferReceive(int transactionID, double amount, String accountID, String description) {
-		super(transactionID, amount, accountID, description);
+	public TransferReceive(int transactionID, double amount, String accountID, String description, Date date) {
+		super(transactionID, amount, accountID, description, date);
 	}
 
 	private String member;
 	private String receiveAccount;
 	
-	public String getAccount() {
+	public String getReceiveAccount() {
 		return this.receiveAccount;
 	};
-	public void setAccount(String accountId) {
+	public void setReceiveAccount(String accountId) {
 		this.receiveAccount = accountId;
 	};
 	
