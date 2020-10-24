@@ -13,5 +13,7 @@ public class Main {
 		
 		in.close();
 		inputFileName.close();
+		
+		System.out.println("hello");
 	}
 }
