@@ -1,6 +1,10 @@
 package main;
 
-public class Income extends TransactionType {
+public class Income extends Transaction {
+	public Income(String transactionID) {
+		super(transactionID);
+	}
+
 	private String category;
 	private String member;
 
@@ -18,11 +22,6 @@ public class Income extends TransactionType {
 
 	public void setMember(String member) {
 		this.member = member;
-	}
-
-	@Override
-	public TransactionType getTransactionType() {
-		return this;
 	}
 
 }

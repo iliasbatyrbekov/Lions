@@ -2,11 +2,10 @@ package main;
  
 import java.sql.Date; 
  
-public abstract class Transaction { 
+public class Transaction { 
 	private String transactionID; 
 	private double amount; 
-	private Date date; 
-	private TransactionType type; 
+	private Date date;
 	private String accountID; 
 	private String description; 
  
@@ -40,15 +39,7 @@ public abstract class Transaction {
  
 	public void setAmount(double amount) { 
 		this.amount = amount; 
-	} 
- 
-	public TransactionType getType() { 
-		return this.type; 
-	} 
- 
-	public void setType(TransactionType type) { 
-		this.type = type; 
-	} 
+	}
  
 	public String getAccount() { 
 		return this.accountID; 

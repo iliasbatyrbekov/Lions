@@ -1,6 +1,10 @@
 package main;
 
-public class TransferRemit extends TransactionType {
+public class TransferRemit extends Transaction {
+	public TransferRemit(String transactionID) {
+		super(transactionID);
+	}
+
 	private String member;
 	private String remitAccount;
 	
@@ -17,10 +21,6 @@ public class TransferRemit extends TransactionType {
 
 	public void setMember(String member) {
 		this.member = member;
-	}
-	@Override
-	public TransactionType getTransactionType() {
-		return this;
 	}
 
 }
