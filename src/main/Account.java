@@ -22,6 +22,16 @@ public class Account {
 		this.debt = 0;
 		this.password = password;
 	}
+
+	
+	public Account(String accID, String password, double balance, double asset, double debt) {
+		this.accID = accID;
+		this.asset =  asset;
+		this.balance = balance;
+		this.debt = debt;
+		this.password = password;
+	}
+	
 	
 	public double getAsset() {
 		return asset;
