@@ -27,7 +27,7 @@ public class View {
 
 			
 	}
-	//test
+
 	public void viewExpensebyAccount() {
 		HashMap<String, Double> acc_exp = new HashMap<String, Double>();
 		
@@ -50,6 +50,7 @@ public class View {
 			System.out.println(acc+" : "+acc_exp.get(acc));
 		}
 	}
+	
 	public ArrayList<String> viewExpensebyCategory() {
 		HashMap<String, Double> cat_exp = new HashMap<String, Double>();
 		
@@ -75,10 +76,30 @@ public class View {
 		}
  		return result;
 	}
-//	public void viewExpensebyMember() {
-//		
-//	}
-
-
-
+	
+	public ArrayList<String> viewExpensebyMember() {
+		HashMap<String, Double> mem_exp = new HashMap<String, Double>();
+		
+		//BAD CODE SMELL: maybe consider recording transactions history in Accounts too
+		for (Transaction tra: tranHist) {
+			
+			//BAD DESIGN: transaction should'nt know that its children class "expense" has attribute "category"
+			if(tra instanceof Expense) {
+				String mem=((Expense)tra).getMember();
+				if (mem_exp.containsKey(mem)) {
+					mem_exp.put(mem, mem_exp.get(mem)+tra.getAmount());
+				} else {
+					mem_exp.put(mem, tra.getAmount());
+				}
+			}
+		}
+		
+		//print
+		ArrayList<String> result = new ArrayList<>();
+ 		for (String mem:mem_exp.keySet()) {
+			System.out.println(mem+" : "+mem_exp.get(mem));
+ 			result.add(mem + ": "+mem_exp.get(mem));
+		}
+ 		return result;
+	}
 }
