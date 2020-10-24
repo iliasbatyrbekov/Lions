@@ -1,11 +1,11 @@
 package main;
 
-public class Expense extends Transaction {
+public class Expense extends TransactionType {
 	private String category;
 	private String member;
 
 	public String getCategory() {
-		return category;
+		return this.category;
 	}
 
 	public void setCategory(String category) {
@@ -20,5 +20,8 @@ public class Expense extends Transaction {
 		this.member = member;
 	}
 
-	
+	@Override
+	public TransactionType getTransactionType() {
+		return this;
+	}
 }
