@@ -3,8 +3,8 @@ package main;
 import java.sql.Date;
 
 public class TransferRemit extends Transaction {
-	public TransferRemit(String transactionID, Date date, double amount, String accountID, String description) {
-		super(transactionID, date, amount, accountID, description);
+	public TransferRemit(int transactionID, double amount, String accountID, String description) {
+		super(transactionID, amount, accountID, description);
 	}
 
 	private String member;
