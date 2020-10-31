@@ -6,12 +6,14 @@ public class Transaction {
 	private String transactionID;
 	private double amount;
 	private Date date;
-	private String type;
 	private String accountID;
 	private String description;
 
-	public Transaction(String transactionID) {
+	public Transaction(String transactionID, double amount, String accountID, String description) {
 		this.transactionID = transactionID;
+		this.amount = amount;
+		this.accountID = accountID;
+		this.description = description;
 	}
 
 	public String getTransactionID() {
@@ -40,14 +42,6 @@ public class Transaction {
 
 	public void setAmount(double amount) {
 		this.amount = amount;
-	}
-
-	public String getType() {
-		return this.type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
 	}
 
 	public String getAccount() {
