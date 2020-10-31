@@ -1,4 +1,6 @@
-import java.sql.Date;
+package corporateAccounting;
+
+import java.util.*;
 
 public class CompanyTransaction {
 
