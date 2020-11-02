@@ -13,11 +13,11 @@ public class Account {
 		this.debt = 0;
 	}
 	
-	public Account(String accID, double asset, double debt) {
+	public Account(String accID, double balance) {
 		this.accID = accID;
-		this.asset =  asset;
-		this.debt = debt;
-		this.balance = 0;
+		this.asset =  0;
+		this.balance = balance;
+		this.debt = 0;
 	}
 
 	
