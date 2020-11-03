@@ -4,17 +4,18 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class LoanPlan extends Plan{
-	
-	public LoanPlan(String planName, ArrayList<Date> timePeriod,double loanAmount, double interestRate, String debtOwner) {
-		super(planName, timePeriod);
-		this.debtOwner = debtOwner;
-		this.interestRate = interestRate;
-		this.loanAmount = loanAmount;
-	}
 	private double loanAmount;
+	private double currentAmount;
 	private double interestRate;
 	private String debtOwner;
 	
+	public LoanPlan(String planName, ArrayList<String> timePeriod,double loanAmount, double interestRate, String debtOwner) {
+		super(planName, timePeriod);
+		this.loanAmount = loanAmount;
+		this.currentAmount = loanAmount;
+		this.interestRate = interestRate;
+		this.debtOwner = debtOwner;
+	}
 	
 	public double getInterestRate() {
 		return interestRate;
@@ -35,9 +36,15 @@ public class LoanPlan extends Plan{
 		this.loanAmount = loanAmount;
 	}
 	
-	public double getMinimunPaymentAmount() {
+	public double getMinimunPaymentAmount() {//Todo
 		return loanAmount*interestRate;
 	}
 
+	public void updatePlan(double transactionAmount) {
+		this.currentAmount -= transactionAmount;
+	}
 
+	public void displayPlan() {//Todo
+
+	}
 }
