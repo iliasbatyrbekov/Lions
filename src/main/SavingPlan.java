@@ -27,6 +27,7 @@ public class SavingPlan extends Plan {
 		return currentAmount;
 	}
 	
+	//calculate average saving from past time period
 	public Map predict_average_saving(ArrayList<Date> timePeriod) {
 		Map<Date, double> average_saving_period = new HashMap<>();
 		double average_saving = 0, total_saving = 0, count = 1;
@@ -40,5 +41,10 @@ public class SavingPlan extends Plan {
 		average_saving = total_saving / count;
 		average_saving_period.put(timePeriod, average_saving);
 		return average_saving;
+	}
+
+	//calculate how far current saving from goal saving
+	public double predict_goal_saving(){
+		return getGoalAmount() - getCurrentAmount();
 	}
 }
