@@ -11,7 +11,7 @@ public class BudgetPlan extends Plan {
 	private ArrayList<String> members;
 	
 	public BudgetPlan(String planName, 
-			ArrayList<Date> timePeriod, 
+			ArrayList<String> timePeriod, 
 			Map<String, Double> actualExpense, 
 			Map<String, Double> goalAmount, 
 			ArrayList<String> members){
