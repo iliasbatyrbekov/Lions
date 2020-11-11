@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class SavingPlan extends Plan {
-	public SavingPlan(String planName, ArrayList<Date> timePeriod) {
+	public SavingPlan(String planName, ArrayList<String> timePeriod) {
 		super(planName, timePeriod);
 	}
 	
