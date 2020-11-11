@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.HashMap;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.lang.String;
 
 public class LoanPlan extends Plan{
 	private double loanAmount;
@@ -76,18 +77,47 @@ public class LoanPlan extends Plan{
 			currentLoanAmount += loanAmount;
 
 		Map<String, Double> hist = new HashMap<String, Double>();
-		LocalDate month = LocalDate.parse(super.getTimePeriod().get(0));
-		for (int i=0; i<super.getTimePeriodLength("month"); ++i) {
-			hist.put(month.toString(), log.get(i));
-			month = month.plusMonths(1);
+		int noOfMonths = (int) super.getTimePeriodLength("month");
+		LocalDate date = LocalDate.parse(super.getTimePeriod().get(0));
+		for (int i=0; i<noOfMonths; ++i) {
+			hist.put(date.format(DateTimeFormatter.ofPattern("MMM yyyy")), log.get(i));
+			date = date.plusMonths(1);
 		}
 
-		//summary
+		String summary, advice;
+		int currentMonth = (int) super.getCurrentPointInTime("month");
+		if (currentMonth<1)
+			summary = "Not enough data to generate summary. Please check again after a while...";
+		else {
+			double avgRepaid = Math.floor((this.loanAmount - currentLoanAmount) / currentMonth);
+			int moreMonths = (int) Math.ceil(currentLoanAmount / avgRepaid);
+			LocalDate endDate = LocalDate.parse(super.getTimePeriod().get(1));
+			String endDateString = endDate.format(DateTimeFormatter.ofPattern("MMMM yyyy"));
+			boolean likely = (noOfMonths < currentMonth+moreMonths) ? false : true;
+			// String likelihoodString;
+			double adjustAmount;
+			
+			summary = String.format("From the last %d month(s), you repaid $%f on average per month. "
+									+ "You will need %d more month(s) to settle the loan. ",
+									currentMonth, avgRepaid, moreMonths);
+
+			if (!likely) {
+				// likelihoodString = "not likely";
+				adjustAmount = Math.ceil(currentLoanAmount / (noOfMonths - currentMonth));
+				advice = String.format("You are not likely to accomplish this loan plan by %s as expected. "
+									+ "save $%f monthly from now on!", endDateString, adjustAmount);
+			}
+			else {
+				// likelihoodString = "very likely";
+				advice = String.format("You are very likely to accomplish this loan plan by %s as expected. ", endDateString);
+			}
+			summary += advice;
+		}
 
 		Map<String, Object> plan = new HashMap<String, Object>();
 		plan.put("total", this.loanAmount);
 		plan.put("current", currentLoanAmount);
 		plan.put("history", hist);
-		// plan.put("summary", );
+		plan.put("summary", summary);
 	}
 }
