@@ -3,26 +3,43 @@ import java.util.*;
 
 public class CompanyAccount {
 
-	private String accountName;
-	private String accountType;
+	private String accountName; //no setter
+	private CompanyAccountCategory accountCategory; //no setter
 	private ArrayList<CompanyTransaction> transactionList;
 	private double balance;
-	private boolean debitOrCredit;
+	private CompanyAccountType accountType; //no setter
+	
+	public static ArrayList<CompanyAccount> getAllInitAccounts() {
+		ArrayList<CompanyAccount> allAccounts = new ArrayList<CompanyAccount>();
+		
+		//allAccounts.add(new CompanyAccount())
+		
+		return allAccounts;
+	}
+	
+	private CompanyAccount(String accountName, CompanyAccountCategory accountCategory, CompanyAccountType accountType) {
+		this.accountName = accountName;
+		this.accountCategory = accountCategory;
+		this.transactionList = new ArrayList<CompanyTransaction>();
+		this.balance = 0;
+		this.accountType = accountType;
+		
+	}
 	
 	public String getAccountName() {
 		return this.accountName;
 	}
 	
-	public void setAccountName(String accountName) {
+	private void setAccountName(String accountName) {
 		this.accountName = accountName;
 	}
 	
-	public String getAccountType() {
-		return this.accountType;
+	public CompanyAccountCategory getAccountCategory() {
+		return this.accountCategory;
 	}
 	
-	public void setAccountType(String accountType) {
-		this.accountType = accountType;
+	private void setAccountCategory(CompanyAccountCategory accountType) {
+		this.accountCategory = accountType;
 	}
 	
 	public ArrayList<CompanyTransaction> getTransactionList() {
@@ -41,27 +58,12 @@ public class CompanyAccount {
 		this.balance = balance;
 	}
 	
-	public void getAttribute() {
-	// TODO - implement Account.getAttribute
-		throw new UnsupportedOperationException();
+	public CompanyAccountType getAccountType() {
+		return this.accountType;
 	}
 	
-	public void setAttribute(int attribute) {
-	// TODO - implement Account.setAttribute
-		throw new UnsupportedOperationException();
-	}
-	
-	public void printAccount() {
-	// TODO - implement Account.printAccount
-		throw new UnsupportedOperationException();
-	}
-	
-	public boolean getDebitOrCredit() {
-		return this.debitOrCredit;
-	}
-	
-	public void setDebitOrCredit(boolean debitOrCredit) {
-		this.debitOrCredit = debitOrCredit;
+	private void setDebitOrCredit(CompanyAccountType accountType) {
+		this.accountType = accountType;
 	}
 
 }
