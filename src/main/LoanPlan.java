@@ -53,6 +53,8 @@ public class LoanPlan extends Plan{
 		double factor = monthRate*Math.pow(1+monthRate, noOfMonths) / (Math.pow(1+monthRate, noOfMonths)-1);
 		return this.loanAmount*factor;
 	}
+	
+	
 
 	public void updatePlan(double repayment) {
 		double updatedAmount = this.monthlyAmount - repayment;
