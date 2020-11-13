@@ -1,8 +1,10 @@
 package main;
 
+import java.util.Date;
+
 public class Income extends Transaction {
-	public Income(String transactionID) {
-		super(transactionID);
+	public Income(int transactionID, double amount, String accountID, String description, Date date) {
+		super(transactionID, amount, accountID, description, date);
 	}
 
 	private String category;

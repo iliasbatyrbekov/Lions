@@ -1,13 +1,15 @@
 package main;
 
+import java.util.Date;
+
 public class Expense extends Transaction {
-	public Expense(String transactionID) {
-		super(transactionID);
+	public Expense(int transactionID, double amount, String accountID, String description, Date date) {
+		super(transactionID, amount, accountID, description, date);
 	}
 
 	private String category;
 	private String member;
-
+	
 	public String getCategory() {
 		return this.category;
 	}

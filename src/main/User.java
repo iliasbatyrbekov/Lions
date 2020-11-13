@@ -1,20 +1,23 @@
 package main;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
 
 public class User { 
-	private String userID; 
-	private String password; 
-	private int transactionIDGenerator; 
+	private String userID;
+	private String password;
 	private ArrayList<Transaction> transactionRecords; 
 	private ArrayList<Account> accountList; 
-	private ArrayList<Plan> planList; 
-	private View view; 
-	 
+	private ArrayList<Plan> planList;
+	private View view;
+	
 	public User(String userID, String password) { 
 		this.userID = userID; 
-		this.password = password; 
-		this.transactionIDGenerator = 1; 
+		this.password = password;
+		this.transactionRecords = new ArrayList<>();
+		this.accountList = new ArrayList<>();
+		this.planList = new ArrayList<>();
 	} 
  
 	public void changePassword(String password) { 
@@ -34,43 +37,54 @@ public class User {
 	// } 
 	// public void setPassword(String password) { 
 	// 	this.password = password; 
-	// } 
-	//*** View class already have transactionRecords *** 
-	// public ArrayList<Transaction> getTransactionRecords() { 
-	// 	return transactionRecords; 
-	// } 
-	// public void setTransactionRecords(ArrayList<Transaction> transactionRecords) { 
-	// 	this.transactionRecords = transactionRecords; 
-	// } 
+	// }
+	
+	
+	// TransactionList
+	public void listAllTransactionRecords() { Transaction.listAll(this.transactionRecords); }
+	
+	public Transaction findTransactionRecord(int transactionId) {
+		return Transaction.searchTransaction(transactionRecords, transactionId);
+	}
+	
+	public void addTransaction(String transType, Double amount, String accountId, String description, Date date) {
+		
+		int transactionId = this.transactionRecords.get(this.transactionRecords.size()-1).getTransactionID();
+		
+		if(transType.equals("Expense")){
+			Expense expenseTrans = new Expense(transactionId, amount, accountId, description, date);
+			this.transactionRecords.add(expenseTrans);
+		} else if (transType.equals("Income")) {
+			Income incomeTrans = new Income(transactionId, amount, accountId, description, date);
+			this.transactionRecords.add(incomeTrans);
+		} else if (transType.equals("TransferReceive")) {
+			TransferReceive transReceive = new TransferReceive(transactionId, amount, accountId, description, date);
+			this.transactionRecords.add(transReceive);
+		} else if (transType.equals("TransferRemit")) {
+			TransferRemit transRemit = new TransferRemit(transactionId, amount, accountId, description, date);
+			this.transactionRecords.add(transRemit);
+		} else {
+			System.out.printf("%s", "There is no ", transType, " type.");
+		}
+		
+		Collections.sort(this.transactionRecords);
+	}
  
-	public void addTransaction() { 
-		String transactionID = Integer.toString(this.transactionIDGenerator); 
-		this.transactionIDGenerator += 1; 
- 
-		Transaction transaction = new Transaction(transactionID); 
-		this.transactionRecords.add(transaction); 
-	} 
- 
-	public void editTransaction(String transactionID) { 
-		Transaction target = null; 
- 
-		for (Transaction transaction : this.transactionRecords) { 
-			if(transaction.getTransactionID().equals(transactionID)) { 
-				target = transaction; 
-			} 
-		} 
- 
-		if (target == null) { //throw Exception 
-			System.out.println("Transaction Not Found"); 
-		} 
-		else { 
-			//To be continued 
-			//target.setDate(...) 
-			//target.setAmount(...) 
-			//target.setType(...) 
-			//target.setAccount(...)			 
-		} 
-	} 
+	public void editTransaction(int transactionId) { 
+		Transaction trans = this.findTransactionRecord(transactionId);
+		if(trans != null) {
+			
+		}
+	}
+	
+	public void deleteTransaction(int transactionId) {
+		Transaction trans = this.findTransactionRecord(transactionId);
+		if(trans != null) {
+			this.transactionRecords.remove(trans);
+		}
+	}
+	
+	
  
 	public ArrayList<Account> getAccountList() { 
 		return this.accountList; 
