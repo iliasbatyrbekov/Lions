@@ -87,7 +87,7 @@ public class CompanyTransaction {
 		}
 		
 	    SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd");
-	    String datestr=ft.format(date).toString();
+	    String datestr = ft.format(date).toString();
 	    
 	    System.out.format(tableformat,
                 transactionID, datestr, debittedAccount, amount, "");
