@@ -2,7 +2,7 @@ package corporateAccounting;
 import java.util.*;
 
 public class Company {
-	private ArrayList<CompanyAccount> accountList;
+	private HashMap<String, CompanyAccount> accountList;
 	private ArrayList<CompanyTransaction> journal;
 	
 	public Company() {
@@ -10,10 +10,10 @@ public class Company {
 		journal = new ArrayList<CompanyTransaction>();
 	}
 	
-	public ArrayList<CompanyAccount> getAccountList() {
+	public HashMap<String, CompanyAccount> getAccountList() {
 		return accountList;
 	}
-	public void setAccountList(ArrayList<CompanyAccount> accountList) {
+	public void setAccountList(HashMap<String, CompanyAccount> accountList) {
 		this.accountList = accountList;
 	}
 	public ArrayList<CompanyTransaction> getJournal() {
@@ -47,7 +47,7 @@ public class Company {
 		//System.out.println('\n' + new String(new char[186]).replace("\0", "-"));
 		System.out.println(seperationLine);
 		//System.out.format(balanceRowFormat, "Accounts Payable", "1000.0", "Accounts Payable", "1000.0", "Accounts Payable", "1000.0");
-		int assetCount = 0, liabilitycount = 0, seCount = 0;
+		/*int assetCount = 0, liabilitycount = 0, seCount = 0;
 		ArrayList<CompanyAccount> assetAccounts = new ArrayList<>();
 		ArrayList<CompanyAccount> liabilityAccounts = new ArrayList<>();
 		ArrayList<CompanyAccount> stockholdersEquityAccounts = new ArrayList<>();
@@ -74,17 +74,18 @@ public class Company {
 			System.out.format(balanceRowFormat, 
 					assetCount>0 ? assetAccounts.get(i).getAccountName() : "0", assetCount>0 ? assetAccounts.get(i).getBalance() : "0", 
 					liabilitycount>0 ? liabilityAccounts.get(i).getAccountName() : "0", liabilitycount>0 ? liabilityAccounts.get(i).getBalance() : "0", 
-					seCount>0 ? stockholdersEquityAccounts.get(i).getAccountName() : "0", assetCount>0 ? stockholdersEquityAccounts.get(i).getBalance() : "0");
+					seCount>0 ? stockholdersEquityAccounts.get(i).getAccountName() : "0", seCount>0 ? stockholdersEquityAccounts.get(i).getBalance() : "0");
 			assetCount--;
 			liabilitycount--;
 			seCount--;
-			//System.out.println);
-		}
+			System.out.println();
+		}*/
+		
 	}
 	
 	//for simple testing
 	public static void main(String args[]) {
-		/*
+		
 		Date tday = new Date();
 		CompanyTransaction testTrans1=new CompanyTransaction("id12334", tday, "Cash", "AccountsPayable",1000.0, "Borrow from bank");
 		CompanyTransaction testTrans2=new CompanyTransaction("id12335", tday, "Inventory", "Cash",1000.0, "Buy Inventory");
@@ -92,10 +93,10 @@ public class Company {
 		Company lukecompany=new Company();
 		lukecompany.journal.add(testTrans1);
 		lukecompany.journal.add(testTrans2);
-		lukecompany.journal.add(testTrans3);*/
-		System.out.println("???????");
+		lukecompany.journal.add(testTrans3);
+		//System.out.println("???????");
 		//lukecompany.printJournal();
-		//lukecompany.printBalanceSheet();
+		lukecompany.printBalanceSheet();
 		/*
 		Company company = new Company();
 		for (CompanyAccount ca: company.getAccountList()) {
