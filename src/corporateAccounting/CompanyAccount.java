@@ -149,7 +149,7 @@ public class CompanyAccount {
 		return this.accountType;
 	}
 	
-	private void setDebitOrCredit(CompanyAccountType accountType) {
+	private void setAccountType(CompanyAccountType accountType) {
 		this.accountType = accountType;
 	}
 
