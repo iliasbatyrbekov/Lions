@@ -22,8 +22,7 @@ public class CompanyTransaction {
 	}
 	
 	public String getDebittedAccount() {
-		// TODO - implement Transaction.getDebittedAccount
-		throw new UnsupportedOperationException();
+		return debittedAccount;
 	}
 
 	/**
@@ -36,8 +35,7 @@ public class CompanyTransaction {
 	}
 
 	public String getCredittedAccount() {
-		// TODO - implement Transaction.getCredittedAccount
-		throw new UnsupportedOperationException();
+		return credittedAccount;
 	}
 
 	/**
@@ -63,6 +61,14 @@ public class CompanyTransaction {
 
 	public String getTransactionID() {
 		return this.transactionID;
+	}
+	
+	public void setAmount(double amount) {
+		this.amount = amount;
+	}
+
+	public double getAmount() {
+		return this.amount;
 	}
 
 	/**

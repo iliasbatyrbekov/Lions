@@ -1,4 +1,5 @@
 package corporateAccounting;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class CompanyAccount {
@@ -12,6 +13,31 @@ public class CompanyAccount {
 	// returns an arraylist of company accounts for now. will change to a map later for effieicnty purposes
 	public static ArrayList<CompanyAccount> getAllInitAccounts() {
 		ArrayList<CompanyAccount> allAccounts = new ArrayList<CompanyAccount>();
+		
+		allAccounts.add(new CompanyAccount("Cash", CompanyAccountCategory.ASSET, CompanyAccountType.DEBIT_ACCOUNT));
+		allAccounts.add(new CompanyAccount("Petty Cash", CompanyAccountCategory.ASSET, CompanyAccountType.DEBIT_ACCOUNT));
+		allAccounts.add(new CompanyAccount("Accounts Receivable", CompanyAccountCategory.ASSET, CompanyAccountType.DEBIT_ACCOUNT));
+		allAccounts.add(new CompanyAccount("Allowance for Uncollectible Accounts", CompanyAccountCategory.ASSET, CompanyAccountType.CREDIT_ACCOUNT));
+		allAccounts.add(new CompanyAccount("Notes Receivable", CompanyAccountCategory.ASSET, CompanyAccountType.DEBIT_ACCOUNT));
+		allAccounts.add(new CompanyAccount("Interest Receivable", CompanyAccountCategory.ASSET, CompanyAccountType.DEBIT_ACCOUNT));
+		allAccounts.add(new CompanyAccount("Supplies", CompanyAccountCategory.ASSET, CompanyAccountType.DEBIT_ACCOUNT));
+		allAccounts.add(new CompanyAccount("Inventory", CompanyAccountCategory.ASSET, CompanyAccountType.DEBIT_ACCOUNT));
+		allAccounts.add(new CompanyAccount("Prepaid Advertising", CompanyAccountCategory.ASSET, CompanyAccountType.DEBIT_ACCOUNT));
+		allAccounts.add(new CompanyAccount("Prepaid Insurance", CompanyAccountCategory.ASSET, CompanyAccountType.DEBIT_ACCOUNT));
+		allAccounts.add(new CompanyAccount("Prepaid Rent", CompanyAccountCategory.ASSET, CompanyAccountType.DEBIT_ACCOUNT));
+		allAccounts.add(new CompanyAccount("Investments", CompanyAccountCategory.ASSET, CompanyAccountType.DEBIT_ACCOUNT));
+		allAccounts.add(new CompanyAccount("Land", CompanyAccountCategory.ASSET, CompanyAccountType.DEBIT_ACCOUNT));
+		allAccounts.add(new CompanyAccount("Land Improvements", CompanyAccountCategory.ASSET, CompanyAccountType.DEBIT_ACCOUNT));
+		allAccounts.add(new CompanyAccount("Buildings", CompanyAccountCategory.ASSET, CompanyAccountType.DEBIT_ACCOUNT));
+		allAccounts.add(new CompanyAccount("Equipment", CompanyAccountCategory.ASSET, CompanyAccountType.DEBIT_ACCOUNT));
+		allAccounts.add(new CompanyAccount("Accumulated Depreciation", CompanyAccountCategory.ASSET, CompanyAccountType.CREDIT_ACCOUNT));
+		allAccounts.add(new CompanyAccount("Lease Asset", CompanyAccountCategory.ASSET, CompanyAccountType.DEBIT_ACCOUNT));
+		allAccounts.add(new CompanyAccount("Natural Resources", CompanyAccountCategory.ASSET, CompanyAccountType.DEBIT_ACCOUNT));
+		allAccounts.add(new CompanyAccount("Patents", CompanyAccountCategory.ASSET, CompanyAccountType.DEBIT_ACCOUNT));
+		allAccounts.add(new CompanyAccount("Copyrights", CompanyAccountCategory.ASSET, CompanyAccountType.DEBIT_ACCOUNT));
+		allAccounts.add(new CompanyAccount("Trademarks", CompanyAccountCategory.ASSET, CompanyAccountType.DEBIT_ACCOUNT));
+		allAccounts.add(new CompanyAccount("Franchises", CompanyAccountCategory.ASSET, CompanyAccountType.DEBIT_ACCOUNT));
+		allAccounts.add(new CompanyAccount("Goodwill", CompanyAccountCategory.ASSET, CompanyAccountType.DEBIT_ACCOUNT));
 		
 		allAccounts.add(new CompanyAccount("Accounts Payable", CompanyAccountCategory.LIABILITY, CompanyAccountType.CREDIT_ACCOUNT));
 		allAccounts.add(new CompanyAccount("Notes Payable", CompanyAccountCategory.LIABILITY, CompanyAccountType.CREDIT_ACCOUNT));
@@ -62,31 +88,6 @@ public class CompanyAccount {
 		allAccounts.add(new CompanyAccount("Loss", CompanyAccountCategory.EXPENSE, CompanyAccountType.DEBIT_ACCOUNT));
 		allAccounts.add(new CompanyAccount("Unrealized Holding Loss--Net Income", CompanyAccountCategory.EXPENSE, CompanyAccountType.DEBIT_ACCOUNT));
 		
-		allAccounts.add(new CompanyAccount("Cash", CompanyAccountCategory.ASSET, CompanyAccountType.DEBIT_ACCOUNT));
-		allAccounts.add(new CompanyAccount("Petty Cash", CompanyAccountCategory.ASSET, CompanyAccountType.DEBIT_ACCOUNT));
-		allAccounts.add(new CompanyAccount("Accounts Receivable", CompanyAccountCategory.ASSET, CompanyAccountType.DEBIT_ACCOUNT));
-		allAccounts.add(new CompanyAccount("Allowance for Uncollectible Accounts", CompanyAccountCategory.ASSET, CompanyAccountType.CREDIT_ACCOUNT));
-		allAccounts.add(new CompanyAccount("Notes Receivable", CompanyAccountCategory.ASSET, CompanyAccountType.DEBIT_ACCOUNT));
-		allAccounts.add(new CompanyAccount("Interest Receivable", CompanyAccountCategory.ASSET, CompanyAccountType.DEBIT_ACCOUNT));
-		allAccounts.add(new CompanyAccount("Supplies", CompanyAccountCategory.ASSET, CompanyAccountType.DEBIT_ACCOUNT));
-		allAccounts.add(new CompanyAccount("Inventory", CompanyAccountCategory.ASSET, CompanyAccountType.DEBIT_ACCOUNT));
-		allAccounts.add(new CompanyAccount("Prepaid Advertising", CompanyAccountCategory.ASSET, CompanyAccountType.DEBIT_ACCOUNT));
-		allAccounts.add(new CompanyAccount("Prepaid Insurance", CompanyAccountCategory.ASSET, CompanyAccountType.DEBIT_ACCOUNT));
-		allAccounts.add(new CompanyAccount("Prepaid Rent", CompanyAccountCategory.ASSET, CompanyAccountType.DEBIT_ACCOUNT));
-		allAccounts.add(new CompanyAccount("Investments", CompanyAccountCategory.ASSET, CompanyAccountType.DEBIT_ACCOUNT));
-		allAccounts.add(new CompanyAccount("Land", CompanyAccountCategory.ASSET, CompanyAccountType.DEBIT_ACCOUNT));
-		allAccounts.add(new CompanyAccount("Land Improvements", CompanyAccountCategory.ASSET, CompanyAccountType.DEBIT_ACCOUNT));
-		allAccounts.add(new CompanyAccount("Buildings", CompanyAccountCategory.ASSET, CompanyAccountType.DEBIT_ACCOUNT));
-		allAccounts.add(new CompanyAccount("Equipment", CompanyAccountCategory.ASSET, CompanyAccountType.DEBIT_ACCOUNT));
-		allAccounts.add(new CompanyAccount("Accumulated Depreciation", CompanyAccountCategory.ASSET, CompanyAccountType.CREDIT_ACCOUNT));
-		allAccounts.add(new CompanyAccount("Lease Asset", CompanyAccountCategory.ASSET, CompanyAccountType.DEBIT_ACCOUNT));
-		allAccounts.add(new CompanyAccount("Natural Resources", CompanyAccountCategory.ASSET, CompanyAccountType.DEBIT_ACCOUNT));
-		allAccounts.add(new CompanyAccount("Patents", CompanyAccountCategory.ASSET, CompanyAccountType.DEBIT_ACCOUNT));
-		allAccounts.add(new CompanyAccount("Copyrights", CompanyAccountCategory.ASSET, CompanyAccountType.DEBIT_ACCOUNT));
-		allAccounts.add(new CompanyAccount("Trademarks", CompanyAccountCategory.ASSET, CompanyAccountType.DEBIT_ACCOUNT));
-		allAccounts.add(new CompanyAccount("Franchises", CompanyAccountCategory.ASSET, CompanyAccountType.DEBIT_ACCOUNT));
-		allAccounts.add(new CompanyAccount("Goodwill", CompanyAccountCategory.ASSET, CompanyAccountType.DEBIT_ACCOUNT));
-
 		allAccounts.add(new CompanyAccount("Service Revenue", CompanyAccountCategory.REVENUE, CompanyAccountType.CREDIT_ACCOUNT));
 		allAccounts.add(new CompanyAccount("Sales Revenue", CompanyAccountCategory.REVENUE, CompanyAccountType.CREDIT_ACCOUNT));
 		allAccounts.add(new CompanyAccount("Sales Discounts", CompanyAccountCategory.REVENUE, CompanyAccountType.DEBIT_ACCOUNT));
@@ -151,6 +152,108 @@ public class CompanyAccount {
 	
 	private void setAccountType(CompanyAccountType accountType) {
 		this.accountType = accountType;
+	}
+	
+	public void recordTransaction(CompanyTransaction trans) {
+		transactionList.add(trans);
+		if(trans.getDebittedAccount().equals(accountName)) {
+			if(accountType==CompanyAccountType.DEBIT_ACCOUNT) {
+				balance+=trans.getAmount();
+			}
+			else {
+				balance-=trans.getAmount();
+			}
+		}
+		else if(trans.getCredittedAccount().equals(accountName)) {
+			if(accountType==CompanyAccountType.DEBIT_ACCOUNT) {
+				balance-=trans.getAmount();
+			}
+			else {
+				balance+=trans.getAmount();
+			}
+		}
+	}
+	
+	public void printTLedger() {
+		String tableformat="%-10s | %-15s | %-30s | %10s | %10s";
+		String separationline="----------------------------------------------------------------------------------------";
+		
+		System.out.format("%30s", accountName);
+		System.out.println();
+		System.out.println(separationline);
+		
+		System.out.format("%-30s | %-30s", "Debit", "Credit");
+		System.out.println();
+		System.out.println(separationline);
+		
+		System.out.format("%-15s|%-15s|%-15s|%-15s", "TransID", "Amount","TransID","Amount");
+		System.out.println();
+		System.out.println(separationline);
+		
+		//need to categorize transactions to debit and credit
+		ArrayList<CompanyTransaction> debitList=new ArrayList<CompanyTransaction>();
+		ArrayList<CompanyTransaction> creditList=new ArrayList<CompanyTransaction>();
+		for(CompanyTransaction tran:transactionList) {
+			if(tran.getDebittedAccount().equals(accountName)) {
+				debitList.add(tran);
+			}
+			else if(tran.getCredittedAccount().equals(accountName)) {
+				creditList.add(tran);
+			}
+		}
+		
+		int maxlen=(debitList.size()>creditList.size())?debitList.size():creditList.size();
+		for(int i=0;i<maxlen;i++) {
+			String debitTransId,debitTransAmount,creditTransId,creditTransAmount;
+			if(i<debitList.size()) {
+				debitTransId=debitList.get(i).getTransactionID();
+				debitTransAmount=String.valueOf(debitList.get(i).getAmount());
+			}
+			else {
+				debitTransId="";
+				debitTransAmount="";
+			}
+			
+			if(i<creditList.size()) {
+				creditTransId=creditList.get(i).getTransactionID();
+				creditTransAmount=String.valueOf(creditList.get(i).getAmount());
+			}
+			else {
+				creditTransId="";
+				creditTransAmount="";
+			}
+			System.out.format("%-15s|%-15s|%-15s|%-15s",debitTransId,debitTransAmount,creditTransId,creditTransAmount);
+			System.out.println();
+			System.out.println(separationline);
+		}
+		if(accountType==CompanyAccountType.DEBIT_ACCOUNT) {
+			System.out.format("%-15s|%-15s|%-15s|%-15s","Total",balance,"","");
+			System.out.println();
+			System.out.println(separationline);
+		}
+		else {
+			System.out.format("%-15s|%-15s|%-15s|%-15s","","","Total",balance);
+			System.out.println();
+			System.out.println(separationline);
+		}
+	}
+	
+	public static void main(String args[]) {
+		Company lukecompany=new Company();
+		CompanyAccount cashAccount=lukecompany.getAccountList().get(0);
+		
+		//add transaction to company and cashAccount -> will be done in recordTrans() in Company in the future
+		Date tday=new Date();
+		CompanyTransaction trans1=new CompanyTransaction("id12334", tday, "Cash", "AccountsPayable",1000.0, "Borrow from bank");
+		CompanyTransaction trans2=new CompanyTransaction("id12335", tday, "Land", "Cash", 2000.0,"Buy land with cash");
+		lukecompany.getJournal().add(trans1);
+		lukecompany.getJournal().add(trans2);
+		
+		cashAccount.recordTransaction(trans1);
+		cashAccount.recordTransaction(trans2);
+		
+		cashAccount.printTLedger();
+		
 	}
 
 }
