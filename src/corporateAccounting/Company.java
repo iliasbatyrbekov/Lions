@@ -81,15 +81,19 @@ public class Company {
 			System.out.println();
 		}*/
 		
+		for (int i=0; i < Math.max(CompanyAccount.assetAccountNames.length + CompanyAccount.contraAssetAccountNames.length, Math.max(CompanyAccount.liabilityAccountNames.length, CompanyAccount.stockHoldersEquityAccountNames.length + CompanyAccount.contrastockHoldersEquityAccountNames.length)); i++) {
+			//System.out.format(balanceRowFormat, args)
+		}
+		
 	}
 	
 	//for simple testing
 	public static void main(String args[]) {
 		
 		Date tday = new Date();
-		CompanyTransaction testTrans1=new CompanyTransaction("id12334", tday, "Cash", "AccountsPayable",1000.0, "Borrow from bank");
-		CompanyTransaction testTrans2=new CompanyTransaction("id12335", tday, "Inventory", "Cash",1000.0, "Buy Inventory");
-		CompanyTransaction testTrans3=new CompanyTransaction("id12336", tday, "Cash", "CommonStock",1000.0, "Issue Common Stock");
+		CompanyTransaction testTrans1=new CompanyTransaction("id12334", tday, "Cash", "AccountsPayable", 1000.0, "Borrow from bank");
+		CompanyTransaction testTrans2=new CompanyTransaction("id12335", tday, "Inventory", "Cash", 1000.0, "Buy Inventory");
+		CompanyTransaction testTrans3=new CompanyTransaction("id12336", tday, "Cash", "CommonStock", 1000.0, "Issue Common Stock");
 		Company lukecompany=new Company();
 		lukecompany.journal.add(testTrans1);
 		lukecompany.journal.add(testTrans2);
