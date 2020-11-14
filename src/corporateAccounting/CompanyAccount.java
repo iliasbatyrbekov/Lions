@@ -231,7 +231,7 @@ public class CompanyAccount {
 	
 	public void printTLedger() {
 		String tableformat="%-10s | %-15s | %-30s | %10s | %10s";
-		String separationline="----------------------------------------------------------------------------------------";
+		String separationline="--------------------------------------------------------------";
 		
 		System.out.format("%30s", accountName);
 		System.out.println();
@@ -295,17 +295,14 @@ public class CompanyAccount {
 	
 	public static void main(String args[]) {
 		Company lukecompany=new Company();
-		CompanyAccount cashAccount=lukecompany.getAccountList().get(0);
+		CompanyAccount cashAccount=lukecompany.getAccountList().get("Cash");
 		
 		//put transaction to company and cashAccount -> will be done in recordTrans() in Company in the future
 		Date tday=new Date();
-		CompanyTransaction trans1=new CompanyTransaction("id12334", tday, "Cash", "AccountsPayable",1000.0, "Borrow from bank");
+		CompanyTransaction trans1=new CompanyTransaction("id12334", tday, "Cash", "Accounts Payable",1000.0, "Borrow from bank");
 		CompanyTransaction trans2=new CompanyTransaction("id12335", tday, "Land", "Cash", 2000.0,"Buy land with cash");
-		lukecompany.getJournal().add(trans1);
-		lukecompany.getJournal().add(trans2);
-		
-		cashAccount.recordTransaction(trans1);
-		cashAccount.recordTransaction(trans2);
+		lukecompany.recordTransaction(trans1);
+		lukecompany.recordTransaction(trans2);
 		
 		cashAccount.printTLedger();
 		

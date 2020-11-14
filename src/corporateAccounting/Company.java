@@ -16,6 +16,46 @@ public class Company {
 	public void setAccountList(HashMap<String, CompanyAccount> accountList) {
 		this.accountList = accountList;
 	}
+	
+	//dummy, will implement it later -> may use as a bug
+	public boolean isValidTransaction(CompanyTransaction trans) {
+		
+		CompanyAccount account_to_debit=accountList.get(trans.getDebittedAccount());
+		CompanyAccount account_to_credit=accountList.get(trans.getCredittedAccount());
+		
+		//for credit account type, if debit means decrease -> may have credit balance < 0
+		if(account_to_debit.getAccountType()==CompanyAccountType.CREDIT_ACCOUNT) {
+			if(account_to_debit.getBalance()-trans.getAmount()<0) {
+				System.out.println("Error: Cannot debit account "+trans.getDebittedAccount());
+				return false;
+			}
+		}
+		
+		//for debit account type, if credit means decrease -> may have insufficient fund
+		if(account_to_credit.getAccountType()==CompanyAccountType.DEBIT_ACCOUNT) {
+			if(account_to_credit.getBalance()-trans.getAmount()<0) {
+				System.out.println("Error: Cannot credit account "+trans.getCredittedAccount());
+				return false;
+			}
+		}
+		
+		return true;
+	}
+	
+	public void recordTransaction(CompanyTransaction trans) { //use user cli now?
+		if(isValidTransaction(trans)) {
+			//record in journal
+			journal.add(trans);
+			
+			//also update the accounts balance
+			accountList.get(trans.getDebittedAccount()).recordTransaction(trans);
+			accountList.get(trans.getCredittedAccount()).recordTransaction(trans);
+		}
+		else {
+			System.out.println("Error: Cannot record this Transaction");
+			//error message may be shown in isValidTransaction()
+		}
+	}
 	public ArrayList<CompanyTransaction> getJournal() {
 		return journal;
 	}
@@ -82,7 +122,44 @@ public class Company {
 		}*/
 		
 		for (int i=0; i < Math.max(CompanyAccount.assetAccountNames.length + CompanyAccount.contraAssetAccountNames.length, Math.max(CompanyAccount.liabilityAccountNames.length, CompanyAccount.stockHoldersEquityAccountNames.length + CompanyAccount.contrastockHoldersEquityAccountNames.length)); i++) {
-			//System.out.format(balanceRowFormat, args)
+			String assetAcc,assetBal,liabAcc,liabBal,seAcc,seBal;
+			//Assets
+			if(i<CompanyAccount.assetAccountNames.length) {
+				assetAcc=accountList.get(CompanyAccount.assetAccountNames[i]).getAccountName();
+				assetBal=String.valueOf(accountList.get(CompanyAccount.assetAccountNames[i]).getBalance());
+			}
+			else if(i<CompanyAccount.assetAccountNames.length + CompanyAccount.contraAssetAccountNames.length) {
+				assetAcc=accountList.get(CompanyAccount.contraAssetAccountNames[i-CompanyAccount.assetAccountNames.length]).getAccountName();
+				assetBal=String.valueOf(accountList.get(CompanyAccount.contraAssetAccountNames[i-CompanyAccount.assetAccountNames.length]).getBalance());
+			}
+			else {
+				assetAcc="";
+				assetBal="";
+			}
+			//Liabilities
+			if(i<CompanyAccount.liabilityAccountNames.length) {
+				liabAcc=accountList.get(CompanyAccount.liabilityAccountNames[i]).getAccountName();
+				liabBal=String.valueOf(accountList.get(CompanyAccount.liabilityAccountNames[i]).getBalance());
+			}
+			else {
+				liabAcc="";
+				liabBal="";
+			}
+			//Stockholders' equity
+			if(i<CompanyAccount.stockHoldersEquityAccountNames.length) {
+				seAcc=accountList.get(CompanyAccount.stockHoldersEquityAccountNames[i]).getAccountName();
+				seBal=String.valueOf(accountList.get(CompanyAccount.stockHoldersEquityAccountNames[i]).getBalance());
+			}
+			else if(i<CompanyAccount.stockHoldersEquityAccountNames.length + CompanyAccount.contrastockHoldersEquityAccountNames.length) {
+				seAcc=accountList.get(CompanyAccount.contrastockHoldersEquityAccountNames[i-CompanyAccount.stockHoldersEquityAccountNames.length]).getAccountName();
+				seBal=String.valueOf(accountList.get(CompanyAccount.contrastockHoldersEquityAccountNames[i-CompanyAccount.stockHoldersEquityAccountNames.length]).getBalance());
+			}
+			else {
+				seAcc="";
+				seBal="";
+			}
+			System.out.format(balanceRowFormat, assetAcc,assetBal,liabAcc,liabBal,seAcc,seBal);
+			System.out.println(seperationLine);
 		}
 		
 	}

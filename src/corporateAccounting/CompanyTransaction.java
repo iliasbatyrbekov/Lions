@@ -7,7 +7,7 @@ public class CompanyTransaction {
 
 	private String transactionID;
 	private Date date;
-	private String debittedAccount;
+	private String debittedAccount; //use as a key to get the actual Account through the HashMap in Company
 	private String credittedAccount;
 	private double amount;
 	private String description;
@@ -24,37 +24,23 @@ public class CompanyTransaction {
 	public String getDebittedAccount() {
 		return debittedAccount;
 	}
-
-	/**
-	 * 
-	 * @param debittedAccount
-	 */
+	
 	public void setDebittedAccount(String debittedAccount) {
-		// TODO - implement Transaction.setDebittedAccount
-		throw new UnsupportedOperationException();
+		this.debittedAccount=debittedAccount;
 	}
 
 	public String getCredittedAccount() {
 		return credittedAccount;
 	}
 
-	/**
-	 * 
-	 * @param credittedAccount
-	 */
 	public void setCredittedAccount(String credittedAccount) {
-		// TODO - implement Transaction.setCredittedAccount
-		throw new UnsupportedOperationException();
+		this.credittedAccount=credittedAccount;
 	}
 
 	public Date getDate() {
 		return this.date;
 	}
 
-	/**
-	 * 
-	 * @param date
-	 */
 	public void setDate(Date date) {
 		this.date = date;
 	}
@@ -71,10 +57,6 @@ public class CompanyTransaction {
 		return this.amount;
 	}
 
-	/**
-	 * 
-	 * @param transactionID
-	 */
 	public void setTransactionID(String transactionID) {
 		this.transactionID = transactionID;
 	}
