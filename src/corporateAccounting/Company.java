@@ -206,18 +206,18 @@ public class Company {
 	}
 	
 	//need to replace recordtransaction with isValidtransaction()
-	public ArrayList<InventoryStorageEntry> purchaseInventory(String newTranId, double unitCost, int units, Date dt, String credittedAccount){
+	public ArrayList<InventoryStorageEntry> purchaseInventory(String newTranId, double unitCost, int unitsToBuy, Date dt, String credittedAccount){
 		//record purchase transaction
-		double amount=unitCost*units;
+		double amount=unitCost*unitsToBuy;
 		CompanyTransaction trans=new CompanyTransaction(newTranId, dt, "Inventory", credittedAccount, amount, "Purchase Inventory");
 		
 		//add to company's journal
 		if(recordTransaction(trans)) {
 			
 			//update storage
-			InventoryStorageEntry entry=new InventoryStorageEntry(newTranId, unitCost,units);
+			InventoryStorageEntry entry=new InventoryStorageEntry(newTranId, unitCost, unitsToBuy);
 			storage.add(entry);
-			totalUnits+=units;
+			totalUnits+=unitsToBuy;
 		}
 		else {
 			System.out.println("Error: invalid purchase");
@@ -226,10 +226,10 @@ public class Company {
 		return storage;
 	}
 	
-	public ArrayList<InventoryStorageEntry> sellInventory(String newRevTranId, String newCostTranId, double unitPrice, int units, Date date, String debittedAccount, String costMethod){
-		// if (units > totalUnits) return null;
+	public ArrayList<InventoryStorageEntry> sellInventory(String newRevTranId, String newCostTranId, double unitPrice, int unitsToSell, Date date, String debittedAccount, String costMethod){
+		if (unitsToSell > totalUnits) return null;
 		//record revenue transaction
-		double amount=unitPrice*units;
+		double amount=unitPrice*unitsToSell;
 		CompanyTransaction revTrans=new CompanyTransaction(newRevTranId, date, debittedAccount, "Sales Revenue", amount, "Revenue from Goods sold");
 		if(isValidTransaction(revTrans)) {
 			
@@ -238,12 +238,12 @@ public class Company {
 				double cost=0.0;
 				int currentUnitsSold=0;
 				for(InventoryStorageEntry entry:storage) {
-					if(currentUnitsSold>=units) {
+					if(currentUnitsSold>=unitsToSell) {
 						break;
 					}
 					else {
 						//entry.setUnits(Math.min(entry, b));
-						int unitsSold = Math.min(entry.getUnits(), units-currentUnitsSold);
+						int unitsSold = Math.min(entry.getUnits(), unitsToSell-currentUnitsSold);
 						cost += unitsSold * entry.getUnitCost();
 						currentUnitsSold += unitsSold;
 						entry.decreaseUnits(unitsSold);
@@ -253,17 +253,18 @@ public class Company {
 				//here will have bug: if invalid costTrans -> revTrans will still be recorded
 				recordTransaction(revTrans);
 				recordTransaction(costTrans);
+				totalUnits -= unitsToSell;
 			}
 			else if(costMethod.equals("LIFO")) {
 				double cost=0.0;
 				int currentUnitsSold=0;
 				for(int i=storage.size()-1; i>=0; i--) {
 					InventoryStorageEntry entry = storage.get(i);
-					if(currentUnitsSold>=units) {
+					if(currentUnitsSold>=unitsToSell) {
 						break;
 					}
 					else {
-						int unitsSold = Math.min(entry.getUnits(), units-currentUnitsSold);
+						int unitsSold = Math.min(entry.getUnits(), unitsToSell-currentUnitsSold);
 						cost += unitsSold * entry.getUnitCost();
 						currentUnitsSold += unitsSold;
 						entry.decreaseUnits(unitsSold);
@@ -273,6 +274,7 @@ public class Company {
 				//here will have bug: if invalid costTrans -> revTrans will still be recorded
 				recordTransaction(revTrans);
 				recordTransaction(costTrans);
+				totalUnits -= unitsToSell;
 			}
 			else {
 				System.out.println("Error: invalid sell");
