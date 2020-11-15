@@ -92,40 +92,6 @@ public class Company {
 		System.out.format(accountcategoryTitleFormatString, "ASSETS", "LIABILITY", "STOCK HOLDER'S EQUITY");
 		//System.out.println('\n' + new String(new char[186]).replace("\0", "-"));
 		System.out.println(seperationLine);
-		//System.out.format(balanceRowFormat, "Accounts Payable", "1000.0", "Accounts Payable", "1000.0", "Accounts Payable", "1000.0");
-		/*int assetCount = 0, liabilitycount = 0, seCount = 0;
-		ArrayList<CompanyAccount> assetAccounts = new ArrayList<>();
-		ArrayList<CompanyAccount> liabilityAccounts = new ArrayList<>();
-		ArrayList<CompanyAccount> stockholdersEquityAccounts = new ArrayList<>();
-		for (CompanyAccount a: accountList) {
-			switch (a.getAccountCategory()) {
-			case ASSET:
-				assetCount++;
-				assetAccounts.add(a);
-				break;
-			case LIABILITY:
-				liabilitycount++;
-				liabilityAccounts.add(a);
-				break;
-			case STOCKHOLDERS_EQUITY:
-				seCount++;
-				stockholdersEquityAccounts.add(a);
-				break;
-			default:
-				break;
-			} 
-		}
-		System.out.println(assetCount+liabilitycount+seCount);
-		for (int i=0; i < Math.max(assetCount, Math.max(liabilitycount, seCount)); i++) {
-			System.out.format(balanceRowFormat, 
-					assetCount>0 ? assetAccounts.get(i).getAccountName() : "0", assetCount>0 ? assetAccounts.get(i).getBalance() : "0", 
-					liabilitycount>0 ? liabilityAccounts.get(i).getAccountName() : "0", liabilitycount>0 ? liabilityAccounts.get(i).getBalance() : "0", 
-					seCount>0 ? stockholdersEquityAccounts.get(i).getAccountName() : "0", seCount>0 ? stockholdersEquityAccounts.get(i).getBalance() : "0");
-			assetCount--;
-			liabilitycount--;
-			seCount--;
-			System.out.println();
-		}*/
 		
 		for (int i=0; i < Math.max(CompanyAccount.assetAccountNames.length + CompanyAccount.contraAssetAccountNames.length, Math.max(CompanyAccount.liabilityAccountNames.length, CompanyAccount.stockHoldersEquityAccountNames.length + CompanyAccount.contrastockHoldersEquityAccountNames.length)); i++) {
 			String assetAcc,assetBal,liabAcc,liabBal,seAcc,seBal;
@@ -205,7 +171,7 @@ public class Company {
 	
 	//for simple testing
 	public static void main(String args[]) {
-		
+		/* test generateClosingEntries
 		Date tday = new Date();
 		CompanyTransaction testTrans1=new CompanyTransaction("id12334", tday, "Cash", "AccountsPayable", 1000.0, "Borrow from bank");
 		CompanyTransaction testTrans2=new CompanyTransaction("id12335", tday, "Inventory", "Cash", 1000.0, "Buy Inventory");
@@ -215,17 +181,20 @@ public class Company {
 		lukecompany.journal.add(testTrans1);
 		lukecompany.journal.add(testTrans2);
 		lukecompany.journal.add(testTrans3);
-		//lukecompany.journal.add(testTran4);
 		lukecompany.recordTransaction(testTran4);
 		lukecompany.generateClosingEntries();
 		lukecompany.printJournal();
-		//lukecompany.printBalanceSheet();
-		/*
-		Company company = new Company();
-		for (CompanyAccount ca: company.getAccountList()) {
-			System.out.println(ca.getAccountName() + ": " + ca.getBalance());
-		}
 		*/
+		
+		Date tday=new Date();
+		Company lukecompany = new Company();
+		lukecompany.recordTransaction(new CompanyTransaction("id12334", tday, "Cash", "Accounts Payable", 1000.0, "Borrow from bank"));
+		lukecompany.purchaseInventory("12345", 3, 50, tday, "Cash");
+		lukecompany.purchaseInventory("12346", 5, 100, tday, "Cash");
+		lukecompany.sellInventory("12347-a","12347-b", 7, 180, tday, "Cash","FIFO");
+		
+		lukecompany.printJournal();
+		
 	}
 
 	public int gettotalUnits() {
@@ -237,10 +206,10 @@ public class Company {
 	}
 	
 	//need to replace recordtransaction with isValidtransaction()
-	public ArrayList<InventoryStorageEntry> purchaseInventory(String newTranId, double unitCost, int units, Date date, String credittedAccount){
+	public ArrayList<InventoryStorageEntry> purchaseInventory(String newTranId, double unitCost, int units, Date dt, String credittedAccount){
 		//record purchase transaction
 		double amount=unitCost*units;
-		CompanyTransaction trans=new CompanyTransaction(newTranId, date, "Inventory", credittedAccount, amount, "Purchase Inventory");
+		CompanyTransaction trans=new CompanyTransaction(newTranId, dt, "Inventory", credittedAccount, amount, "Purchase Inventory");
 		
 		//add to company's journal
 		if(recordTransaction(trans)) {
@@ -282,8 +251,8 @@ public class Company {
 				}
 				CompanyTransaction costTrans=new CompanyTransaction(newCostTranId, date, "Cost of Goods Sold", "Inventory", cost, "Cost of Goods sold");
 				//here will have bug: if invalid costTrans -> revTrans will still be recorded
-				recordTransaction(costTrans);
 				recordTransaction(revTrans);
+				recordTransaction(costTrans);
 			}
 			else if(costMethod.equals("LIFO")) {
 				double cost=0.0;
@@ -302,9 +271,8 @@ public class Company {
 				}
 				CompanyTransaction costTrans=new CompanyTransaction(newCostTranId, date, "Cost of Goods Sold", "Inventory", cost, "Cost of Goods sold");
 				//here will have bug: if invalid costTrans -> revTrans will still be recorded
-				recordTransaction(costTrans);
-				
 				recordTransaction(revTrans);
+				recordTransaction(costTrans);
 			}
 			else {
 				System.out.println("Error: invalid sell");
