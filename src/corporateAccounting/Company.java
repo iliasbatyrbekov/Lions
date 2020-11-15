@@ -1,6 +1,8 @@
 package corporateAccounting;
 import java.util.*;
 
+import org.junit.jupiter.params.shadow.com.univocity.parsers.common.processor.BeanWriterProcessor;
+
 public class Company {
 	private HashMap<String, CompanyAccount> accountList;
 	private ArrayList<CompanyTransaction> journal;
@@ -164,6 +166,39 @@ public class Company {
 		
 	}
 	
+	public double generateClosingEntries() {
+		String retEarnAccName = "Retained Earnings";  // name of the account in which to record the closing entries
+		for (String revAccName: CompanyAccount.revenueAccountNames) {
+			double amount = accountList.get(revAccName).getBalance();
+			if (amount != 0) {
+				CompanyTransaction closingTransaction = new CompanyTransaction("111", new Date(), revAccName, retEarnAccName, amount, "Closing entry");
+				recordTransaction(closingTransaction);
+			}
+		}
+		for (String expAccName: CompanyAccount.expenseAccountNames) {
+			double amount = accountList.get(expAccName).getBalance();
+			if (amount != 0) {
+				CompanyTransaction closingTransaction = new CompanyTransaction("111", new Date(), retEarnAccName, expAccName, amount, "Closing entry");
+				recordTransaction(closingTransaction);
+			}
+		}
+		for (String divAccName: CompanyAccount.dividendExpenseAccountNames) {
+			double amount = accountList.get(divAccName).getBalance();
+			if (amount != 0) {
+				CompanyTransaction closingTransaction = new CompanyTransaction("111", new Date(), retEarnAccName, divAccName, amount, "Closing entry");
+				recordTransaction(closingTransaction);
+			}
+		}
+		for (String contraRevAccName: CompanyAccount.contraRevenueAccountNames) {
+			double amount = accountList.get(contraRevAccName).getBalance();
+			if (amount != 0) {
+				CompanyTransaction closingTransaction = new CompanyTransaction("111", new Date(), retEarnAccName, contraRevAccName, amount, "Closing entry");
+				recordTransaction(closingTransaction);
+			}
+		}
+		return accountList.get("Retained Earnings").getBalance();
+	}
+	
 	//for simple testing
 	public static void main(String args[]) {
 		
@@ -171,13 +206,16 @@ public class Company {
 		CompanyTransaction testTrans1=new CompanyTransaction("id12334", tday, "Cash", "AccountsPayable", 1000.0, "Borrow from bank");
 		CompanyTransaction testTrans2=new CompanyTransaction("id12335", tday, "Inventory", "Cash", 1000.0, "Buy Inventory");
 		CompanyTransaction testTrans3=new CompanyTransaction("id12336", tday, "Cash", "CommonStock", 1000.0, "Issue Common Stock");
+		CompanyTransaction testTran4 = new CompanyTransaction("777", tday, "Cash", "Service Revenue", 300, "Provide soccer training");
 		Company lukecompany=new Company();
 		lukecompany.journal.add(testTrans1);
 		lukecompany.journal.add(testTrans2);
 		lukecompany.journal.add(testTrans3);
-		//System.out.println("???????");
-		//lukecompany.printJournal();
-		lukecompany.printBalanceSheet();
+		//lukecompany.journal.add(testTran4);
+		lukecompany.recordTransaction(testTran4);
+		lukecompany.generateClosingEntries();
+		lukecompany.printJournal();
+		//lukecompany.printBalanceSheet();
 		/*
 		Company company = new Company();
 		for (CompanyAccount ca: company.getAccountList()) {

@@ -21,6 +21,8 @@ public class CompanyTransaction {
 		description=desc;
 	}
 	
+	
+		
 	public String getDebittedAccount() {
 		return debittedAccount;
 	}

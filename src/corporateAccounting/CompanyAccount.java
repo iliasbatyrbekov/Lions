@@ -20,11 +20,11 @@ public class CompanyAccount {
 	
 	public static final String[] contrastockHoldersEquityAccountNames = { "Treasury Stock" };
 	
-	public static final String[] revenueAccountNames = { "Advertising Expense", "Amortization Expense", "Bad Debt Expense", "Cost of Goods Sold", "Delivery Expense", "Depreciation Expense", "Entertainment Expense", "Income Tax Expense", "Insurance Expense", "Interest Expense", "Legal Fees Expense", "Payroll Tax Expense", "Postage Expense", "Property Tax Expense", "Rent Expense", "Repairs and Maintenance Expense", "Research and Development Expense", "Salaries Expense", "Service Fee Expense","Supplies Expense", "Utilities Expense", "Warranty Expense", "Loss", "Unrealized Holding Loss--Net Income" };
+	public static final String[] expenseAccountNames = { "Advertising Expense", "Amortization Expense", "Bad Debt Expense", "Cost of Goods Sold", "Delivery Expense", "Depreciation Expense", "Entertainment Expense", "Income Tax Expense", "Insurance Expense", "Interest Expense", "Legal Fees Expense", "Payroll Tax Expense", "Postage Expense", "Property Tax Expense", "Rent Expense", "Repairs and Maintenance Expense", "Research and Development Expense", "Salaries Expense", "Service Fee Expense","Supplies Expense", "Utilities Expense", "Warranty Expense", "Loss", "Unrealized Holding Loss--Net Income" };
 	
-	public static final String[] expenseAccountNames = { "Service Revenue", "Sales Revenue", "Interest Revenue", "Dividend Revenue", "Equity Income", "Gain", "Unrealized Holding Gain--Net Income" };
+	public static final String[] revenueAccountNames = { "Service Revenue", "Sales Revenue", "Interest Revenue", "Dividend Revenue", "Equity Income", "Gain", "Unrealized Holding Gain--Net Income" };
 	
-	public static final String[] contraExpenseAccountNames = { "Sales Discounts", "Sales Returns", "Sales Allowances" };
+	public static final String[] contraRevenueAccountNames = { "Sales Discounts", "Sales Returns", "Sales Allowances" };
 	
 	public static final String[] dividendExpenseAccountNames = { "Dividends (Cash)", "Stock Dividends" };
 	
@@ -58,7 +58,7 @@ public class CompanyAccount {
 		for (String accName: expenseAccountNames ) {
 			allAccounts.put(accName, new CompanyAccount(accName, CompanyAccountCategory.EXPENSE, CompanyAccountType.DEBIT_ACCOUNT));
 		}
-		for (String accName: contraExpenseAccountNames ) {
+		for (String accName: contraRevenueAccountNames ) {
 			allAccounts.put(accName, new CompanyAccount(accName, CompanyAccountCategory.EXPENSE, CompanyAccountType.CREDIT_ACCOUNT));
 		}
 		for (String accName: dividendExpenseAccountNames ) {
