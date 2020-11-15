@@ -6,12 +6,18 @@ public class Company {
 	private ArrayList<CompanyTransaction> journal;
 	private ArrayList<InventoryStorageEntry> storage;
 	private int totalUnits;
+	private int currentID;
 	
 	public Company() {
 		accountList = CompanyAccount.getAllInitAccounts();
 		journal = new ArrayList<CompanyTransaction>();
 		storage=new ArrayList<InventoryStorageEntry>();
-		settotalUnits(0);
+		setTotalUnits(0);
+		currentID = 10000;
+	}
+	
+	public String generateNewID() {
+		return String.valueOf(currentID++);
 	}
 	
 	public HashMap<String, CompanyAccount> getAccountList() {
@@ -186,36 +192,36 @@ public class Company {
 		lukecompany.printJournal();
 		*/
 		
-		Date tday=new Date();
+		Date tday = new Date();
 		Company lukecompany = new Company();
 		lukecompany.recordTransaction(new CompanyTransaction("id12334", tday, "Cash", "Accounts Payable", 1000.0, "Borrow from bank"));
-		lukecompany.purchaseInventory("12345", 3, 50, tday, "Cash");
-		lukecompany.purchaseInventory("12346", 5, 100, tday, "Cash");
-		lukecompany.sellInventory("12347-a","12347-b", 7, 180, tday, "Cash","FIFO");
+		lukecompany.purchaseInventory(3, 50, tday, "Cash");
+		lukecompany.purchaseInventory(5, 100, tday, "Cash");
+		lukecompany.sellInventory(7, 180, tday, "Cash", "FIFO");
 		
 		lukecompany.printJournal();
 		
 	}
 
-	public int gettotalUnits() {
+	public int getTotalUnits() {
 		return totalUnits;
 	}
 
-	public void settotalUnits(int totalUnits) {
+	public void setTotalUnits(int totalUnits) {
 		this.totalUnits = totalUnits;
 	}
 	
 	//need to replace recordtransaction with isValidtransaction()
-	public ArrayList<InventoryStorageEntry> purchaseInventory(String newTranId, double unitCost, int unitsToBuy, Date dt, String credittedAccount){
+	public ArrayList<InventoryStorageEntry> purchaseInventory(double unitCost, int unitsToBuy, Date dt, String credittedAccount){
 		//record purchase transaction
 		double amount=unitCost*unitsToBuy;
-		CompanyTransaction trans=new CompanyTransaction(newTranId, dt, "Inventory", credittedAccount, amount, "Purchase Inventory");
+		CompanyTransaction trans=new CompanyTransaction(generateNewID(), dt, "Inventory", credittedAccount, amount, "Purchase Inventory");
 		
 		//add to company's journal
 		if(recordTransaction(trans)) {
 			
 			//update storage
-			InventoryStorageEntry entry=new InventoryStorageEntry(newTranId, unitCost, unitsToBuy);
+			InventoryStorageEntry entry=new InventoryStorageEntry(trans.getTransactionID(), unitCost, unitsToBuy);
 			storage.add(entry);
 			totalUnits+=unitsToBuy;
 		}
@@ -226,11 +232,11 @@ public class Company {
 		return storage;
 	}
 	
-	public ArrayList<InventoryStorageEntry> sellInventory(String newRevTranId, String newCostTranId, double unitPrice, int unitsToSell, Date date, String debittedAccount, String costMethod){
+	public ArrayList<InventoryStorageEntry> sellInventory(double unitPrice, int unitsToSell, Date date, String debittedAccount, String costMethod){
 		if (unitsToSell > totalUnits) return null;
 		//record revenue transaction
 		double amount=unitPrice*unitsToSell;
-		CompanyTransaction revTrans=new CompanyTransaction(newRevTranId, date, debittedAccount, "Sales Revenue", amount, "Revenue from Goods sold");
+		CompanyTransaction revTrans=new CompanyTransaction(generateNewID(), date, debittedAccount, "Sales Revenue", amount, "Revenue from Goods sold");
 		if(isValidTransaction(revTrans)) {
 			
 			//record cost transaction
@@ -249,7 +255,7 @@ public class Company {
 						entry.decreaseUnits(unitsSold);
 					}
 				}
-				CompanyTransaction costTrans=new CompanyTransaction(newCostTranId, date, "Cost of Goods Sold", "Inventory", cost, "Cost of Goods sold");
+				CompanyTransaction costTrans=new CompanyTransaction(generateNewID(), date, "Cost of Goods Sold", "Inventory", cost, "Cost of Goods sold");
 				//here will have bug: if invalid costTrans -> revTrans will still be recorded
 				recordTransaction(revTrans);
 				recordTransaction(costTrans);
@@ -270,7 +276,7 @@ public class Company {
 						entry.decreaseUnits(unitsSold);
 					}
 				}
-				CompanyTransaction costTrans=new CompanyTransaction(newCostTranId, date, "Cost of Goods Sold", "Inventory", cost, "Cost of Goods sold");
+				CompanyTransaction costTrans=new CompanyTransaction(generateNewID(), date, "Cost of Goods Sold", "Inventory", cost, "Cost of Goods sold");
 				//here will have bug: if invalid costTrans -> revTrans will still be recorded
 				recordTransaction(revTrans);
 				recordTransaction(costTrans);
