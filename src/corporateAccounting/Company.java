@@ -1,15 +1,17 @@
 package corporateAccounting;
 import java.util.*;
 
-import org.junit.jupiter.params.shadow.com.univocity.parsers.common.processor.BeanWriterProcessor;
-
 public class Company {
 	private HashMap<String, CompanyAccount> accountList;
 	private ArrayList<CompanyTransaction> journal;
+	private ArrayList<InventoryStorageEntry> storage;
+	private int totalUnits;
 	
 	public Company() {
 		accountList = CompanyAccount.getAllInitAccounts();
 		journal = new ArrayList<CompanyTransaction>();
+		storage=new ArrayList<InventoryStorageEntry>();
+		settotalUnits(0);
 	}
 	
 	public HashMap<String, CompanyAccount> getAccountList() {
@@ -44,7 +46,7 @@ public class Company {
 		return true;
 	}
 	
-	public void recordTransaction(CompanyTransaction trans) { //use user cli now?
+	public boolean recordTransaction(CompanyTransaction trans) { //use user cli now?
 		if(isValidTransaction(trans)) {
 			//record in journal
 			journal.add(trans);
@@ -52,9 +54,11 @@ public class Company {
 			//also update the accounts balance
 			accountList.get(trans.getDebittedAccount()).recordTransaction(trans);
 			accountList.get(trans.getCredittedAccount()).recordTransaction(trans);
+			return true;
 		}
 		else {
 			System.out.println("Error: Cannot record this Transaction");
+			return false;
 			//error message may be shown in isValidTransaction()
 		}
 	}
@@ -223,6 +227,95 @@ public class Company {
 		}
 		*/
 	}
+
+	public int gettotalUnits() {
+		return totalUnits;
+	}
+
+	public void settotalUnits(int totalUnits) {
+		this.totalUnits = totalUnits;
+	}
 	
+	//need to replace recordtransaction with isValidtransaction()
+	public ArrayList<InventoryStorageEntry> purchaseInventory(String newTranId, double unitCost, int units, Date date, String credittedAccount){
+		//record purchase transaction
+		double amount=unitCost*units;
+		CompanyTransaction trans=new CompanyTransaction(newTranId, date, "Inventory", credittedAccount, amount, "Purchase Inventory");
+		
+		//add to company's journal
+		if(recordTransaction(trans)) {
+			
+			//update storage
+			InventoryStorageEntry entry=new InventoryStorageEntry(newTranId, unitCost,units);
+			storage.add(entry);
+			totalUnits+=units;
+		}
+		else {
+			System.out.println("Error: invalid purchase");
+		}
+		
+		return storage;
+	}
+	
+	public ArrayList<InventoryStorageEntry> sellInventory(String newRevTranId, String newCostTranId, double unitPrice, int units, Date date, String debittedAccount, String costMethod){
+		// if (units > totalUnits) return null;
+		//record revenue transaction
+		double amount=unitPrice*units;
+		CompanyTransaction revTrans=new CompanyTransaction(newRevTranId, date, debittedAccount, "Sales Revenue", amount, "Revenue from Goods sold");
+		if(isValidTransaction(revTrans)) {
+			
+			//record cost transaction
+			if(costMethod.equals("FIFO")) {
+				double cost=0.0;
+				int currentUnitsSold=0;
+				for(InventoryStorageEntry entry:storage) {
+					if(currentUnitsSold>=units) {
+						break;
+					}
+					else {
+						//entry.setUnits(Math.min(entry, b));
+						int unitsSold = Math.min(entry.getUnits(), units-currentUnitsSold);
+						cost += unitsSold * entry.getUnitCost();
+						currentUnitsSold += unitsSold;
+						entry.decreaseUnits(unitsSold);
+					}
+				}
+				CompanyTransaction costTrans=new CompanyTransaction(newCostTranId, date, "Cost of Goods Sold", "Inventory", cost, "Cost of Goods sold");
+				//here will have bug: if invalid costTrans -> revTrans will still be recorded
+				recordTransaction(costTrans);
+				recordTransaction(revTrans);
+			}
+			else if(costMethod.equals("LIFO")) {
+				double cost=0.0;
+				int currentUnitsSold=0;
+				for(int i=storage.size()-1; i>=0; i--) {
+					InventoryStorageEntry entry = storage.get(i);
+					if(currentUnitsSold>=units) {
+						break;
+					}
+					else {
+						int unitsSold = Math.min(entry.getUnits(), units-currentUnitsSold);
+						cost += unitsSold * entry.getUnitCost();
+						currentUnitsSold += unitsSold;
+						entry.decreaseUnits(unitsSold);
+					}
+				}
+				CompanyTransaction costTrans=new CompanyTransaction(newCostTranId, date, "Cost of Goods Sold", "Inventory", cost, "Cost of Goods sold");
+				//here will have bug: if invalid costTrans -> revTrans will still be recorded
+				recordTransaction(costTrans);
+				
+				recordTransaction(revTrans);
+			}
+			else {
+				System.out.println("Error: invalid sell");
+			}
+			
+		}
+		else {
+			System.out.println("Error: invalid sell: ");
+		}
+		
+		return storage;
+	}
 
 }

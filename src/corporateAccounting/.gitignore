@@ -3,3 +3,6 @@
 /CompanyAccountCategory.class
 /CompanyAccountType.class
 /CompanyTransaction.class
+/CompanyInventoryStorage.class
+/InventoryStorage.class
+/InventoryStorageEntry.class
