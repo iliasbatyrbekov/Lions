@@ -14,18 +14,12 @@ public class View {
 		planList=PL;
 	}
 	
-	public HashMap<String, Double> viewAllAccountBalance() {
-		
+	public HashMap<String, Double> viewAllAccountBalance() {		
 		HashMap<String, Double> account_balance = new HashMap<String, Double>();
 		for(Account acc : accList) {
 			account_balance.put(acc.getaccID(), acc.getBalance());
-		}
-		if(account_balance.isEmpty()) {
-			return null;
 		} 
-		return account_balance;
-
-			
+		return account_balance;			
 	}
 
 	public void viewExpensebyAccount() {
@@ -79,11 +73,7 @@ public class View {
 	
 	public ArrayList<String> viewExpensebyMember() {
 		HashMap<String, Double> mem_exp = new HashMap<String, Double>();
-		
-		//BAD CODE SMELL: maybe consider recording transactions history in Accounts too
 		for (Transaction tra: tranHist) {
-			
-			//BAD DESIGN: transaction should'nt know that its children class "expense" has attribute "category"
 			if(tra instanceof Expense) {
 				String mem=((Expense)tra).getMember();
 				if (mem_exp.containsKey(mem)) {
@@ -94,12 +84,12 @@ public class View {
 			}
 		}
 		
-		//print
 		ArrayList<String> result = new ArrayList<>();
  		for (String mem:mem_exp.keySet()) {
 			System.out.println(mem+" : "+mem_exp.get(mem));
  			result.add(mem + ": "+mem_exp.get(mem));
 		}
+		
  		return result;
 	}
 }

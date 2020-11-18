@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import static org.junit.Assert.*;
-
-import java.util.ArrayList;
-
 import org.junit.Test;
 
 public class testViewAllAccountBalance {
@@ -17,9 +14,9 @@ public class testViewAllAccountBalance {
 	//testcase when there are 3 accounts, showing the total balance of each acc
 	@Test
 	public void test_1(){
-		Account acc1=new Account("shawn", "luke", 2500);
-		Account acc2=new Account("luke", "Bryan", 2000);
-		Account acc3=new Account("bryan", "luke", 1500);
+		Account acc1 = new Account("shawn", 2500);
+		Account acc2 = new Account("luke", 2000);
+		Account acc3 = new Account("bryan", 1500);
 		accList.add(acc1);
 		accList.add(acc2);
 		accList.add(acc3);
@@ -29,21 +26,18 @@ public class testViewAllAccountBalance {
 		expected.put("bryan", 1500.0);
 		View view = new View(tranHist, accList, planList);
 		HashMap<String, Double> result = view.viewAllAccountBalance();
-		System.out.print(result);
 		assertEquals(expected, result);
 	}
+
 	//testcase when there is no record found
 	@Test
 	public void test_2(){
-		Account acc1=new Account("", "", 0);
+		Account acc1=new Account("", 0);
 		accList.add(acc1);
 		HashMap<String, Double> expected = new HashMap<>();
 		expected.put("", (double)0);
 		View view = new View(tranHist, accList, planList);
 		HashMap<String, Double> result = view.viewAllAccountBalance();
-		System.out.print(result);
 		assertEquals(expected, result);
 	}
 }
-
-
