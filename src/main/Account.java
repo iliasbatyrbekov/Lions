@@ -21,12 +21,11 @@ public class Account {
 	}
 
 	
-	public Account(String accID, String password, double balance, double asset, double debt) {
+	public Account(String accID, double balance, double asset, double debt) {
 		this.accID = accID;
 		this.asset =  asset;
 		this.balance = balance;
 		this.debt = debt;
-		this.password = password;
 	}
 	
 	

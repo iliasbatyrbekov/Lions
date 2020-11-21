@@ -36,7 +36,7 @@ public class Plan {
 		this.planName = planName;
 	}
 	public ArrayList<String> getTimePeriod() {
-		ArrayList<String> timePeriodString = new  ArrayList<>();
+		ArrayList<String> timePeriodString = new ArrayList<>();
 		for (LocalDate date : this.timePeriod) {
 			timePeriodString.add(formatter.format(date));
 		}

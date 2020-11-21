@@ -8,6 +8,9 @@ public class Company {
 	private int totalUnits;
 	private int currentID;
 	
+	// TODO function for total units
+	// private int getTotalUnits();
+	
 	public Company() {
 		accountList = CompanyAccount.getAllInitAccounts();
 		journal = new ArrayList<CompanyTransaction>();
