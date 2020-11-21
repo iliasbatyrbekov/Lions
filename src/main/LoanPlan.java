@@ -13,18 +13,18 @@ import java.lang.String;
 public class LoanPlan extends Plan{
 	private double loanAmount;
 	private double interestRate;
-	private double monthlyAmount;
-	private ArrayList<Double> log; //[month: loanAmount]
+	private double monthlyPayment;
+	private ArrayList<Double> monthlySum; //[month: loanAmount]
 	private String debtOwner;
 	
 	public LoanPlan(String planName, ArrayList<String> timePeriod,double loanAmount, double interestRate, String debtOwner) {
 		super(planName, timePeriod);
 		this.loanAmount = loanAmount;
 		this.interestRate = interestRate;
-		this.monthlyAmount = this.calculateMonthlyAmount();
-		this.log = new ArrayList<Double>();//(Collections.nCopies(this.getTimePeriodLength("month"), this.calculateMonthlyAmount()))
+		this.monthlyPayment = this.calculateMonthlyPayment();
+		this.monthlySum = new ArrayList<Double>();//(Collections.nCopies(this.getTimePeriodLength("month"), this.calculateMonthlyAmount()))
 		for (int i=0;i<this.getTimePeriodLength("month");++i)
-			this.log.add(monthlyAmount);
+			this.monthlySum.add(monthlyPayment);
 		this.debtOwner = debtOwner;
 	}
 	
@@ -47,27 +47,27 @@ public class LoanPlan extends Plan{
 		this.loanAmount = loanAmount;
 	}
 	
-	public double calculateMonthlyAmount() {
+	public double calculateMonthlyPayment() {//monthly loan payment
 		double monthRate = this.interestRate/12;
 		double noOfMonths = Math.ceil(super.getTimePeriodLength("month"));
 		double factor = monthRate*Math.pow(1+monthRate, noOfMonths) / (Math.pow(1+monthRate, noOfMonths)-1);
 		return this.loanAmount*factor;
 	}
-	
-	
 
-	public void updatePlan(double repayment) {
-		double updatedAmount = this.monthlyAmount - repayment;
+	public void updatePlan(Transaction transaction) {
+		super.addTransaction(transaction);
+		
+		double updatedAmount = this.monthlyPayment - transaction.getAmount();
 		double currentMonth = this.getCurrentPointInTime("month");// e.g. 3rd month
 		
 		if (0<updatedAmount)//monthlyAmount > repayment
-			this.log.set((int) currentMonth, updatedAmount);
+			this.monthlySum.set((int) currentMonth, updatedAmount);
 		else {
-			this.log.set((int) currentMonth, 0.0);
+			this.monthlySum.set((int) currentMonth, 0.0);
 			
 			if (currentMonth!=this.getTimePeriodLength("month")) {//if this is last month
-				double nextMonthAmount = this.log.get((int) currentMonth+1);
-				this.log.set((int) currentMonth+1, nextMonthAmount+updatedAmount);
+				double nextMonthAmount = this.monthlySum.get((int) currentMonth+1);
+				this.monthlySum.set((int) currentMonth+1, nextMonthAmount+updatedAmount);
 			}
 			//Todo: else notify user the transaction amount exceeded necessary
 		}
@@ -75,14 +75,14 @@ public class LoanPlan extends Plan{
 
 	public void getPlan() {//for display
 		double currentLoanAmount = 0;
-		for (double loanAmount : this.log)
+		for (double loanAmount : this.monthlySum)
 			currentLoanAmount += loanAmount;
 
 		Map<String, Double> hist = new HashMap<String, Double>();
 		int noOfMonths = (int) super.getTimePeriodLength("month");
 		LocalDate date = LocalDate.parse(super.getTimePeriod().get(0));
 		for (int i=0; i<noOfMonths; ++i) {
-			hist.put(date.format(DateTimeFormatter.ofPattern("MMM yyyy")), log.get(i));
+			hist.put(date.format(DateTimeFormatter.ofPattern("MMM yyyy")), monthlySum.get(i));
 			date = date.plusMonths(1);
 		}
 

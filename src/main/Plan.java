@@ -13,18 +13,18 @@ public class Plan {
 	private String planName;
 	private ArrayList<Transaction> tranRecord;
 	private DateTimeFormatter formatter;
-	private ArrayList<LocalDate> timePeriod;	
+	private ArrayList<LocalDate> timePeriod;
 	private static int idGenSeed = 0;
 
 	public Plan(String planName, ArrayList<String> timePeriodString) {
 		this.planName = planName;
 		this.planID = Integer.toString(idGenSeed++);
-		this.tranRecord = 
+		this.tranRecord = new ArrayList<Transaction>();
 		this.formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd"); // to also take in time, use "yyyy-MM-dd'T'HH:mm:ss"
 		this.timePeriod = new ArrayList<>();
 		this.setTimePeriod(timePeriodString);
 	}
-	
+
 	public String getPlanID() {
 		return planID;
 	}
@@ -34,6 +34,9 @@ public class Plan {
 	}
 	public void setPlanName(String planName) {
 		this.planName = planName;
+	}
+	public void addTransaction(Transaction transaction) {
+		this.tranRecord.add(transaction);
 	}
 	public ArrayList<String> getTimePeriod() {
 		ArrayList<String> timePeriodString = new ArrayList<>();
