@@ -9,7 +9,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.Duration;
 import java.text.ParseException;
 
-public abstract class Plan {
+public class Plan {
 	private String planID;
 	private String planName;
 	// private ArrayList<Transaction> tranRecord;
@@ -73,23 +73,24 @@ public abstract class Plan {
 			return dur.toDays()/30;
 	}
 
-	public abstract Map<String, Object> getPlan();
+	public String getPlan() {return "getPlan() works";};
 
 	public static void listAll(ArrayList<Plan> planList) {
 		System.out.printf("%-30s %1.7f %-20s %-30s %-20s:", "Transaction ID", "Amount", "Account ID", "Description", "Create Date");
 		for(Plan plan : planList) {
-			Map<String, Object> detail = plan.getPlan();
-			Map<String, Double> tranHist = (Map<String, Double>) detail.get("hist");
+//			Map<String, Object> detail = plan.getPlan();
+			plan.getPlan();
+//			Map<String, Double> tranHist = (Map<String, Double>) detail.get("hist");
 
 			System.out.printf("%-10s %-20s %-20s %-20s %1.7f %1.7f",
 				"Plan ID", "Plan Name", "Start Date", "End Date", "Goal Amount", "Current Amount");
 			System.out.printf("%-10s %-20s %-20s %-20s:",
 				plan.planID, plan.planName, plan.timePeriod.get(0), plan.timePeriod.get(1), detail.get("total"), detail.get("current"));
-			
+			System.out.print(plan.getPlan());
 			// for (Map<String, Double> record : tranHist) {
 			// 	System.out.printf("%-20s %-20s:");
 			// }
-			System.out.print(detail.get("summary"));
+//			System.out.print(detail.get("summary"));
 		}
 
 		//id name startDate endDate  
