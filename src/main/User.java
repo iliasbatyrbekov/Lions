@@ -22,10 +22,13 @@ public class User {
 		this.planList = new ArrayList<>();
 	}
 	
-	
 	//Account
 	public ArrayList<Account> getAccountList() { 
 		return this.accountList; 
+	}
+	
+	public void listAllAccounts() {
+		Account.listAll(this.accountList);
 	}
 	
 	public void addAccount(String accountType,

@@ -1,5 +1,7 @@
 package main;
 
+import java.util.ArrayList;
+
 public class Account {
 	private String accID;
 	private double debt;
@@ -43,5 +45,18 @@ public class Account {
 	}
 	public String getaccID() {
 		return this.accID;
+	}
+
+	public static void listAll(ArrayList<Account> accountList) {
+		// TODO Auto-generated method stub
+		System.out.printf("%s| \t |%s| \t |%s| \t |%s|:",
+				"Account ID", "Debt", "Asset", "Balance");
+		
+		for(Account account : accountList) {
+			System.out.printf("%s| \t |%d| \t |%d| \t |%s|:",
+					account.accID, account.debt,
+					account.asset,
+					account.balance);
+		}
 	}
 }
