@@ -1,6 +1,7 @@
 package main;
 
 import java.util.ArrayList;
+import java.util.Map;
 // import java.util.Date;
 import java.time.LocalDate;
 // import java.text.SimpleDateFormat;
@@ -8,10 +9,10 @@ import java.time.format.DateTimeFormatter;
 import java.time.Duration;
 import java.text.ParseException;
 
-public class Plan {
+public abstract class Plan {
 	private String planID;
 	private String planName;
-	private ArrayList<Transaction> tranRecord;
+	// private ArrayList<Transaction> tranRecord;
 	private DateTimeFormatter formatter;
 	private ArrayList<LocalDate> timePeriod;
 	private static int idGenSeed = 0;
@@ -19,7 +20,7 @@ public class Plan {
 	public Plan(String planName, ArrayList<String> timePeriodString) {
 		this.planName = planName;
 		this.planID = Integer.toString(idGenSeed++);
-		this.tranRecord = new ArrayList<Transaction>();
+		// this.tranRecord = new ArrayList<Transaction>();
 		this.formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd"); // to also take in time, use "yyyy-MM-dd'T'HH:mm:ss"
 		this.timePeriod = new ArrayList<>();
 		this.setTimePeriod(timePeriodString);
@@ -35,9 +36,9 @@ public class Plan {
 	public void setPlanName(String planName) {
 		this.planName = planName;
 	}
-	public void addTransaction(Transaction transaction) {
-		this.tranRecord.add(transaction);
-	}
+	// public void addTransaction(Transaction transaction) {
+	// 	this.tranRecord.add(transaction);
+	// }
 	public ArrayList<String> getTimePeriod() {
 		ArrayList<String> timePeriodString = new ArrayList<>();
 		for (LocalDate date : this.timePeriod) {
@@ -70,5 +71,28 @@ public class Plan {
 			return dur.toDays();
 		else
 			return dur.toDays()/30;
+	}
+
+	public abstract Map<String, Object> getPlan();
+
+	public static void listAll(ArrayList<Plan> planList) {
+		System.out.printf("%-30s %1.7f %-20s %-30s %-20s:", "Transaction ID", "Amount", "Account ID", "Description", "Create Date");
+		for(Plan plan : planList) {
+			Map<String, Object> detail = plan.getPlan();
+			Map<String, Double> tranHist = (Map<String, Double>) detail.get("hist");
+
+			System.out.printf("%-10s %-20s %-20s %-20s %1.7f %1.7f",
+				"Plan ID", "Plan Name", "Start Date", "End Date", "Goal Amount", "Current Amount");
+			System.out.printf("%-10s %-20s %-20s %-20s:",
+				plan.planID, plan.planName, plan.timePeriod.get(0), plan.timePeriod.get(1), detail.get("total"), detail.get("current"));
+			
+			// for (Map<String, Double> record : tranHist) {
+			// 	System.out.printf("%-20s %-20s:");
+			// }
+			System.out.print(detail.get("summary"));
+		}
+
+		//id name startDate endDate  
+		//%1.7f
 	}
 }
