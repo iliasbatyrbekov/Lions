@@ -23,19 +23,35 @@ public class User {
 	}
 	
 	
-	//TODO ADD ACCOUNT: Ilias
+	//Account
+	public void addAccount() {
+		
+	}
+	
+	public void deleteAccount(String accId) throws ExAccountNotExist {
+		Account acc = this.searchAccount(accId);
+		if(acc != null) this.accountList.remove(acc);
+		else throw new ExAccountNotExist();
+	}
+	
+	public Account searchAccount(String accId) {
+		for (Account a : this.accountList) {
+			if(a.getaccID().equals(accId)) return a;
+		}
+		return null;
+	}
+	
+	
 	
 	//Plan
 	public void addPlan() {
 		
 	}
 	
-	public void deletePlan() {
-		
-	}
-	
-	public void editPlan() {
-		
+	public void deletePlan(String planId) throws ExPlainNotExist {
+		Plan p = this.searchPlan(planId);
+		if(p != null) this.planList.remove(p);
+		else throw new ExPlainNotExist();
 	}
 	
 	public ArrayList<Plan> getPlanList(){
@@ -59,8 +75,12 @@ public class User {
 		return Transaction.searchTransaction(transactionRecords, transactionId);
 	}
 	
-	public void addTransaction(String transType, Double amount, String accountId, int plainId, String description, Date date) {
+	public void addTransaction(String transType, Double amount, String accountId, String plainId, String description, Date date) throws ExPlainNotExist, ExAccountNotExist {
 		
+		Plan p = searchPlan(plainId);
+		Account acc = searchAccount(accountId);
+		if(p == null) throw new ExPlainNotExist();
+		if (acc == null) throw new ExAccountNotExist();
 		
 		int transactionId = this.transactionRecords.get(this.transactionRecords.size()-1).getTransactionID();
 		
@@ -88,18 +108,10 @@ public class User {
 		return this.transactionRecords;
 	}
 	
-	public void editTransaction(int transactionId) { 
+	public void deleteTransaction(int transactionId) throws ExTransactionNotExist {
 		Transaction trans = this.findTransactionRecord(transactionId);
-		if(trans != null) {
-			
-		}
-	}
-	
-	public void deleteTransaction(int transactionId) {
-		Transaction trans = this.findTransactionRecord(transactionId);
-		if(trans != null) {
-			this.transactionRecords.remove(trans);
-		}
+		if(trans != null) this.transactionRecords.remove(trans);
+		else throw new ExTransactionNotExist();
 	}
 	
  
