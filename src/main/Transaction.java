@@ -6,16 +6,16 @@ import java.util.ArrayList;
 public class Transaction implements Comparable<Transaction>{ 
 	private int transactionID;
 	private double amount;
-	private Date date;
+	private String date;
 	private String accountID;
 	private String description;
  
-	public Transaction(int transactionID, double amount, String accountID, String description, Date date) { 
+	public Transaction(int transactionID, double amount, String accountID, String description, String date2) { 
 		this.transactionID = transactionID;
 		this.accountID = accountID;
 		this.amount = amount;
 		this.description = description;
-		this.date = date;
+		this.date = date2;
 	}
 	
  

@@ -3,7 +3,7 @@ package main;
 import java.util.Date;
 
 public class Income extends Transaction {
-	public Income(int transactionID, double amount, String accountID, String description, Date date) {
+	public Income(int transactionID, double amount, String accountID, String description, String date) {
 		super(transactionID, amount, accountID, description, date);
 	}
 

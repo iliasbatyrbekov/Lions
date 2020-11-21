@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 
-//TODO: Make User Singleton????
 
 public class User {
 	
@@ -108,7 +107,7 @@ public class User {
 		return Transaction.searchTransaction(transactionRecords, transactionId);
 	}
 	
-	public void addTransaction(String transType, Double amount, String accountId, String plainId, String description, Date date) throws ExPlainNotExist, ExAccountNotExist {
+	public void addTransaction(String transType, Double amount, String accountId, String plainId, String description, String date) throws ExPlainNotExist, ExAccountNotExist {
 		
 		Plan p = searchPlan(plainId);
 		Account acc = searchAccount(accountId);

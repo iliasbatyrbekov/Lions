@@ -3,7 +3,7 @@ package main;
 import java.util.Date;
 
 public class TransferReceive extends Transaction {
-	public TransferReceive(int transactionID, double amount, String accountID, String description, Date date) {
+	public TransferReceive(int transactionID, double amount, String accountID, String description, String date) {
 		super(transactionID, amount, accountID, description, date);
 	}
 

@@ -1,9 +1,7 @@
 package main;
 
-import java.util.Date;
-
 public class Expense extends Transaction {
-	public Expense(int transactionID, double amount, String accountID, String description, Date date) {
+	public Expense(int transactionID, double amount, String accountID, String description, String date) {
 		super(transactionID, amount, accountID, description, date);
 	}
 
