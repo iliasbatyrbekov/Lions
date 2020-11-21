@@ -20,3 +20,6 @@
 /LoanPlan.class
 /SavingPlan.class
 /tesPredictAverageSaving.class
+/ExAccountNotExist.class
+/ExPlainNotExist.class
+/ExTransactionNotExist.class
