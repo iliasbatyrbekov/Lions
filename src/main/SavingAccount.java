@@ -6,8 +6,8 @@ public class SavingAccount extends Account{
 	private double interest;
 	private Date withdrawDate;
 
-	public SavingAccount(String accID, String password, double balance, double interest, Date withdrawDate) {
-		super(accID, password, balance);
+	public SavingAccount(String accID, double balance, double interest, Date withdrawDate) {
+		super(accID, balance);
 		this.interest = interest;
 		this.withdrawDate = withdrawDate;
 	}
