@@ -34,7 +34,7 @@ public class User {
 	public void addAccount(String accountType,
 						String accID, double balance, 
 						double asset, double debt, 
-						double interest, Date withdrawDate)
+						double interest, String withdrawDate)
 						throws ExAccountTypeNotSupported
 	{
 		Account account = new Account(accID,balance,asset,debt);
