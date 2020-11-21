@@ -20,13 +20,13 @@ public class CompanyAccount {
 	
 	public static final String[] contrastockHoldersEquityAccountNames = { "Treasury-Stock" };
 	
-	public static final String[] expenseAccountNames = { "Advertising-Expense", "Amortization-Expense", "Bad-Debt-Expense", "Cost-of-Goods-Sold", "Delivery Expense", "Depreciation Expense", "Entertainment Expense", "Income Tax Expense", "Insurance Expense", "Interest Expense", "Legal Fees Expense", "Payroll Tax Expense", "Postage Expense", "Property Tax Expense", "Rent Expense", "Repairs and Maintenance Expense", "Research and Development Expense", "Salaries Expense", "Service Fee Expense","Supplies Expense", "Utilities Expense", "Warranty Expense", "Loss" };
+	public static final String[] expenseAccountNames = { "Advertising-Expense", "Amortization-Expense", "Bad-Debt-Expense", "Cost-of-Goods-Sold", "Delivery-Expense", "Depreciation-Expense", "Entertainment-Expense", "Income Tax Expense", "Insurance-Expense", "Interest-Expense", "Legal-Fees-Expense", "Payroll-Tax-Expense", "Postage-Expense", "Property-Tax-Expense", "Rent-Expense", "Repairs-and-Maintenance-Expense", "Research-and-Development-Expense", "Salaries-Expense", "Service-Fee-Expense","Supplies-Expense", "Utilities-Expense", "Warranty-Expense", "Loss" };
 	
-	public static final String[] revenueAccountNames = { "Service-Revenue", "Sales Revenue", "Interest Revenue", "Dividend Revenue", "Equity Income", "Gain" };
+	public static final String[] revenueAccountNames = { "Service-Revenue", "Sales-Revenue", "Interest Revenue", "Dividend-Revenue", "Equity-Income", "Gain" };
 	
-	public static final String[] contraRevenueAccountNames = { "Sales Discounts", "Sales Returns", "Sales Allowances" };
+	public static final String[] contraRevenueAccountNames = { "Sales-Discounts", "Sales-Returns", "Sales-Allowances" };
 	
-	public static final String[] dividendExpenseAccountNames = { "Dividends (Cash)", "Stock Dividends" };
+	public static final String[] dividendExpenseAccountNames = { "Dividends-Cash", "Stock-Dividends" };
 	
 	public static String[] getDebitAssetAccountNames() {
 		return assetAccountNames;

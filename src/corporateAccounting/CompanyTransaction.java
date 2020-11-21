@@ -20,8 +20,6 @@ public class CompanyTransaction {
 		amount=amt;
 		description=desc;
 	}
-	
-	
 		
 	public String getDebittedAccount() {
 		return debittedAccount;

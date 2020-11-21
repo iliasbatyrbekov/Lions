@@ -26,23 +26,30 @@ public class Company {
 		this.accountList = accountList;
 	}
 	
-	//dummy, will implement it later -> may use as a bug
 	public boolean isValidTransaction(CompanyTransaction trans) {
 		
-		CompanyAccount account_to_debit=accountList.get(trans.getDebittedAccount());
-		CompanyAccount account_to_credit=accountList.get(trans.getCredittedAccount());
+		CompanyAccount accountToDebit = accountList.get(trans.getDebittedAccount());
+		CompanyAccount accountToCredit = accountList.get(trans.getCredittedAccount());
+		
+		if (accountToCredit == null) {
+			System.out.println("Error: " + trans.getCredittedAccount() + " is not a valid account.");
+			return false;
+		} else if (accountToDebit == null) {
+			System.out.println("Error: " + trans.getDebittedAccount() + " is not a valid account.");
+			return false;
+		}
 		
 		//for credit account type, if debit means decrease -> may have credit balance < 0
-		if(account_to_debit.getAccountType()==CompanyAccountType.CREDIT_ACCOUNT) {
-			if(account_to_debit.getBalance()-trans.getAmount()<0) {
+		if(accountToDebit.getAccountType() == CompanyAccountType.CREDIT_ACCOUNT) {
+			if(accountToDebit.getBalance() - trans.getAmount()<0) {
 				System.out.println("Error: Cannot debit account "+trans.getDebittedAccount());
 				return false;
 			}
 		}
 		
 		//for debit account type, if credit means decrease -> may have insufficient fund
-		if(account_to_credit.getAccountType()==CompanyAccountType.DEBIT_ACCOUNT) {
-			if(account_to_credit.getBalance()-trans.getAmount()<0) {
+		if(accountToCredit.getAccountType() == CompanyAccountType.DEBIT_ACCOUNT) {
+			if(accountToCredit.getBalance() - trans.getAmount()<0) {
 				System.out.println("Error: Cannot credit account "+trans.getCredittedAccount());
 				return false;
 			}
@@ -69,9 +76,6 @@ public class Company {
 	}
 	public ArrayList<CompanyTransaction> getJournal() {
 		return journal;
-	}
-	public void setJournal(ArrayList<CompanyTransaction> journal) {
-		this.journal = journal;
 	}
 	
 	public void printJournal() {
@@ -141,6 +145,18 @@ public class Company {
 		
 	}
 	
+	public void printStorage() {
+		String format = " %-30s | %-30s | %-30s |\n";
+		String seperationLine = "--------------------------------+--------------------------------+--------------------------------";
+		System.out.println(seperationLine);
+		System.out.format(format, "TRANSACTION ID", "UNIT COST", "# REMAINING UNITS");
+		System.out.println(seperationLine);
+		for (InventoryStorageEntry entry: storage) {
+			System.out.format(format, entry.getTransID(), entry.getUnitCost(), entry.getUnits());
+			System.out.println(seperationLine);
+		}
+	}
+	
 	public double generateClosingEntries(Date closingDate) {
 		String retEarnAccName = "Retained-Earnings";  // name of the account in which to record the closing entries
 		for (String revAccName: CompanyAccount.revenueAccountNames) {
@@ -175,8 +191,8 @@ public class Company {
 	}
 	
 	//for simple testing
-	public static void main(String args[]) {
-		/* test generateClosingEntries
+	/*public static void main(String args[]) {
+		test generateClosingEntries
 		Date tday = new Date();
 		CompanyTransaction testTrans1=new CompanyTransaction("id12334", tday, "Cash", "AccountsPayable", 1000.0, "Borrow from bank");
 		CompanyTransaction testTrans2=new CompanyTransaction("id12335", tday, "Inventory", "Cash", 1000.0, "Buy Inventory");
@@ -189,9 +205,9 @@ public class Company {
 		lukecompany.recordTransaction(testTran4);
 		lukecompany.generateClosingEntries();
 		lukecompany.printJournal();
-		*/
 		
-		/*Date tday = new Date();
+		
+		Date tday = new Date();
 		Company lukecompany = new Company();
 		lukecompany.recordTransaction(new CompanyTransaction("id12334", tday, "Cash", "Accounts-Payable", 1000.0, "Borrow from bank"));
 		lukecompany.purchaseInventory(3, 50, tday, "Cash");
@@ -199,8 +215,8 @@ public class Company {
 		lukecompany.sellInventory(7, 180, tday, "Cash", "FIFO");
 		
 		lukecompany.printJournal();
-		*/
-	}
+		
+	}*/
 
 	// TODO function for total units
 		private int getTotalUnits() {
@@ -235,7 +251,7 @@ public class Company {
 		if (unitsToSell > getTotalUnits()) System.out.println("Not enough inventory in store");
 		//record revenue transaction
 		double amount=unitPrice*unitsToSell;
-		CompanyTransaction revTrans=new CompanyTransaction(generateNewID(), date, debittedAccount, "Sales Revenue", amount, "Revenue from Goods sold");
+		CompanyTransaction revTrans=new CompanyTransaction(generateNewID(), date, debittedAccount, "Sales-Revenue", amount, "Revenue from Goods sold");
 		if(isValidTransaction(revTrans)) {
 			
 			//record cost transaction
@@ -254,7 +270,7 @@ public class Company {
 						entry.decreaseUnits(unitsSold);
 					}
 				}
-				CompanyTransaction costTrans=new CompanyTransaction(generateNewID(), date, "Cost of Goods Sold", "Inventory", cost, "Cost of Goods sold");
+				CompanyTransaction costTrans=new CompanyTransaction(generateNewID(), date, "Cost-of-Goods-Sold", "Inventory", cost, "Cost of Goods sold");
 				//here will have bug: if invalid costTrans -> revTrans will still be recorded
 				recordTransaction(revTrans);
 				recordTransaction(costTrans);

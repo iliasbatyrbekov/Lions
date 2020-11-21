@@ -48,6 +48,12 @@ public class Main {
 					System.out.println("Please enter the date to perform closing entry: ");
 					myCompany.generateClosingEntries(new SimpleDateFormat("dd/MM/yyyy").parse(in.next()));
 					break;
+				case "G":
+					myCompany.printBalanceSheet();
+					break;
+				case "H":
+					myCompany.printStorage();
+					break;
 				case "Z":
 					programFinished = true;
 					break;
