@@ -2,7 +2,6 @@ package main;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 
 
 public class User {
@@ -31,30 +30,31 @@ public class User {
 	}
 	
 	public void addAccount(String accountType,
-						String accID, double balance, 
-						double asset, double debt, 
+						String accID, double balance, double debt, 
 						double interest, String withdrawDate)
 						throws ExAccountTypeNotSupported
 	{
-		Account account = new Account(accID,balance,asset,debt);
 		switch (accountType) {
 		case"Cash":
-			account = new CashAccount(accID, balance);
+			CashAccount ca = new CashAccount(accID, balance);
+			this.accountList.add(ca);
 			break;
 		case"Saving":
-			account = new SavingAccount(accID, balance, interest, withdrawDate);
+			SavingAccount sa = new SavingAccount(accID, balance, interest, withdrawDate);
+			this.accountList.add(sa);
 			break;
 		case"Credit":
-			account = new CreditCardAccuont(accID, balance);
+			CreditCardAccuont cca = new CreditCardAccuont(accID, balance);
+			this.accountList.add(cca);
 			break;
 		case"Debit":
-			account = new DebitAccount(accID, balance);
+			DebitAccount da = new DebitAccount(accID, balance);
+			this.accountList.add(da);
 			break;
 		default:
 			System.out.printf("%s", "There is no ", accountType, " type.");
 			throw new ExAccountTypeNotSupported();
 		}
-		accountList.add(account);
 	}
 	
 	public void deleteAccount(String accId) throws ExAccountNotExist {
@@ -80,6 +80,7 @@ public class User {
 		timePeriodString.add(startDate);
 		timePeriodString.add(endDate);
 		Plan plan = new Plan(planName, timePeriodString);
+		this.planList.add(plan);
 	}
 	
 	public void deletePlan(String planId) throws ExPlainNotExist {
