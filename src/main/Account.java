@@ -28,7 +28,10 @@ public class Account {
 		this.debt = debt;
 	}
 	
-	
+	public int updateBalance(double updateToBalance) {
+		this.balance += updateToBalance;
+		return 1;
+	}
 	public double getAsset() {
 		return this.asset;
 	}
