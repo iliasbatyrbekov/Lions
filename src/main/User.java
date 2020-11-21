@@ -28,8 +28,30 @@ public class User {
 		return this.accountList; 
 	}
 	
-	public void addAccount(String accID, double balance, double asset, double debt) {
+	public void addAccount(String accountType,
+						String accID, double balance, 
+						double asset, double debt, 
+						double interest, Date withdrawDate)
+						throws ExAccountTypeNotSupported
+	{
 		Account account = new Account(accID,balance,asset,debt);
+		switch (accountType) {
+		case"Cash":
+			account = new CashAccount(accID, balance);
+			break;
+		case"Saving":
+			account = new SavingAccount(accID, balance, interest, withdrawDate);
+			break;
+		case"Credit":
+			account = new CreditCardAccuont(accID, balance);
+			break;
+		case"Debit":
+			account = new DebitAccount(accID, balance);
+			break;
+		default:
+			System.out.printf("%s", "There is no ", accountType, " type.");
+			throw new ExAccountTypeNotSupported();
+		}
 		accountList.add(account);
 	}
 	
