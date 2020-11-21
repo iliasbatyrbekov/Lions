@@ -3,19 +3,18 @@ package main;
 import java.util.Date;
 
 public class Income extends Transaction {
-	public Income(int transactionID, double amount, String accountID, String description, String date) {
-		super(transactionID, amount, accountID, description, date);
-	}
-
 	private String category;
 	private String member;
+	
+	public Income(int transactionID, double amount, String accountID, String description, String date, String category) {
+		super(transactionID, amount, accountID, description, date);
+		this.category = category;
+	}
+
+	
 
 	public String getCategory() {
 		return this.category;
-	}
-
-	public void setCategory(String category) {
-		this.category = category;
 	}
 	
 	public String getMember() {
