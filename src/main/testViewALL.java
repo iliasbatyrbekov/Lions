@@ -16,7 +16,7 @@ public class testViewALL {
 
 	//testcase when there are 3 accounts, showing the total balance of each acc
 	@Test
-	public void testViewAllAccountBalance(){
+	public void testViewAllAccountBalance_01(){
 		Account acc1 = new Account("shawn", 2500);
 		Account acc2 = new Account("luke", 2000);
 		Account acc3 = new Account("bryan", 1500);
@@ -34,7 +34,7 @@ public class testViewALL {
 
 	//testcase when there is no record found
 	@Test
-	public void test_2(){
+	public void testViewAllAccountBalance_02(){
 		Account acc1=new Account("", 0);
 		AL.add(acc1);
 		HashMap<String, Double> expected = new HashMap<>();
@@ -45,7 +45,7 @@ public class testViewALL {
 	}
 	
 	@Test
-	public void test_3() {
+	public void testViewExpensebyCategory() {
 		ArrayList<Transaction> TL = new ArrayList<>();
 		ArrayList<Account> AL = new ArrayList<>();
 		ArrayList<Plan> PL = new ArrayList<>();
@@ -75,7 +75,7 @@ public class testViewALL {
 	}
 	
 	@Test
-	public void test_4() {
+	public void testViewExpensebyMember() {
 		ArrayList<Transaction> TL = new ArrayList<>();
 		ArrayList<Account> AL = new ArrayList<>();
 		ArrayList<Plan> PL = new ArrayList<>();
@@ -111,7 +111,7 @@ public class testViewALL {
 	}
 	
 	@Test
-	public void test_5() {
+	public void testViewExpensebyAccount() {
 		Expense t = new Expense(0, 10000, "Cash", null, null);
 		Expense t1 = new Expense(0, 10000, "CreditCard", null, null);
 		Expense t2 = new Expense(0, 10000, "Cash", null, null);
