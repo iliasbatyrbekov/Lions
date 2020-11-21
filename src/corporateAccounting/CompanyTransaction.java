@@ -7,7 +7,7 @@ public class CompanyTransaction {
 
 	private String transactionID;
 	private Date date;
-	private String debittedAccount;
+	private String debittedAccount; //use as a key to get the actual Account through the HashMap in Company
 	private String credittedAccount;
 	private double amount;
 	private String description;
@@ -21,42 +21,28 @@ public class CompanyTransaction {
 		description=desc;
 	}
 	
+	
+		
 	public String getDebittedAccount() {
-		// TODO - implement Transaction.getDebittedAccount
-		throw new UnsupportedOperationException();
+		return debittedAccount;
 	}
-
-	/**
-	 * 
-	 * @param debittedAccount
-	 */
+	
 	public void setDebittedAccount(String debittedAccount) {
-		// TODO - implement Transaction.setDebittedAccount
-		throw new UnsupportedOperationException();
+		this.debittedAccount=debittedAccount;
 	}
 
 	public String getCredittedAccount() {
-		// TODO - implement Transaction.getCredittedAccount
-		throw new UnsupportedOperationException();
+		return credittedAccount;
 	}
 
-	/**
-	 * 
-	 * @param credittedAccount
-	 */
 	public void setCredittedAccount(String credittedAccount) {
-		// TODO - implement Transaction.setCredittedAccount
-		throw new UnsupportedOperationException();
+		this.credittedAccount=credittedAccount;
 	}
 
 	public Date getDate() {
 		return this.date;
 	}
 
-	/**
-	 * 
-	 * @param date
-	 */
 	public void setDate(Date date) {
 		this.date = date;
 	}
@@ -64,11 +50,15 @@ public class CompanyTransaction {
 	public String getTransactionID() {
 		return this.transactionID;
 	}
+	
+	public void setAmount(double amount) {
+		this.amount = amount;
+	}
 
-	/**
-	 * 
-	 * @param transactionID
-	 */
+	public double getAmount() {
+		return this.amount;
+	}
+
 	public void setTransactionID(String transactionID) {
 		this.transactionID = transactionID;
 	}
@@ -87,7 +77,7 @@ public class CompanyTransaction {
 		}
 		
 	    SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd");
-	    String datestr=ft.format(date).toString();
+	    String datestr = ft.format(date).toString();
 	    
 	    System.out.format(tableformat,
                 transactionID, datestr, debittedAccount, amount, "");

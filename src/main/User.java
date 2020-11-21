@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Date;
 
 public class User { 
+	//TODO : no need ID & PSWD
 	private String userID;
 	private String password;
 	private ArrayList<Transaction> transactionRecords; 
@@ -24,6 +25,11 @@ public class User {
 		// pretend having done a series of complex verification, e.g. One Time Password, email confirmation 
 		this.password = password; 
 	} 
+	
+	
+	//TODO ADD ACCOUNT
+	
+	
  
 	// *** userID and password as confidential data should not have getter and setter for public modification *** 
 	// public String getUserID() { 
