@@ -23,3 +23,8 @@
 /ExAccountNotExist.class
 /ExPlainNotExist.class
 /ExTransactionNotExist.class
+/testViewALL.class
+/CmdAddAccount.class
+/CmdAddPlan.class
+/CmdRecordTransaction.class
+/ExAccountTypeNotSupported.class
