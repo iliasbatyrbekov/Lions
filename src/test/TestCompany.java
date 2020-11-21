@@ -72,8 +72,23 @@ public class TestCompany {
 		CompanyTransaction transaction = new CompanyTransaction(company.generateNewID(), new Date(), "Deferred-Revenue", "Service-Revenue", 100, "Provide a month of service");
 		assertEquals(true, company.isValidTransaction(transaction));
 	}
-	/*@Test void testRecordTransaction1() {
+	@Test 
+	public void testRecordTransaction1() {
+		Company company = new Company();
+		CompanyTransaction transaction = new CompanyTransaction("0001", new Date(), "Cash", "Sales-Revenue", 5000, "Revenue from the sale of goods");
+		company.recordTransaction(transaction);
+		assertEquals("Transaction successfully added\n", outContent.toString());
+	}
+	@Test 
+	public void testRecordTransaction2() {
+		Company company = new Company();
+		CompanyTransaction transaction = new CompanyTransaction("0001", new Date(), "Cash Spelled Wrong", "Sales-Revenue", 5000, "Revenue from the sale of goods");
+		company.recordTransaction(transaction);
+		assertEquals("Error: Cash Spelled Wrong is not a valid account.\nError: Cannot record this Transaction\n", outContent.toString());
+	}
+	@Test
+	public void testGenerateClosingEntries() {
 		Company company = new Company();
 		
-	}*/
+	}
 }

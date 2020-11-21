@@ -32,10 +32,10 @@ public class Company {
 		CompanyAccount accountToCredit = accountList.get(trans.getCredittedAccount());
 		
 		if (accountToCredit == null) {
-			System.out.println("Error: " + trans.getCredittedAccount() + " is not a valid account.");
+			System.out.print("Error: " + trans.getCredittedAccount() + " is not a valid account.\n");
 			return false;
 		} else if (accountToDebit == null) {
-			System.out.println("Error: " + trans.getDebittedAccount() + " is not a valid account.");
+			System.out.print("Error: " + trans.getDebittedAccount() + " is not a valid account.\n");
 			return false;
 		}
 		
