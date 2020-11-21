@@ -7,25 +7,22 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+@SuppressWarnings("unused")
 public class SavingPlan extends Plan {
 	private double goalAmount;
 	private double currentAmount;
-	private double loanAmount;
-	private double interestRate;
-	private double monthlyAmount;
-	private ArrayList<Double> log; // [month: loanAmount]
-	private String debtOwner;
+	private double savingAmount;
+	private ArrayList<Transaction> transHist; // [month: savingAmount]
+	private String purposeOfPlan;
 
-	public SavingPlan(String planName, ArrayList<String> timePeriod, double loanAmount, double interestRate, String debtOwner) {
+	public SavingPlan(String planName, ArrayList<String> timePeriod, double savingAmount, String purposeOfPlan) {
 		super(planName, timePeriod);
-		this.loanAmount = loanAmount;
-		this.interestRate = interestRate;
-		this.monthlyAmount = this.calculateMonthlyAmount();
-		this.log = new ArrayList<Double>();// (Collections.nCopies(this.getTimePeriodLength("month"),
+		this.savingAmount = savingAmount;
+		this.transHist = new ArrayList<Transaction>();// (Collections.nCopies(this.getTimePeriodLength("month"),
 											// this.calculateMonthlyAmount()))
-		for (int i = 0; i < this.getTimePeriodLength("month"); ++i)
-			this.log.add(monthlyAmount);
-		this.debtOwner = debtOwner;
+//		for (int i = 0; i < this.getTimePeriodLength("month"); ++i)
+//			this.transHist.add(monthlyAmount);
+		this.purposeOfPlan = purposeOfPlan;
 	}
 
 	public double getGoalAmount() {
@@ -41,38 +38,38 @@ public class SavingPlan extends Plan {
 	}
 	
 	//calculate average saving from past time period
-	public Map predict_average_saving(ArrayList<Date> timePeriod) {
-		Map<Date, Double> average_saving_period = new HashMap<>();
-		Double average_saving = 0.0, total_saving = 0.0, count = 1.0;
-		ArrayList<Transaction> transaction_history = new ArrayList<>();
+	@SuppressWarnings("rawtypes")
+	public Map predict_average_saving(ArrayList<String> arrayList) {
+		User user = new User();
 		
-		for(Transaction trans_hist : transaction_history) {
+		Map<ArrayList<String>, Double> average_saving_period = new HashMap<>();
+		Double average_saving = 0.0, total_saving = 0.0, count = 1.0;
+		
+		for(Transaction trans_hist : user.getTransactionList("2020-11-11", "2020-11-15")) {
 			total_saving += trans_hist.getAmount();
 			count++;
 		}
 
 		average_saving = total_saving / count;
-		average_saving_period.put(timePeriod, average_saving);
+		average_saving_period.put(arrayList, average_saving);
 		return average_saving_period;
 	}
-
-	public double calculateMonthlyAmount() {
-		double monthRate = this.interestRate/12;
-		double noOfMonths = Math.ceil(super.getTimePeriodLength("month"));
-		double factor = monthRate*Math.pow(1+monthRate, noOfMonths) / (Math.pow(1+monthRate, noOfMonths)-1);
-		return this.loanAmount*factor;
+	
+	public void updatePlan(Transaction newSaving) {
+		double updatedAmount = this.currentAmount + newSaving.getAmount();
+		transHist.add(updatedAmount);
 	}
 
 	public void getPlan() {//for display
-		double currentLoanAmount = 0;
-		for (double loanAmount : this.log)
-			currentLoanAmount += loanAmount;
+		double currentsavingAmount = 0;
+		for (Transaction savingAmount : this.transHist)
+			currentsavingAmount += savingAmount.getAmount();
 
-		Map<String, Double> hist = new HashMap<String, Double>();
+		Map<String, Transaction> hist = new HashMap<String, Transaction>();
 		int noOfMonths = (int) super.getTimePeriodLength("month");
 		LocalDate date = LocalDate.parse(super.getTimePeriod().get(0));
 		for (int i=0; i<noOfMonths; ++i) {
-			hist.put(date.format(DateTimeFormatter.ofPattern("MMM yyyy")), log.get(i));
+			hist.put(date.format(DateTimeFormatter.ofPattern("MMM yyyy")), (transHist.get(i)));
 			date = date.plusMonths(1);
 		}
 
@@ -81,8 +78,8 @@ public class SavingPlan extends Plan {
 		if (currentMonth<1)
 			summary = "Not enough data to generate summary. Please check again after a while...";
 		else {
-			double avgRepaid = Math.floor((this.loanAmount - currentLoanAmount) / currentMonth);
-			int moreMonths = (int) Math.ceil(currentLoanAmount / avgRepaid);
+			double avgRepaid = Math.floor((this.savingAmount - currentsavingAmount) / currentMonth);
+			int moreMonths = (int) Math.ceil(currentsavingAmount / avgRepaid);
 			LocalDate endDate = LocalDate.parse(super.getTimePeriod().get(1));
 			String endDateString = endDate.format(DateTimeFormatter.ofPattern("MMMM yyyy"));
 			boolean likely = (noOfMonths < currentMonth+moreMonths) ? false : true;
@@ -95,7 +92,7 @@ public class SavingPlan extends Plan {
 
 			if (!likely) {
 				// likelihoodString = "not likely";
-				adjustAmount = Math.ceil(currentLoanAmount / (noOfMonths - currentMonth));
+				adjustAmount = Math.ceil(currentsavingAmount / (noOfMonths - currentMonth));
 				advice = String.format("You are not likely to accomplish this loan plan by %s as expected. "
 									+ "save $%f monthly from now on!", endDateString, adjustAmount);
 			}
@@ -107,8 +104,8 @@ public class SavingPlan extends Plan {
 		}
 
 		Map<String, Object> plan = new HashMap<String, Object>();
-		plan.put("total", this.loanAmount);
-		plan.put("current", currentLoanAmount);
+		plan.put("total", this.savingAmount);
+		plan.put("current", currentsavingAmount);
 		plan.put("history", hist);
 		plan.put("summary", summary);
 	}
