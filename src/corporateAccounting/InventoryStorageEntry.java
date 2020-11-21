@@ -7,37 +7,28 @@ public class InventoryStorageEntry {
 	private int units;
 	
 	public InventoryStorageEntry(String transID, double unitCost, int units) {
-		this.setTransID(transID);
-		this.setUnitCost(unitCost);
-		this.setUnits(units);
+		this.transID = transID;
+		this.unitCost = unitCost;
+		this.units = units;
 	}
 	
 	public void decreaseUnits(int n) {
-		units -= n;
+		if (n <= units)
+			units -= n;
+		else 
+			System.out.print("The amount to decrease is larger than what is left. Action denied.\n");
 	}
 
 	public String getTransID() {
 		return transID;
 	}
 
-	public void setTransID(String transID) {
-		this.transID = transID;
-	}
-
 	public int getUnits() {
 		return units;
 	}
 
-	public void setUnits(int units) {
-		this.units = units;
-	}
-
 	public double getUnitCost() {
 		return unitCost;
-	}
-
-	public void setUnitCost(double unitCost) {
-		this.unitCost = unitCost;
 	}
 	
 }
