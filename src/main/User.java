@@ -49,8 +49,11 @@ public class User {
 	
 	
 	//Plan
-	public void addPlan() {
-		
+	public void addPlan(String planName, String startDate, String endDate) {
+		ArrayList<String> timePeriodString = new ArrayList<>();
+		timePeriodString.add(startDate);
+		timePeriodString.add(endDate);
+		Plan plan = new Plan(planName, timePeriodString);
 	}
 	
 	public void deletePlan(String planId) throws ExPlainNotExist {
