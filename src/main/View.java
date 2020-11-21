@@ -22,6 +22,7 @@ public class View {
 		return account_balance;			
 	}
 
+	//TODO: Bryan
 	public void viewExpensebyAccount() {
 		HashMap<String, Double> acc_exp = new HashMap<String, Double>();
 		
@@ -33,7 +34,7 @@ public class View {
 		//BAD CODE SMELL: maybe consider recording transactions history in Accounts too
 		for (Transaction tra: tranHist) {
 			if(tra instanceof Expense) {
-				String targetaccID=tra.getAccount();
+				String targetaccID=tra.getAccountId();
 				double amount =tra.getAmount();
 				acc_exp.put(targetaccID, acc_exp.get(targetaccID)+amount);
 			}
