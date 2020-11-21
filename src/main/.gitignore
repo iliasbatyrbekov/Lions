@@ -16,3 +16,7 @@
 /testViewAllAccountBalance.class
 /testViewExpensebyCategory.class
 /testViewExpensebyMember.class
+/BudgetPlan.class
+/LoanPlan.class
+/SavingPlan.class
+/tesPredictAverageSaving.class

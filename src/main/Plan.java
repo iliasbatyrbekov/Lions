@@ -19,7 +19,7 @@ public class Plan {
 	public Plan(String planName, ArrayList<String> timePeriodString) {
 		this.planName = planName;
 		this.planID = Integer.toString(idGenSeed++);
-		this.tranRecord = new ArrayList<>();
+		this.tranRecord = 
 		this.formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd"); // to also take in time, use "yyyy-MM-dd'T'HH:mm:ss"
 		this.timePeriod = new ArrayList<>();
 		this.setTimePeriod(timePeriodString);
