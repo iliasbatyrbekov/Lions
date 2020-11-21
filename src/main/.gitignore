@@ -23,3 +23,9 @@
 /ExAccountNotExist.class
 /ExPlainNotExist.class
 /ExTransactionNotExist.class
+/CmdAddAccount.class
+/CmdAddPlan.class
+/CmdRecordTransaction.class
+/ExAccountTypeNotSupported.class
+/testGettAverageSaving.class
+/testGetAverageSaving.class
