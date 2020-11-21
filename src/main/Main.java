@@ -24,7 +24,7 @@ public class Main {
 			else if (cmdParts[0].equals("AddPlan"))
 				(new CmdAddPlan()).execute(cmdParts);
 			else if (cmdParts[0].equals("ListAllPlan"))
-				u.listAllPLan();
+				u.listAllPlan();
 			else if (cmdParts[0].equals("AddAccount"))
 				(new CmdAddAccount()).execute(cmdParts);
 				

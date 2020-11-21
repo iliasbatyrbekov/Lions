@@ -119,9 +119,9 @@ public class SavingPlan extends Plan {
 		}
 
 		Map<String, Object> plan = new HashMap<String, Object>();
-		plan.put("total", this.goalAmount);
-		plan.put("current", currentsavingAmount);
-		plan.put("history", hist);
+//		plan.put("total", this.goalAmount);
+//		plan.put("current", currentsavingAmount);
+//		plan.put("history", hist);
 		plan.put("summary", summary);
 		
 //		return plan;
