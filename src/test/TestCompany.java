@@ -89,6 +89,14 @@ public class TestCompany {
 	@Test
 	public void testGenerateClosingEntries() {
 		Company company = new Company();
-		
+		CompanyTransaction revenueTransaction = new CompanyTransaction(company.generateNewID(), new Date(), "Cash", "Service-Revenue", 5000, "Revenue from service provided");
+		CompanyTransaction expenseTransaction = new CompanyTransaction(company.generateNewID(), new Date(), "Advertising-Expense", "Cash", 1200, "Advertising");
+		CompanyTransaction dividendTransaction = new CompanyTransaction(company.generateNewID(), new Date(), "Dividends-Cash", "Cash", 800, "Pay dividends to stock holders");
+		CompanyTransaction cntrRvnTransaction = new CompanyTransaction(company.generateNewID(), new Date(), "Sales-Returns", "Cash", 500, "Customer returns defected goods");
+		company.recordTransaction(revenueTransaction);
+		company.recordTransaction(expenseTransaction);
+		company.recordTransaction(dividendTransaction);
+		company.recordTransaction(cntrRvnTransaction);
+		assertEquals(5000-1200-800-500, company.generateClosingEntries(new Date()));
 	}
 }

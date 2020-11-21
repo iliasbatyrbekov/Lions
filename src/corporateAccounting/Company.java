@@ -22,9 +22,6 @@ public class Company {
 	public HashMap<String, CompanyAccount> getAccountList() {
 		return accountList;
 	}
-	public void setAccountList(HashMap<String, CompanyAccount> accountList) {
-		this.accountList = accountList;
-	}
 	
 	public boolean isValidTransaction(CompanyTransaction trans) {
 		
@@ -171,7 +168,7 @@ public class Company {
 				recordTransaction(closingTransaction);
 			}
 		}
-		for (String divAccName: CompanyAccount.dividendExpenseAccountNames) {
+		for (String divAccName: CompanyAccount.dividendAccountNames) {
 			double amount = accountList.get(divAccName).getBalance();
 			if (amount != 0) {
 				CompanyTransaction closingTransaction = new CompanyTransaction(generateNewID(), closingDate, retEarnAccName, divAccName, amount, "Closing entry");

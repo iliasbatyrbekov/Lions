@@ -26,7 +26,7 @@ public class CompanyAccount {
 	
 	public static final String[] contraRevenueAccountNames = { "Sales-Discounts", "Sales-Returns", "Sales-Allowances" };
 	
-	public static final String[] dividendExpenseAccountNames = { "Dividends-Cash", "Stock-Dividends" };
+	public static final String[] dividendAccountNames = { "Dividends-Cash", "Stock-Dividends" };
 	
 	public static String[] getDebitAssetAccountNames() {
 		return assetAccountNames;
@@ -59,10 +59,10 @@ public class CompanyAccount {
 			allAccounts.put(accName, new CompanyAccount(accName, CompanyAccountCategory.EXPENSE, CompanyAccountType.DEBIT_ACCOUNT));
 		}
 		for (String accName: contraRevenueAccountNames ) {
-			allAccounts.put(accName, new CompanyAccount(accName, CompanyAccountCategory.EXPENSE, CompanyAccountType.CREDIT_ACCOUNT));
+			allAccounts.put(accName, new CompanyAccount(accName, CompanyAccountCategory.EXPENSE, CompanyAccountType.DEBIT_ACCOUNT));
 		}
-		for (String accName: dividendExpenseAccountNames ) {
-			allAccounts.put(accName, new CompanyAccount(accName, CompanyAccountCategory.DIVIDEND, CompanyAccountType.CREDIT_ACCOUNT));
+		for (String accName: dividendAccountNames ) {
+			allAccounts.put(accName, new CompanyAccount(accName, CompanyAccountCategory.DIVIDEND, CompanyAccountType.DEBIT_ACCOUNT));
 		}
 		
 		return allAccounts;
