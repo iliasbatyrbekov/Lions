@@ -20,32 +20,36 @@ public class User {
 		this.transactionRecords = new ArrayList<>();
 		this.accountList = new ArrayList<>();
 		this.planList = new ArrayList<>();
-	} 
- 
-	public void changePassword(String password) { 
-		// pretend having done a series of complex verification, e.g. One Time Password, email confirmation 
-		this.password = password; 
-	} 
+	}
 	
 	
 	//TODO ADD ACCOUNT: Ilias
 	
-	//TODO Add Plan: Bryan
- 
-	// *** userID and password as confidential data should not have getter and setter for public modification *** 
-	// public String getUserID() { 
-	// 	return userID; 
-	// } 
-	//Hwllooooooo
-	// public void setUserID(String userID) { 
-	// 	this.userID = userID; 
-	// } 
-	// public String getPassword() { 
-	// 	return password; 
-	// } 
-	// public void setPassword(String password) { 
-	// 	this.password = password; 
-	// }
+	//Plan
+	public void addPlan() {
+		
+	}
+	
+	public void deletePlan() {
+		
+	}
+	
+	public void editPlan() {
+		
+	}
+	
+	public ArrayList<Plan> getPlanList(){
+		return this.planList;
+	}
+	
+	public Plan searchPlan(String id) {
+		for (Plan p : this.planList) {
+			if(p.getPlanID().equals(id)) {
+				return p;
+			}
+		}
+		return null;
+	}
 	
 	
 	// TransactionList
@@ -55,8 +59,8 @@ public class User {
 		return Transaction.searchTransaction(transactionRecords, transactionId);
 	}
 	
-	//TODO: Ryan
-	public void addTransaction(String transType, Double amount, String accountId, String description, Date date) {
+	public void addTransaction(String transType, Double amount, String accountId, int plainId, String description, Date date) {
+		
 		
 		int transactionId = this.transactionRecords.get(this.transactionRecords.size()-1).getTransactionID();
 		
@@ -79,7 +83,8 @@ public class User {
 		Collections.sort(this.transactionRecords);
 	}
  
-	public ArrayList<Transaction> getTransactionList(String fomTime, String endTime) {
+	public ArrayList<Transaction> getTransactionList(String fromTime, String endTime) {
+		//TODO: filter from date and to date
 		return this.transactionRecords;
 	}
 	
@@ -96,8 +101,6 @@ public class User {
 			this.transactionRecords.remove(trans);
 		}
 	}
-	
-	//TODO: Ryan: getTransactionRecords
 	
  
 	public ArrayList<Account> getAccountList() { 
