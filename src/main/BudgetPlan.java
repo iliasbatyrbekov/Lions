@@ -40,21 +40,19 @@ public class BudgetPlan extends Plan {
 		}
 		return averageDailyExpense;
 	}
+	//puts -1 if analysis is not possible, 0 if expense is more than budget, >0 if ok.
 	public Map<String, Integer>  predictRemaining(Map<String, Double> averageDailyExpense) {
 		Map<String, Integer> remDaysByCategoryMap = new HashMap<String, Integer>();
-		ArrayList<Integer> remainingDays = new ArrayList<>();
 		for (Map.Entry<String, Double> entry : this.actualExpense.entrySet()){
 			String currKey = entry.getKey();
-//			TODO find bug with averageDailyExpense being zero divide by zero
-//			double avgDailyExp = averageDailyExpense.get(currKey);
-//			if (avgDailyExp<=0) {
-//				
-//			}
-			int remainingDaysNum = (int) ((this.goalAmount.get(currKey) - this.actualExpense.get(currKey))/ averageDailyExpense.get(currKey));
-			if (remainingDaysNum<0) {
-				remainingDaysNum = 0;
+			double avgDailyExp = averageDailyExpense.get(currKey);
+			int remainingDaysNum = -1;
+			if (avgDailyExp > 0){
+				remainingDaysNum = (int) ((this.goalAmount.get(currKey) - this.actualExpense.get(currKey))/ avgDailyExp);
+				if (remainingDaysNum<1) {
+					remainingDaysNum = 0;
+				}
 			}
-			remainingDays.add(remainingDaysNum);
 			remDaysByCategoryMap.put(currKey, remainingDaysNum);
 		}
 		
@@ -65,16 +63,6 @@ public class BudgetPlan extends Plan {
 		return (int) temp;
 	}
 	
-	
-	private int findMin(ArrayList<Integer> remainingDays ) {
-		int min = remainingDays.get(0);
-		for (int i : remainingDays) {
-			if(min<i) {
-				min = i;
-			}
-		}
-		return min;
-	}
 	
 	private Map<String, Double> getActualExp() {
 	Map<String, Double> resultMap = new HashMap<String, Double>();
@@ -95,14 +83,11 @@ public class BudgetPlan extends Plan {
 	{
 		this.actualExpense = getActualExp();
 		
-
 		String displayedString = "";
 		/*
 		 * current expense$
 		 * how much was planned?$
 		 * how many days you can survive without overbudget
-		 * 
-		 * 
 		 */
 
 		//planned expense
@@ -119,19 +104,31 @@ public class BudgetPlan extends Plan {
 		}
 		//how many days left before going over budget
 		int numDaysSinceStart = this.getNumDaysPassed();
-		if(numDaysSinceStart > 5) {
+		if(numDaysSinceStart > 1) {
 			displayedString += "Days left (on average) before exceeding the budget\n";
 			Map<String, Double> averageDailyExpense = this.getAverageDailyExpense(this.getNumDaysPassed());
 			Map<String, Integer> remDaysByCategoryMap = this.predictRemaining(averageDailyExpense);
 			for (Entry<String, Integer> i : remDaysByCategoryMap.entrySet()) {
-				displayedString += String.format("%s: \t %d \n", i.getKey(), i.getValue());
+				String remDaysResponseString = "";
+				//-1 analysis not possible, 0 overbudget, >0 ok
+				switch (i.getValue()) {
+				case -1:
+					remDaysResponseString = "Analysis not possible (not enough data)";
+					break;
+				case 0:
+					remDaysResponseString = "Overbudget";
+				default:
+					remDaysResponseString = Integer.toString(i.getValue());
+					break;
+				}
+				
+				displayedString += String.format("%s: \t %s \n", i.getKey(), remDaysResponseString);
 			}
 		}
 		else {
 			displayedString += "Not enough data for a prediction \n";
 		}
 		
-		System.out.print(displayedString);
 		return displayedString;
 	}
 }

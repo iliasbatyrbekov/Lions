@@ -79,20 +79,20 @@ public class Plan {
 	public String getPlan() {return "getPlan() works";};
 
 	public static void listAll(ArrayList<Plan> planList) {
-		System.out.printf("%-30s %1.7f %-20s %-30s %-20s:", "Transaction ID", "Amount", "Account ID", "Description", "Create Date");
+//		System.out.printf("%-30s %1.7f %-20s %-30s %-20s:", "Transaction ID", "Amount", "Account ID", "Description", "Create Date");
 		for(Plan plan : planList) {
 //			Map<String, Object> detail = plan.getPlan();
 			plan.getPlan();
 //			Map<String, Double> tranHist = (Map<String, Double>) detail.get("hist");
 
-			System.out.printf("%-10s %-20s %-20s %-20s %1.7f %1.7f",
+			System.out.printf("%-10s %-20s %-20s %-20s\n",
 				"Plan ID", "Plan Name", "Start Date", "End Date");
-			System.out.printf("%-10s %-20s %-20s %-20s:",
+			System.out.printf("%-10s %-20s %-20s %-20s \n",
 				plan.planID, plan.planName, plan.timePeriod.get(0), plan.timePeriod.get(1));
-			System.out.print(plan.getPlan());
-			// for (Map<String, Double> record : tranHist) {
-			// 	System.out.printf("%-20s %-20s:");
-			// }
+			
+//			 for (Map<String, Double> record : tranHist) {
+//			 	System.out.printf("%-20s %-20s:");
+//			 }
 //			System.out.print(detail.get("summary"));
 		}
 

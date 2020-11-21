@@ -23,27 +23,30 @@ public class View {
 	}
 
 	//TODO: Bryan
-	public void viewExpensebyAccount() {
+	public ArrayList<String> viewExpensebyAccount() {
 		HashMap<String, Double> acc_exp = new HashMap<String, Double>();
 		
-		//get all accIDs
-		for (Account acc : accList) {
-			acc_exp.put(acc.getaccID(), (double) 0);
-		}
+		
 		
 		//BAD CODE SMELL: maybe consider recording transactions history in Accounts too
 		for (Transaction tra: tranHist) {
 			if(tra instanceof Expense) {
 				String targetaccID=tra.getAccountId();
-				double amount =tra.getAmount();
-				acc_exp.put(targetaccID, acc_exp.get(targetaccID)+amount);
+				if (acc_exp.containsKey(targetaccID)) {
+					acc_exp.put(targetaccID, acc_exp.get(targetaccID)+tra.getAmount());
+				} else {
+					acc_exp.put(targetaccID, tra.getAmount());
+				}
 			}
 		}
-		
+		ArrayList<String> result = new ArrayList<>();
+
 		//print
 		for (String acc:acc_exp.keySet()) {
 			System.out.println(acc+" : "+acc_exp.get(acc));
+ 			result.add(acc + ": "+acc_exp.get(acc));
 		}
+		return result;
 	}
 	
 	public ArrayList<String> viewExpensebyCategory() {

@@ -27,9 +27,9 @@ public class Transaction implements Comparable<Transaction>{
 	public String getAccountId() { return this.accountID; }
 
 	public static void listAll(ArrayList<Transaction> transactionRecords) {
-		System.out.printf("%-30s %1.7f %-20s %-30s %-20s:", "Transaction ID", "Amount", "Account ID", "Description", "Create Date");
+		System.out.printf("%-15s %-20s %-20s %-30s %-20s\n", "Transaction ID", "Amount", "Account ID", "Description", "Create Date");
 		for(Transaction trans : transactionRecords) {
-			System.out.printf("%-30s %1.7f %-20s %-30s %-20s:",
+			System.out.printf("%-15s %-20f %-20s %-30s %-20s\n",
 					trans.transactionID, trans.amount, trans.accountID, trans.description, trans.getDate());
 		}
 	}

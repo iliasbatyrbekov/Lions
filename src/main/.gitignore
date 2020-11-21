@@ -23,9 +23,16 @@
 /ExAccountNotExist.class
 /ExPlainNotExist.class
 /ExTransactionNotExist.class
+<<<<<<< HEAD
+=======
+/testViewALL.class
+>>>>>>> develop
 /CmdAddAccount.class
 /CmdAddPlan.class
 /CmdRecordTransaction.class
 /ExAccountTypeNotSupported.class
+<<<<<<< HEAD
 /testGettAverageSaving.class
 /testGetAverageSaving.class
+=======
+>>>>>>> develop
