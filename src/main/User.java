@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 
+//TODO: Make User Singleton????
+
 public class User { 
 	//TODO : no need ID & PSWD
 	private String userID;
@@ -27,9 +29,9 @@ public class User {
 	} 
 	
 	
-	//TODO ADD ACCOUNT
+	//TODO ADD ACCOUNT: Ilias
 	
-	
+	//TODO Add Plan: Bryan
  
 	// *** userID and password as confidential data should not have getter and setter for public modification *** 
 	// public String getUserID() { 
@@ -54,6 +56,7 @@ public class User {
 		return Transaction.searchTransaction(transactionRecords, transactionId);
 	}
 	
+	//TODO: Ryan
 	public void addTransaction(String transType, Double amount, String accountId, String description, Date date) {
 		
 		int transactionId = this.transactionRecords.get(this.transactionRecords.size()-1).getTransactionID();
@@ -91,6 +94,7 @@ public class User {
 		}
 	}
 	
+	//TODO: Ryan: getTransactionRecords
 	
  
 	public ArrayList<Account> getAccountList() { 
