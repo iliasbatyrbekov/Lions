@@ -6,18 +6,17 @@ import java.util.Date;
 
 //TODO: Make User Singleton????
 
-public class User { 
-	//TODO : no need ID & PSWD
-	private String userID;
-	private String password;
+public class User {
+	
 	private ArrayList<Transaction> transactionRecords; 
 	private ArrayList<Account> accountList; 
 	private ArrayList<Plan> planList;
 	private View view;
 	
-	public User(String userID, String password) { 
-		this.userID = userID; 
-		this.password = password;
+	private static User instance = new User();
+	public static User getInstance() { return instance; }
+	
+	public User() {
 		this.transactionRecords = new ArrayList<>();
 		this.accountList = new ArrayList<>();
 		this.planList = new ArrayList<>();
@@ -80,6 +79,10 @@ public class User {
 		Collections.sort(this.transactionRecords);
 	}
  
+	public ArrayList<Transaction> getTransactionList(String fomTime, String endTime) {
+		return this.transactionRecords;
+	}
+	
 	public void editTransaction(int transactionId) { 
 		Transaction trans = this.findTransactionRecord(transactionId);
 		if(trans != null) {
