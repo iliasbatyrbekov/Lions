@@ -83,9 +83,9 @@ public class Plan {
 //			Map<String, Double> tranHist = (Map<String, Double>) detail.get("hist");
 
 			System.out.printf("%-10s %-20s %-20s %-20s %1.7f %1.7f",
-				"Plan ID", "Plan Name", "Start Date", "End Date", "Goal Amount", "Current Amount");
+				"Plan ID", "Plan Name", "Start Date", "End Date");
 			System.out.printf("%-10s %-20s %-20s %-20s:",
-				plan.planID, plan.planName, plan.timePeriod.get(0), plan.timePeriod.get(1), detail.get("total"), detail.get("current"));
+				plan.planID, plan.planName, plan.timePeriod.get(0), plan.timePeriod.get(1));
 			System.out.print(plan.getPlan());
 			// for (Map<String, Double> record : tranHist) {
 			// 	System.out.printf("%-20s %-20s:");
