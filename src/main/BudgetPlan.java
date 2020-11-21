@@ -3,6 +3,7 @@ package main;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 public class BudgetPlan extends Plan {
 
@@ -40,6 +41,7 @@ public class BudgetPlan extends Plan {
 		return averageDailyExpense;
 	}
 	public int predictRemaining(Map<String, Double> averageDailyExpense) {
+		
 		ArrayList<Integer> remainingDays = new ArrayList<>();
 		for (Map.Entry<String, Double> entry : this.actualExpense.entrySet()){
 			String currKey = entry.getKey();
@@ -85,13 +87,32 @@ public class BudgetPlan extends Plan {
 	
 	public void getPlan()
 	{
+		this.actualExpense = getActualExp();
+		
+
+		String displayedString = "";
 		/*
 		 * current expense$
 		 * how much was planned?$ 
 		 * how much left?$
-		 * how many days left?
 		 * 
 		 * 
 		 */
+
+		//planned expense
+		displayedString += "Planned Budget \n";
+		displayedString += "Category \t Money Spent \n";
+		for (Entry<String, Double> i : this.goalAmount.entrySet()) {
+			displayedString += String.format("%s: \t %d \n", i.getKey(), i.getValue());
+		}
+		//current expenses
+		displayedString += "Current Expenses \n";
+		displayedString += "Category \t Money Spent \n";
+		for (Entry<String, Double> i : this.actualExpense.entrySet()) {
+			displayedString += String.format("%s: \t %d \n", i.getKey(), i.getValue());
+		}
+		//how many days 
+		
+		System.out.print(displayedString);
 	}
 }
