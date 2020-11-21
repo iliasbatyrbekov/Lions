@@ -89,13 +89,5 @@ public class CompanyTransaction {
 	    System.out.print(separationLine);
 
 	}
-	
-	//for simple testing
-	public static void main(String args[]) {
-		Date tday=new Date();
-		CompanyTransaction testTrans=new CompanyTransaction("id12334", tday, "Cash", "AccountsPayable",1000.0, "Borrow from bank");
-		testTrans.printTransaction(true);
-		testTrans.printTransaction(false);
-	}
 
 }
