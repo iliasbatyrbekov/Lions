@@ -28,8 +28,9 @@ public class User {
 		return this.accountList; 
 	}
 	
-	public void addAccount() {
-		
+	public void addAccount(String accID, double balance, double asset, double debt) {
+		Account account = new Account(accID,balance,asset,debt);
+		accountList.add(account);
 	}
 	
 	public void deleteAccount(String accId) throws ExAccountNotExist {

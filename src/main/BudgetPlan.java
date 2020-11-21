@@ -1,7 +1,6 @@
 package main;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,18 +8,15 @@ public class BudgetPlan extends Plan {
 
 	private Map<String, Double> actualExpense;
 	private Map<String, Double> goalAmount;
-	private ArrayList<String> members;
 	
 	public BudgetPlan(String planName, 
 			ArrayList<String> timePeriod, 
 			Map<String, Double> actualExpense, 
-			Map<String, Double> goalAmount, 
-			ArrayList<String> members){
+			Map<String, Double> goalAmount){
 		
 		super(planName, timePeriod);
-		this.actualExpense = actualExpense;
+		this.actualExpense = this.getActualExp();
 		this.goalAmount = goalAmount;
-		this.members = members;
 	}
 	
 	public Map<String, Double> getGoalAmount() {
@@ -48,16 +44,20 @@ public class BudgetPlan extends Plan {
 		for (Map.Entry<String, Double> entry : this.actualExpense.entrySet()){
 			String currKey = entry.getKey();
 			int remainingDaysNum = (int) ((this.goalAmount.get(currKey) - this.actualExpense.get(currKey))/ averageDailyExpense.get(currKey));
-			//TODO pretend that we found a bug that makes remaining days negative :D
+			if (remainingDaysNum<0) {
+				remainingDaysNum = -1;
+			}
 			remainingDays.add(remainingDaysNum);
 		}
 		
 		return this.findMin(remainingDays);
 	}
 	private int getNumDaysPassed() {
-		long diff = this.getTimePeriod().get(0).getTime() - this.getTimePeriod().get(1).getTime();
-		return (int) (diff / 1000 / 60 / 60 / 24);
+		long temp  = super.getTimePeriodLength("days");
+		return (int) temp;
 	}
+	
+	
 	private int findMin(ArrayList<Integer> remainingDays ) {
 		int min = remainingDays.get(0);
 		for (int i : remainingDays) {
@@ -66,5 +66,32 @@ public class BudgetPlan extends Plan {
 			}
 		}
 		return min;
+	}
+	
+	private Map<String, Double> getActualExp() {
+	Map<String, Double> resultMap = new HashMap<String, Double>();
+		//get all trans
+		ArrayList<String> period = super.getTimePeriod();
+		ArrayList<Transaction> allTrans = User.getInstance().getTransactionList(
+				period.get(0), 
+				period.get(1));
+		
+		allTrans.stream()
+			.filter(t -> t instanceof Expense)
+			.forEach(t -> resultMap.put(
+					((Expense)t).getCategory(), t.getAmount()));
+		return resultMap;
+	}
+	
+	public void getPlan()
+	{
+		/*
+		 * current expense$
+		 * how much was planned?$ 
+		 * how much left?$
+		 * how many days left?
+		 * 
+		 * 
+		 */
 	}
 }
