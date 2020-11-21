@@ -7,9 +7,10 @@ public class CmdRecordTransaction {
 		double amount = Double.parseDouble(cmdParts[2]);
 		
 		try {
-			u.addTransaction(cmdParts[1], amount, cmdParts[3], cmdParts[4], cmdParts[5], cmdParts[6]);
+			u.addTransaction(cmdParts[1], amount, cmdParts[3], cmdParts[4], cmdParts[5], cmdParts[6], cmdParts[7]);
 		}
 		catch (ExPlainNotExist e) { e.printStackTrace(); }
 		catch (ExAccountNotExist e) { e.printStackTrace(); }
+		catch (ExUpdateBalanceErr e) { e.printStackTrace(); }
 	}
 }
