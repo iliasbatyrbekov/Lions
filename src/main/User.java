@@ -24,6 +24,10 @@ public class User {
 	
 	
 	//Account
+	public ArrayList<Account> getAccountList() { 
+		return this.accountList; 
+	}
+	
 	public void addAccount() {
 		
 	}
@@ -114,11 +118,4 @@ public class User {
 		else throw new ExTransactionNotExist();
 	}
 	
- 
-	public ArrayList<Account> getAccountList() { 
-		return this.accountList; 
-	} 
-	public void setAccountList(ArrayList<Account> accountList) { 
-		this.accountList = accountList; 
-	}
 }
