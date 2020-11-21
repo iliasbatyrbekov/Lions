@@ -20,8 +20,6 @@ public class CompanyTransaction {
 		amount=amt;
 		description=desc;
 	}
-	
-	
 		
 	public String getDebittedAccount() {
 		return debittedAccount;
@@ -63,32 +61,32 @@ public class CompanyTransaction {
 		this.transactionID = transactionID;
 	}
 
-	public void printTransaction(Boolean printtablehead) {
+	public void printTransaction(Boolean printTablehead) {
 		//print the journal entry for this transaction
 		
-		String tableformat="%-10s | %-15s | %-30s | %10s | %10s";
-		String separationline="----------------------------------------------------------------------------------------";
+		String tableFormat = "%-10s | %-15s | %-30s | %10s | %10s";
+		String separationLine = "----------------------------------------------------------------------------------------\n";
 		
-		if(printtablehead) {
-			System.out.println(separationline);
-		    System.out.printf(tableformat, "ID", "DATE", "ACCOUNT NAME & DESCRIPTION", "DEBIT", "CREDIT");
-		    System.out.println();
-		    System.out.println(separationline);
+		if(printTablehead) {
+			System.out.print(separationLine);
+		    System.out.printf(tableFormat, "ID", "DATE", "ACCOUNT NAME & DESCRIPTION", "DEBIT", "CREDIT");
+		    System.out.print("\n");
+		    System.out.print(separationLine);
 		}
 		
 	    SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd");
 	    String datestr = ft.format(date).toString();
 	    
-	    System.out.format(tableformat,
+	    System.out.format(tableFormat,
                 transactionID, datestr, debittedAccount, amount, "");
-	    System.out.println();
-	    System.out.format(tableformat,
+	    System.out.print("\n");
+	    System.out.format(tableFormat,
                 "", "", credittedAccount, "", amount);
-	    System.out.println();
-	    System.out.format(tableformat,
+	    System.out.print("\n");
+	    System.out.format(tableFormat,
                 "", "", "("+description+")", "", "");
-	    System.out.println();
-	    System.out.println(separationline);
+	    System.out.print("\n");
+	    System.out.print(separationLine);
 
 	}
 	

@@ -1,0 +1,29 @@
+A
+21/11/2020 Cash Notes-Payable 10000 Borrow money from Shawn
+A
+21/11/2020 Notes-Payable Cash 1000 Return money to Shawn
+D
+E
+Cash
+E
+Notes-Payable
+A
+21/11/2020 Cash Service-Revenue 1500 Provide soccer training
+F
+31/12/2020
+D
+E
+Cash
+E
+Service-Revenue
+E
+Retained-Earnings
+G
+B
+3 100 25/11/2020 Cash
+H
+C
+5 10 28/11/2020 Cash FIFO
+H
+D
+Z

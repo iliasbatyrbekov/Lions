@@ -10,23 +10,23 @@ public class CompanyAccount {
 	private double balance;
 	private CompanyAccountType accountType; //no setter
 	
-	public static final String[] assetAccountNames = { "Cash", "Petty Cash", "Accounts Receivable", "Notes Receivable", "Supplies", "Inventory", "Prepaid Advertising", "Prepaid Insurance", "Prepaid Rent", "Investments", "Land", "Land Improvements", "Buildings", "Equipment", "Lease Asset", "Natural Resources", "Patents", "Copyrights", "Trademarks", "Franchises", "Goodwill" };
+	public static final String[] assetAccountNames = { "Cash", "Petty-Cash", "Accounts-Receivable", "Notes-Receivable", "Supplies", "Inventory", "Prepaid-Advertising", "Prepaid-Insurance", "Prepaid-Rent", "Investments", "Land", "Land-Improvements", "Buildings", "Equipment", "Lease-Asset", "Natural-Resources", "Patents", "Copyrights", "Trademarks", "Franchises", "Goodwill" };
 	
-	public static final String[] contraAssetAccountNames = { "Allowance for Uncollectible Accounts", "Accumulated Depreciation" };
+	public static final String[] contraAssetAccountNames = { "Allowance-for-Uncollectible-Accounts", "Accumulated-Depreciation" };
 	
-	public static final String[] liabilityAccountNames = { "Accounts Payable", "Notes Payable", "Deferred Revenue", "Salaries Payable", "Interest Payable", "Utilities Payable", "Dividends Payable", "Income Tax Payable", "FICA Tax Payable", "Unemployment Tax Payable", "Sales Tax Payable", "Contingent Liability", "Warranty Liability", "Lease Payable", "Bonds Payable" };
+	public static final String[] liabilityAccountNames = { "Accounts-Payable", "Notes-Payable", "Deferred-Revenue", "Salaries-Payable", "Interest-Payable", "Utilities-Payable", "Dividends-Payable", "Income-Tax-Payable", "FICA-Tax-Payable", "Unemployment-Tax-Payable", "Sales-Tax-Payable", "Contingent-Liability", "Warranty-Liability", "Lease-Payable", "Bonds-Payable" };
 	
-	public static final String[] stockHoldersEquityAccountNames = { "Common Stock", "Preferred Stock", "Additional Paid-in Stock", "Retained Earnings", "Unrealized Holding Gain--Other Comprehensive Income", "Unrealized Holding Loss--Other Comprehensive Income" };
+	public static final String[] stockHoldersEquityAccountNames = { "Common-Stock", "Preferred-Stock", "Additional-Paid-in Stock", "Retained-Earnings" };
 	
-	public static final String[] contrastockHoldersEquityAccountNames = { "Treasury Stock" };
+	public static final String[] contrastockHoldersEquityAccountNames = { "Treasury-Stock" };
 	
-	public static final String[] expenseAccountNames = { "Advertising Expense", "Amortization Expense", "Bad Debt Expense", "Cost of Goods Sold", "Delivery Expense", "Depreciation Expense", "Entertainment Expense", "Income Tax Expense", "Insurance Expense", "Interest Expense", "Legal Fees Expense", "Payroll Tax Expense", "Postage Expense", "Property Tax Expense", "Rent Expense", "Repairs and Maintenance Expense", "Research and Development Expense", "Salaries Expense", "Service Fee Expense","Supplies Expense", "Utilities Expense", "Warranty Expense", "Loss", "Unrealized Holding Loss--Net Income" };
+	public static final String[] expenseAccountNames = { "Advertising-Expense", "Amortization-Expense", "Bad-Debt-Expense", "Cost-of-Goods-Sold", "Delivery-Expense", "Depreciation-Expense", "Entertainment-Expense", "Income Tax Expense", "Insurance-Expense", "Interest-Expense", "Legal-Fees-Expense", "Payroll-Tax-Expense", "Postage-Expense", "Property-Tax-Expense", "Rent-Expense", "Repairs-and-Maintenance-Expense", "Research-and-Development-Expense", "Salaries-Expense", "Service-Fee-Expense","Supplies-Expense", "Utilities-Expense", "Warranty-Expense", "Loss" };
 	
-	public static final String[] revenueAccountNames = { "Service Revenue", "Sales Revenue", "Interest Revenue", "Dividend Revenue", "Equity Income", "Gain", "Unrealized Holding Gain--Net Income" };
+	public static final String[] revenueAccountNames = { "Service-Revenue", "Sales-Revenue", "Interest Revenue", "Dividend-Revenue", "Equity-Income", "Gain" };
 	
-	public static final String[] contraRevenueAccountNames = { "Sales Discounts", "Sales Returns", "Sales Allowances" };
+	public static final String[] contraRevenueAccountNames = { "Sales-Discounts", "Sales-Returns", "Sales-Allowances" };
 	
-	public static final String[] dividendExpenseAccountNames = { "Dividends (Cash)", "Stock Dividends" };
+	public static final String[] dividendExpenseAccountNames = { "Dividends-Cash", "Stock-Dividends" };
 	
 	public static String[] getDebitAssetAccountNames() {
 		return assetAccountNames;
