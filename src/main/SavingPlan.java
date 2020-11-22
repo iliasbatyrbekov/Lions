@@ -73,74 +73,80 @@ public class SavingPlan extends Plan {
 //	}
 	public double getAverageSaving() {
 //		double currentsavingAmount = this.getCurrentSavingAmount();
-		double currentMonth = this.getCurrentDuration();
+		double currentDur = (int) super.getCurrentDuration();
 		
-		double average = Math.floor(this.currentAmount / currentMonth);
+		double average = Math.floor(this.currentAmount / currentDur);
 		return average;
 	}
-	
+	@Override
 	public void updatePlan(Transaction newSaving) {
 		this.tranRecord.add(newSaving);
 
-//		double currentMonth = this.getCurrentPointInTime("month");// e.g. 1st month, 3rd month
-//		int currentMonthIndex = (int) currentMonth - 1;// e.g. [0] == 1st month [2] == 3rd month
-//		double currentSavingAmount = this.monthlySum.get(currentMonthIndex) - newSaving.getAmount();
+//		double currentDur = this.getCurrentPointInTime("month");// e.g. 1st month, 3rd month
+//		int currentDurIndex = (int) currentDur - 1;// e.g. [0] == 1st month [2] == 3rd month
+//		double currentSavingAmount = this.monthlySum.get(currentDurIndex) - newSaving.getAmount();
 //		
-//		this.monthlySum.set(currentMonthIndex, currentSavingAmount);
+//		this.monthlySum.set(currentDurIndex, currentSavingAmount);
 		this.currentAmount += newSaving.getAmount();
 	}
 	
 	private boolean predictChance() {
 //		double currentLoanAmount = this.getCurrentLoanAmount();
 
-		int noOfMonths = (int) super.getDuration();
-		int currentMonth = (int) super.getCurrentDuration();
+		int dur = (int) super.getDuration();
+		int currentDur = (int) super.getCurrentDuration();
 
-		double avgRepaid = getAverageSaving();
-		int moreMonths = (int) Math.ceil(this.currentAmount / avgRepaid);
+		int moreMonths = calculateRemainigTime();
 
-		return (noOfMonths < currentMonth+moreMonths) ? false : true;
+		return (currentDur+moreMonths < dur) ? true : false;
+	}
+	
+	private int calculateRemainigTime() {
+		if (this.goalAmount < this.currentAmount)
+			return 0;
+		
+		double avgSaving = this.getAverageSaving();
+		return (int) Math.ceil((this.goalAmount - this.currentAmount) / avgSaving);
 	}
 
 	public String getPlan() {//for display
 //		double currentsavingAmount = this.getCurrentSavingAmount();
 
 //		Map<String, Double> hist = new HashMap<>();
-		int noOfMonths = (int) super.getDuration();
+		int dur = (int) super.getDuration();
 //		LocalDate date = LocalDate.parse(super.getTimePeriod().get(0));
-//		for (int i=0; i<noOfMonths; ++i) {
+//		for (int i=0; i<dur; ++i) {
 //			hist.put(date.format(DateTimeFormatter.ofPattern("MMM yyyy")), (monthlySum.get(i)));
 //			date = date.plusMonths(1);
 //		}
 
 		String summary, advice;
-		int currentMonth = (int) super.getCurrentDuration();
-		if (currentMonth<1)
+		int currentDur = (int) super.getCurrentDuration();
+		if (currentDur<30)
 			summary = "Not enough data to generate summary. Please check again after a while...";
 		else {
 			double avgSaving = this.getAverageSaving();
-//			int moreMonths = (int) Math.ceil(currentsavingAmount / avgSaving);
-			int moreMonths = (int) Math.ceil(this.currentAmount / avgSaving);
+			int moreTime = this.calculateRemainigTime();
 			LocalDate endDate = LocalDate.parse(super.getTimePeriod().get(1));
 			String endDateString = endDate.format(DateTimeFormatter.ofPattern("MMMM yyyy"));
 			boolean likely = predictChance();
 			// String likelihoodString;
 			double adjustAmount;
 			
-			summary = String.format("From the last %d day(s), you repaid $%.0f on average per month. "
-									+ "You will need %d more month(s) to settle the loan. ",
-									currentMonth, avgSaving, moreMonths);
+			summary = String.format("From the last %d day(s), you repaid $%.0f on average per day. "
+									+ "You will need %d more day(s) to settle the loan. ",
+									currentDur, avgSaving, moreTime);
 
 			if (!likely) {
 				// likelihoodString = "not likely";
-//				adjustAmount = Math.ceil(currentsavingAmount / (noOfMonths - currentMonth));
-				adjustAmount = Math.ceil(this.currentAmount / (noOfMonths - currentMonth));
-				advice = String.format("You are not likely to accomplish this loan plan by %s as expected. "
-									+ "save $%f monthly from now on!", endDateString, adjustAmount);
+//				adjustAmount = Math.ceil(currentsavingAmount / (dur - currentDur));
+				adjustAmount = Math.ceil(this.currentAmount / (dur - currentDur));
+				advice = String.format("You are not likely to accomplish this loan plan by %s as expected."
+									+ " Save $%.0f daily from now on!", endDateString, adjustAmount);
 			}
 			else {
 				// likelihoodString = "very likely";
-				advice = String.format("You are very likely to accomplish this loan plan by %s as expected. ", endDateString);
+				advice = String.format("You are very likely to accomplish this loan plan by %s as expected.", endDateString);
 			}
 			summary += advice;
 		}
