@@ -19,4 +19,4 @@ RecordTransaction|TransferRemit|-400|1|0|My gf again la|2020-11-17|null
 
 ListTransactions
 
-listAllAccount
+ListAllAccount
