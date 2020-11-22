@@ -29,7 +29,7 @@ public class User {
 			if(acc instanceof CashAccount && type.equals("Cash")) return "Added in Cash Account";
 			else if(acc instanceof SavingAccount && type.equals("Saving")) return "Added in Saving Account";
 			else if(acc instanceof DebitAccount && type.equals("Debit")) return "Added in Debit Account";
-			else if(acc instanceof CreditCardAccuont && type.equals("Credit")) return "Added in Credit Card Account";
+			else if(acc instanceof CreditCardAccount && type.equals("Credit")) return "Added in Credit Card Account";
 			else return "Account type mismatch";
 		}
 		else return "Account not found";
@@ -58,7 +58,7 @@ public class User {
 			this.accountList.add(sa);
 			break;
 		case"Credit":
-			CreditCardAccuont cca = new CreditCardAccuont(accID, balance);
+			CreditCardAccount cca = new CreditCardAccount(accID, balance);
 			this.accountList.add(cca);
 			break;
 		case"Debit":

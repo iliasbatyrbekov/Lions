@@ -65,11 +65,6 @@ public class BudgetPlan extends Plan {
 	for (Entry<String, Double> i : goalAmount.entrySet()) {
 		resultMap.put(i.getKey(), 0.0);
 	}
-		//get all trans
-//		ArrayList<String> period = super.getTimePeriod();
-//		ArrayList<Transaction> allTrans = User.getInstance().getTransactionList(
-//				period.get(0), 
-//				period.get(1));
 		
 		allTrans.stream()
 			.filter(t -> t instanceof Expense)

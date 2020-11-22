@@ -13,6 +13,10 @@ import org.junit.Test;
 
 import corporateAccounting.CompanyTransaction;
 import main.Account;
+import main.CashAccount;
+import main.CreditCardAccount;
+import main.DebitAccount;
+import main.SavingAccount;
 import main.Transaction;
 
 public class TestAccount {
@@ -72,5 +76,41 @@ public class TestAccount {
 		Account.listAll(allAccounts);
 		assertEquals(expString, outContent.toString());
 	}
-
+	@Test
+	public void testCashAccount() {
+		Account account = new CashAccount("1", 0.0);
+		assertEquals(-1, account.updateBalance(-10.0));
+	}
+	@Test
+	public void testCashAccount1() {
+		Account account = new CashAccount("1", 0.0);
+		assertEquals(1, account.updateBalance(10.0));
+	}
+	@Test
+	public void testDebitAccount() {
+		Account account = new DebitAccount("1", 0.0);
+		assertEquals(-1, account.updateBalance(-10.0));
+	}
+	@Test
+	public void testDebitAccount1() {
+		Account account = new DebitAccount("1", 0.0);
+		assertEquals(1, account.updateBalance(10.0));
+	}
+	@Test
+	public void testSavingAccount() {
+		SavingAccount account = new SavingAccount("1", 0.0, 1.0, "2020-11-11");
+		account.setInterest(10.0);
+		assertEquals(10.0, account.getInterest());
+		account.setWithdrawDate("2020-12-12");
+		assertEquals("2020-12-12", account.getWithdrawDate());
+	}
+	@Test
+	public void testCreditAccount() {
+		CreditCardAccount account = new CreditCardAccount("1", 1.0);
+		account = new CreditCardAccount("1", 0.0, 1.0, "2020-11-11");
+		account.setInterest(10.0);
+		assertEquals(10.0, account.getInterest());
+		account.setPaymentDate("2020-12-12");
+		assertEquals("2020-12-12", account.getPaymentDate());
+	}
 }
