@@ -11,7 +11,7 @@ public class Company {
 	public Company() {
 		accountList = CompanyAccount.getAllInitAccounts();
 		journal = new ArrayList<CompanyTransaction>();
-		storage=new ArrayList<InventoryStorageEntry>();
+		storage = new ArrayList<InventoryStorageEntry>();
 		currentID = 10000;
 	}
 	
@@ -21,6 +21,10 @@ public class Company {
 	
 	public HashMap<String, CompanyAccount> getAccountList() {
 		return accountList;
+	}
+	
+	public ArrayList<InventoryStorageEntry> getStorage() {
+		return storage;
 	}
 	
 	public boolean isValidTransaction(CompanyTransaction trans) {
@@ -39,7 +43,7 @@ public class Company {
 		//for credit account type, if debit means decrease -> may have credit balance < 0
 		if(accountToDebit.getAccountType() == CompanyAccountType.CREDIT_ACCOUNT) {
 			if(accountToDebit.getBalance() - trans.getAmount() < 0) {
-				System.out.println("Error: Cannot debit account "+trans.getDebittedAccount());
+				System.out.print("Error: Cannot debit " + trans.getDebittedAccount() + " account (insufficient balance)\n");
 				return false;
 			}
 		}
@@ -47,7 +51,7 @@ public class Company {
 		//for debit account type, if credit means decrease -> may have insufficient fund
 		if(accountToCredit.getAccountType() == CompanyAccountType.DEBIT_ACCOUNT) {
 			if(accountToCredit.getBalance() - trans.getAmount() < 0) {
-				System.out.println("Error: Cannot credit account "+trans.getCredittedAccount());
+				System.out.print("Error: Cannot credit " + trans.getCredittedAccount() + " account (insufficient balance)\n");
 				return false;
 			}
 		}
@@ -87,6 +91,7 @@ public class Company {
 		}
 	}
 	
+	// TODO: only print the ones of non-zero balance
 	public void printBalanceSheet() {
 		String seperationLine = "\n--------------------------------------------------------------+--------------------------------------------------------------+--------------------------------------------------------------|";
 		String accountcategoryTitleFormatString = " %-60s | %-60s | %-60s |";
@@ -214,26 +219,25 @@ public class Company {
 	}*/
 
 	// TODO function for total units
-		private int getTotalUnits() {
-			int totalUnits = 0;
-			for (InventoryStorageEntry entry: storage) 
-				totalUnits += entry.getUnits();
-			return totalUnits;
-		}
+	private int getTotalUnits() {
+		int totalUnits = 0;
+		for (InventoryStorageEntry entry: storage) 
+			totalUnits += entry.getUnits();
+		return totalUnits;
+	}
 	
 	//need to replace recordtransaction with isValidtransaction()
 	public ArrayList<InventoryStorageEntry> purchaseInventory(double unitCost, int unitsToBuy, Date dt, String credittedAccount){
 		//record purchase transaction
-		double amount=unitCost*unitsToBuy;
-		CompanyTransaction trans=new CompanyTransaction(generateNewID(), dt, "Inventory", credittedAccount, amount, "Purchase Inventory");
+		double amount = unitCost*unitsToBuy;
+		CompanyTransaction trans = new CompanyTransaction(generateNewID(), dt, "Inventory", credittedAccount, amount, "Purchase Inventory");
 		
 		//add to company's journal
 		if(isValidTransaction(trans)) {
 			recordTransaction(trans);
-			//update storage
 			InventoryStorageEntry entry = new InventoryStorageEntry(trans.getTransactionID(), unitCost, unitsToBuy);
 			storage.add(entry);
-			//totalUnits+=unitsToBuy;
+			System.out.print("Inventory successfully purchased and added to storage\n");
 		} else {
 			System.out.print("Error: invalid purchase\n");
 		}
@@ -241,12 +245,12 @@ public class Company {
 		return storage;
 	}
 	
-	public void sellInventory(double unitPrice, int unitsToSell, Date date, String debittedAccount, String costMethod){
+	public ArrayList<InventoryStorageEntry> sellInventory(double unitPrice, int unitsToSell, Date date, String debittedAccount, String costMethod){
 		//if (unitsToSell > getTotalUnits()) System.out.println("Not enough inventory in store");
 		//record revenue transaction
 		double amount = unitPrice*unitsToSell;
 		CompanyTransaction revTrans = new CompanyTransaction(generateNewID(), date, debittedAccount, "Sales-Revenue", amount, "Revenue from Goods sold");
-		if(unitsToSell > getTotalUnits() && accountList.get(debittedAccount).getAccountCategory() == CompanyAccountCategory.ASSET) {
+		if(unitsToSell <= getTotalUnits() && accountList.get(debittedAccount).getAccountCategory() == CompanyAccountCategory.ASSET) {
 
 			double cost = 0.0;
 			//record cost transaction
@@ -268,14 +272,14 @@ public class Company {
 						break;
 					} else {
 						int unitsSold = Math.min(entry.getUnits(), unitsToSell);
-						unitsToSell = unitsSold;
+						unitsToSell -= unitsSold;
 						entry.decreaseUnits(unitsSold);
 						cost += unitsSold * entry.getUnitCost();
 					}
 				}
 			} else {
-				System.out.println("Error: invalid selling method");
-				return;
+				System.out.print("Error: invalid selling method\n");
+				return storage;
 			}
 			CompanyTransaction costTrans = new CompanyTransaction(generateNewID(), date, "Cost-of-Goods-Sold", "Inventory", cost, "Cost of Goods sold");
 			recordTransaction(revTrans);
@@ -283,10 +287,10 @@ public class Company {
 			
 		} else if (unitsToSell > getTotalUnits()) {
 			System.out.print("Error: not enough inventory in store\n");
-		} else if (accountList.get(debittedAccount).getAccountCategory() != CompanyAccountCategory.ASSET) {
+		} else { // accountList.get(debittedAccount).getAccountCategory() != CompanyAccountCategory.ASSET
 			System.out.print("Error: " + debittedAccount + " is not an asset account, therefore cannot be debited for the sale of inventory\n");
 		}
-		
+		return storage;
 	}
 
 }
