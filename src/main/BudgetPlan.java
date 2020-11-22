@@ -7,35 +7,26 @@ import java.util.Map.Entry;
 
 public class BudgetPlan extends Plan {
 
-	private Map<String, Double> actualExpense;
 	private Map<String, Double> goalAmount;
 	
 	public BudgetPlan(String planName, 
 			ArrayList<String> timePeriod, 
-			Map<String, Double> actualExpense, 
 			Map<String, Double> goalAmount){
 		
 		super(planName, timePeriod);
-		this.actualExpense = this.getActualExp();
 		this.goalAmount = goalAmount;
 	}
-	
+	 
 	public Map<String, Double> getGoalAmount() {
 		return goalAmount;
 	}
 	public void setGoalAmount(Map<String, Double> goalAmount) {
 		this.goalAmount = goalAmount;
 	}
-	public Map<String, Double> getActualExpense() {
-		return actualExpense;
-	}
-	public void setActualExpense(Map<String, Double> actualExpense) {
-		this.actualExpense = actualExpense;
-	}
 	public Map<String, Double> getAverageDailyExpense(int nDays){
 		int numPassedDays = this.getNumDaysPassed();
 		Map<String, Double> averageDailyExpense = new HashMap<String, Double>(); 
-		for (Map.Entry<String, Double> entry : this.actualExpense.entrySet()){
+		for (Map.Entry<String, Double> entry : this.getActualExp().entrySet()){
 			averageDailyExpense.put(entry.getKey(), entry.getValue()/numPassedDays);
 		}
 		return averageDailyExpense;
@@ -43,12 +34,12 @@ public class BudgetPlan extends Plan {
 	//puts -1 if analysis is not possible, 0 if expense is more than budget, >0 if ok.
 	public Map<String, Integer>  predictRemaining(Map<String, Double> averageDailyExpense) {
 		Map<String, Integer> remDaysByCategoryMap = new HashMap<String, Integer>();
-		for (Map.Entry<String, Double> entry : this.actualExpense.entrySet()){
+		for (Map.Entry<String, Double> entry : this.getActualExp().entrySet()){
 			String currKey = entry.getKey();
 			double avgDailyExp = averageDailyExpense.get(currKey);
 			int remainingDaysNum = -1;
 			if (avgDailyExp > 0){
-				remainingDaysNum = (int) ((this.goalAmount.get(currKey) - this.actualExpense.get(currKey))/ avgDailyExp);
+				remainingDaysNum = (int) ((this.goalAmount.get(currKey) - this.getActualExp().get(currKey))/ avgDailyExp);
 				if (remainingDaysNum<1) {
 					remainingDaysNum = 0;
 				}
@@ -81,16 +72,8 @@ public class BudgetPlan extends Plan {
 	
 	public String getPlan()
 	{
-		this.actualExpense = getActualExp();
 		
 		String displayedString = "";
-		/*
-		 * current expense$
-		 * how much was planned?$
-		 * how many days you can survive without overbudget
-		 */
-
-		//planned expense
 		displayedString += "Planned Budget \n";
 		displayedString += "Category \t Money Spent \n";
 		for (Entry<String, Double> i : this.goalAmount.entrySet()) {
@@ -99,7 +82,7 @@ public class BudgetPlan extends Plan {
 		//current expenses
 		displayedString += "Current Expenses \n";
 		displayedString += "Category \t Money Spent \n";
-		for (Entry<String, Double> i : this.actualExpense.entrySet()) {
+		for (Entry<String, Double> i : this.getActualExp().entrySet()) {
 			displayedString += String.format("%s: \t %d \n", i.getKey(), i.getValue());
 		}
 		//how many days left before going over budget

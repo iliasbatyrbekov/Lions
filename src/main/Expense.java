@@ -1,21 +1,17 @@
 package main;
 
 public class Expense extends Transaction {
-	public Expense(int transactionID, double amount, String accountID, String description, String date) {
-		super(transactionID, amount, accountID, description, date);
-	}
-
 	private String category;
 	private String member;
 	
+	public Expense(int transactionID, double amount, String accountID, String description, String date, String category) {
+		super(transactionID, amount, accountID, description, date);
+		this.category = category;
+	}
+
 	public String getCategory() {
 		return this.category;
 	}
-
-	public void setCategory(String category) {
-		this.category = category;
-	}
-	
 	public String getMember() {
 		return member;
 	}

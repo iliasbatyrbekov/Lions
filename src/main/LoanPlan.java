@@ -102,6 +102,13 @@ public class LoanPlan extends Plan{
 
 		return (noOfMonths < currentMonth+moreMonths) ? false : true;
 	}
+	
+	public double getAverageLoanRepayment() {
+		double currentLoanAmount = this.getCurrentLoanAmount();
+		int currentMonth = (int) super.getCurrentPointInTime("month");
+		return Math.floor((this.loanAmount - currentLoanAmount) / currentMonth);
+	}
+	
 	@Override
 	public String getPlan() {//for display
 		double currentLoanAmount = this.getCurrentLoanAmount();
@@ -120,7 +127,7 @@ public class LoanPlan extends Plan{
 			summary = "Not enough data to generate summary. Please check again after a while...";
 		else {
 			double adjustAmount;
-			double avgRepaid = Math.floor((this.loanAmount - currentLoanAmount) / currentMonth);
+			double avgRepaid = this.getAverageLoanRepayment();
 			int moreMonths = (int) Math.ceil(currentLoanAmount / avgRepaid);
 
 			summary = String.format("From the last %d month(s), you repaid $%f on average per month. "
@@ -147,6 +154,6 @@ public class LoanPlan extends Plan{
 //		plan.put("current", currentLoanAmount);
 //		plan.put("history", hist);
 		plan.put("summary", summary);
-		return summary;//todo
+		return summary;
 	}
 }

@@ -1,5 +1,7 @@
 package main;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -83,6 +85,13 @@ public class User {
 		this.planList.add(plan);
 	}
 	
+	public void addPlan(Plan aplan) {
+		this.planList.add(aplan);
+	}
+	public void addAccount(Account anAccount) {
+		this.accountList.add(anAccount);
+	}
+	
 	public void deletePlan(String planId) throws ExPlainNotExist {
 		Plan p = this.searchPlan(planId);
 		if(p != null) this.planList.remove(p);
@@ -102,6 +111,7 @@ public class User {
 		return null;
 	}
 	
+	public void listAllPlans() { Plan.listAll(this.planList); }
 	
 	// TransactionList
 	public void listAllTransactionRecords() { Transaction.listAll(this.transactionRecords); }
@@ -110,27 +120,33 @@ public class User {
 		return Transaction.searchTransaction(transactionRecords, transactionId);
 	}
 	
-	public void addTransaction(String transType, Double amount, String accountId, String plainId, String description, String date) throws ExPlainNotExist, ExAccountNotExist {
+	public void addTransaction(String transType, Double amount, String accountId, String planId, String description, String date, String category) throws ExPlainNotExist, ExAccountNotExist, ExUpdateBalanceErr {
 		
-		Plan p = searchPlan(plainId);
+		Plan p = searchPlan(planId);
 		Account acc = searchAccount(accountId);
 		if(p == null) throw new ExPlainNotExist();
 		if (acc == null) throw new ExAccountNotExist();
 		
-		int transactionId = this.transactionRecords.get(this.transactionRecords.size()-1).getTransactionID();
+		int transactionId = 0;
+		if(transactionRecords.size() != 0)
+			this.transactionRecords.get(this.transactionRecords.size()-1).getTransactionID();
 		
 		if(transType.equals("Expense")){
-			Expense expenseTrans = new Expense(transactionId, amount, accountId, description, date);
-			this.transactionRecords.add(expenseTrans);
+			Expense expenseTrans = new Expense(transactionId, amount, accountId, description, date, category);
+			if(acc.updateBalance(amount) == 1) this.transactionRecords.add(expenseTrans);
+			else throw new ExUpdateBalanceErr();
 		} else if (transType.equals("Income")) {
-			Income incomeTrans = new Income(transactionId, amount, accountId, description, date);
-			this.transactionRecords.add(incomeTrans);
+			Income incomeTrans = new Income(transactionId, amount, accountId, description, date, category);
+			if(acc.updateBalance(amount) == 1) this.transactionRecords.add(incomeTrans);
+			else throw new ExUpdateBalanceErr();
 		} else if (transType.equals("TransferReceive")) {
 			TransferReceive transReceive = new TransferReceive(transactionId, amount, accountId, description, date);
-			this.transactionRecords.add(transReceive);
+			if(acc.updateBalance(amount) == 1) this.transactionRecords.add(transReceive);
+			else throw new ExUpdateBalanceErr();
 		} else if (transType.equals("TransferRemit")) {
 			TransferRemit transRemit = new TransferRemit(transactionId, amount, accountId, description, date);
-			this.transactionRecords.add(transRemit);
+			if(acc.updateBalance(amount) == 1) this.transactionRecords.add(transRemit);
+			else throw new ExUpdateBalanceErr();
 		} else {
 			System.out.printf("%s", "There is no ", transType, " type.");
 		}

@@ -41,12 +41,11 @@ public class Account {
 	}
 
 	public static void listAll(ArrayList<Account> accountList) {
-		// TODO Auto-generated method stub
-		System.out.printf("%s| \t |%s| \t |%s|:",
+		System.out.printf("%-20s %-20s %-20s\n",
 				"Account ID", "Debt", "Balance");
 		
 		for(Account account : accountList) {
-			System.out.printf("%s| \t |%d| \t |%d| \t |%s|:",
+			System.out.printf("%-20s %-20f %-20f\n",
 					account.accID, account.debt, account.balance);
 		}
 	}

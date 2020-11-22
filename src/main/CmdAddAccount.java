@@ -9,9 +9,9 @@ public class CmdAddAccount {
 		
 		try {
 			double balance = Double.parseDouble(cmdParts[3]);
-			double debt = Double.parseDouble(cmdParts[5]);
-			double interest = Double.parseDouble(cmdParts[6]);
-			u.addAccount(cmdParts[1], cmdParts[2], balance, debt, interest, cmdParts[7]);
+			double debt = Double.parseDouble(cmdParts[4]);
+			double interest = Double.parseDouble(cmdParts[5]);
+			u.addAccount(cmdParts[1], cmdParts[2], balance, debt, interest, cmdParts[6]);
 			
 		} catch (ExAccountTypeNotSupported e) {
 			e.printStackTrace();

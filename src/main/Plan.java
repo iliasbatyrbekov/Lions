@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.Map;
 // import java.util.Date;
 import java.time.LocalDate;
+import java.time.Period;
 // import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
-import java.time.Duration;
+//import java.time.Duration;
 import java.text.ParseException;
 
 public class Plan {
@@ -51,26 +52,28 @@ public class Plan {
 			this.timePeriod.clear();
 
 		for (String dateString : timePeriodString) {		
-			timePeriod.add(LocalDate.parse(dateString, this.formatter));
+			this.timePeriod.add(LocalDate.parse(dateString, this.formatter));
 		}
 	}
 	
-	public long getTimePeriodLength(String mode) {
-		Duration dur = Duration.between(this.timePeriod.get(0), this.timePeriod.get(1));
+	public int getTimePeriodLength(String mode) {
+//		Duration dur = Duration.between(this.timePeriod.get(0), this.timePeriod.get(1));
+		Period period = Period.between(this.timePeriod.get(0), this.timePeriod.get(1));
 		
 		if (mode=="day")
-			return dur.toDays();
+			return period.getDays();
 		else //mode=="month"
-			return dur.toDays()/30;
+			return period.getMonths();
 	}
 
 	public long getCurrentPointInTime(String mode) {
-		Duration dur = Duration.between(this.timePeriod.get(0), LocalDate.now());
+//		Duration dur = Duration.between(this.timePeriod.get(0), );
+		Period period = Period.between(this.timePeriod.get(0), LocalDate.now());
 
 		if(mode=="day")
-			return dur.toDays();
+			return period.getDays();
 		else
-			return dur.toDays()/30;
+			return period.getMonths();
 	}
 
 	public String getPlan() {return "getPlan() works";};
