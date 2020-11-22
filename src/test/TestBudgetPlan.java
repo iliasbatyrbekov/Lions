@@ -2,28 +2,18 @@ package test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 import main.BudgetPlan;
-import main.CashAccount;
 import main.ExAccountNotExist;
 import main.ExAccountTypeNotSupported;
 import main.ExPlainNotExist;
 import main.ExUpdateBalanceErr;
 import main.Expense;
-import main.Transaction;
-import main.User;
 
 public class TestBudgetPlan {
 
