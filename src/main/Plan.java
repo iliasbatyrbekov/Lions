@@ -48,6 +48,11 @@ public class Plan {
 		}
 		return timePeriodString;
 	}
+	
+	public ArrayList<LocalDate> getTimePeriodDatesArr() {
+		return timePeriod;
+	}
+	
 	public void setTimePeriod(ArrayList<String> timePeriodString) {
 		if (!this.timePeriod.isEmpty())
 			this.timePeriod.clear();
