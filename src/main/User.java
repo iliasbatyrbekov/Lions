@@ -88,6 +88,9 @@ public class User {
 	public void addPlan(Plan aplan) {
 		this.planList.add(aplan);
 	}
+	public void addAccount(Account anAccount) {
+		this.accountList.add(anAccount);
+	}
 	
 	public void deletePlan(String planId) throws ExPlainNotExist {
 		Plan p = this.searchPlan(planId);
