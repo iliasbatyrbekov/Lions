@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.time.Period;
 // import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 //import java.time.Duration;
 import java.text.ParseException;
 
@@ -47,6 +48,11 @@ public class Plan {
 		}
 		return timePeriodString;
 	}
+	
+	public ArrayList<LocalDate> getTimePeriodDatesArr() {
+		return timePeriod;
+	}
+	
 	public void setTimePeriod(ArrayList<String> timePeriodString) {
 		if (!this.timePeriod.isEmpty())
 			this.timePeriod.clear();
@@ -56,24 +62,30 @@ public class Plan {
 		}
 	}
 	
-	public int getTimePeriodLength(String mode) {
-//		Duration dur = Duration.between(this.timePeriod.get(0), this.timePeriod.get(1));
-		Period period = Period.between(this.timePeriod.get(0), this.timePeriod.get(1));
+	public long getDuration() {//duration between startDate and endDate
+//		Period period = Period.between(this.timePeriod.get(0), this.timePeriod.get(1));
+//		return period.getDays();
 		
-		if (mode=="day")
-			return period.getDays();
-		else //mode=="month"
-			return period.getMonths();
+		long days = ChronoUnit.DAYS.between(this.timePeriod.get(0), this.timePeriod.get(1));
+		return days;
+		
+//		if (mode=="day")
+//			return period.getDays();
+//		else //mode=="month"
+//			return period.getMonths();
 	}
 
-	public long getCurrentPointInTime(String mode) {
-//		Duration dur = Duration.between(this.timePeriod.get(0), );
-		Period period = Period.between(this.timePeriod.get(0), LocalDate.now());
-
-		if(mode=="day")
-			return period.getDays();
-		else
-			return period.getMonths();
+	public long getCurrentDuration() {//duration between startDate and now()
+//		Period period = Period.between(this.timePeriod.get(0), LocalDate.now());
+//		return period.getDays();
+		
+		long days = ChronoUnit.DAYS.between(this.timePeriod.get(0), LocalDate.now());
+		return days;
+		
+//		if(mode=="day")
+//			return period.getDays();
+//		else
+//			return period.getMonths();
 	}
 
 	public String getPlan() {return "getPlan() works";};

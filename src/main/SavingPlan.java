@@ -8,47 +8,52 @@ import java.util.Map;
 
 public class SavingPlan extends Plan {
 	private double goalAmount;
-	// private double currentSavingAmount;
-	private double monthlyGoalAmount;
+	private double currentAmount;
+//	private double monthlyGoalAmount;
 	private ArrayList<Transaction> tranRecord;
-	private ArrayList<Double> monthlySum;
-	private String purposeOfPlan;//description, e.g. "Car", "House", "Education"
+//	private ArrayList<Double> monthlySum;
+	private String description;//description, e.g. "Car", "House", "Education"
 
-	public SavingPlan(String planName, ArrayList<String> timePeriod, double goalAmount, String purposeOfPlan) {
+	public SavingPlan(String planName, ArrayList<String> timePeriod, double goalAmount, String description) {
 		super(planName, timePeriod);
 		this.goalAmount = goalAmount;
-		this.monthlyGoalAmount = goalAmount / super.getTimePeriodLength("month");
+		this.currentAmount = 0;
+//		this.monthlyGoalAmount = getMonthlyGoalAmount();
 		this.tranRecord=new ArrayList<Transaction>();
-		this.monthlySum = new ArrayList<Double>();
-		for (int i = 0; i < super.getTimePeriodLength("month"); ++i)
-			this.monthlySum.add(this.monthlyGoalAmount);
 		
-			this.purposeOfPlan = purposeOfPlan;
+//		this.monthlySum = new ArrayList<Double>();
+//		for (int i = 0; i < super.getTimePeriodLength("month"); ++i)
+//			this.monthlySum.add(this.monthlyGoalAmount);
+	
+		this.description = description;
 	}
 
+//	private double getMonthlyGoalAmount() {
+//		return this.goalAmount / super.getTimePeriodLength("month");
+//	}
+	
 	public double getGoalAmount() {
 		return goalAmount;
 	}
 
 	public void setGoalAmount(double goalAmount) {
 		this.goalAmount = goalAmount;
+//		this.monthlyGoalAmount = getMonthlyGoalAmount();
 	}
 	
-	public double getCurrentSavingAmount() {
-		double currentSaingAmount = 0;
-		for (Transaction tran : this.tranRecord) {
-			currentSaingAmount += tran.getAmount();
-		}
-		return currentSaingAmount;
+	public double getCurrentAmount() {
+		return this.currentAmount;
+//		double currentSaingAmount = 0;
+//		for (Transaction tran : this.tranRecord) {
+//			currentSaingAmount += tran.getAmount();
+//		}
+//		return currentSaingAmount;
 	}
-	public String getPurposeOfPlan() {
-		return this.purposeOfPlan;
+	public String getDescription() {
+		return this.description;
 	}
-	public void setPurposeOfPlan(String purpose) {
-		this.purposeOfPlan = purpose;
-	}
-	public void addTransaction(Transaction transaction) {
-		this.tranRecord.add(transaction);
+	public void setDescription(String description) {
+		this.description = description;
 	}
 //	//calculate average saving from past time period
 //	public Map predict_average_saving(ArrayList<String> arrayList) {
@@ -67,55 +72,69 @@ public class SavingPlan extends Plan {
 //		return average_saving_period;
 //	}
 	public double getAverageSaving() {
-		double currentsavingAmount = this.getCurrentSavingAmount();
-		double currentMonth = this.getCurrentPointInTime("day");
+//		double currentsavingAmount = this.getCurrentSavingAmount();
+		double currentMonth = this.getCurrentDuration();
 		
-		
-		double average = Math.floor(currentsavingAmount / currentMonth);
+		double average = Math.floor(this.currentAmount / currentMonth);
 		return average;
 	}
 	
 	public void updatePlan(Transaction newSaving) {
-		this.addTransaction(newSaving);
+		this.tranRecord.add(newSaving);
 
-		double currentMonth = this.getCurrentPointInTime("month");// e.g. 1st month, 3rd month
-		int currentMonthIndex = (int) currentMonth - 1;// e.g. [0] == 1st month [2] == 3rd month
-		double currentSavingAmount = this.monthlySum.get(currentMonthIndex) - newSaving.getAmount();
-		
-		this.monthlySum.set(currentMonthIndex, currentSavingAmount);
+//		double currentMonth = this.getCurrentPointInTime("month");// e.g. 1st month, 3rd month
+//		int currentMonthIndex = (int) currentMonth - 1;// e.g. [0] == 1st month [2] == 3rd month
+//		double currentSavingAmount = this.monthlySum.get(currentMonthIndex) - newSaving.getAmount();
+//		
+//		this.monthlySum.set(currentMonthIndex, currentSavingAmount);
+		this.currentAmount += newSaving.getAmount();
+	}
+	
+	private boolean predictChance() {
+//		double currentLoanAmount = this.getCurrentLoanAmount();
+
+		int noOfMonths = (int) super.getDuration();
+		int currentMonth = (int) super.getCurrentDuration();
+
+		double avgRepaid = getAverageSaving();
+		int moreMonths = (int) Math.ceil(this.currentAmount / avgRepaid);
+
+		return (noOfMonths < currentMonth+moreMonths) ? false : true;
 	}
 
 	public String getPlan() {//for display
-		double currentsavingAmount = this.getCurrentSavingAmount();
+//		double currentsavingAmount = this.getCurrentSavingAmount();
 
-		Map<String, Double> hist = new HashMap<>();
-		int noOfMonths = (int) super.getTimePeriodLength("month");
-		LocalDate date = LocalDate.parse(super.getTimePeriod().get(0));
-		for (int i=0; i<noOfMonths; ++i) {
-			hist.put(date.format(DateTimeFormatter.ofPattern("MMM yyyy")), (monthlySum.get(i)));
-			date = date.plusMonths(1);
-		}
+//		Map<String, Double> hist = new HashMap<>();
+		int noOfMonths = (int) super.getDuration();
+//		LocalDate date = LocalDate.parse(super.getTimePeriod().get(0));
+//		for (int i=0; i<noOfMonths; ++i) {
+//			hist.put(date.format(DateTimeFormatter.ofPattern("MMM yyyy")), (monthlySum.get(i)));
+//			date = date.plusMonths(1);
+//		}
 
 		String summary, advice;
-		int currentMonth = (int) super.getCurrentPointInTime("month");
+		int currentMonth = (int) super.getCurrentDuration();
 		if (currentMonth<1)
 			summary = "Not enough data to generate summary. Please check again after a while...";
 		else {
 			double avgSaving = this.getAverageSaving();
-			int moreMonths = (int) Math.ceil(currentsavingAmount / avgSaving);
+//			int moreMonths = (int) Math.ceil(currentsavingAmount / avgSaving);
+			int moreMonths = (int) Math.ceil(this.currentAmount / avgSaving);
 			LocalDate endDate = LocalDate.parse(super.getTimePeriod().get(1));
 			String endDateString = endDate.format(DateTimeFormatter.ofPattern("MMMM yyyy"));
-			boolean likely = (noOfMonths < currentMonth+moreMonths) ? false : true;
+			boolean likely = predictChance();
 			// String likelihoodString;
 			double adjustAmount;
 			
-			summary = String.format("From the last %d month(s), you repaid $%f on average per month. "
+			summary = String.format("From the last %d day(s), you repaid $%.0f on average per month. "
 									+ "You will need %d more month(s) to settle the loan. ",
 									currentMonth, avgSaving, moreMonths);
 
 			if (!likely) {
 				// likelihoodString = "not likely";
-				adjustAmount = Math.ceil(currentsavingAmount / (noOfMonths - currentMonth));
+//				adjustAmount = Math.ceil(currentsavingAmount / (noOfMonths - currentMonth));
+				adjustAmount = Math.ceil(this.currentAmount / (noOfMonths - currentMonth));
 				advice = String.format("You are not likely to accomplish this loan plan by %s as expected. "
 									+ "save $%f monthly from now on!", endDateString, adjustAmount);
 			}
@@ -126,18 +145,18 @@ public class SavingPlan extends Plan {
 			summary += advice;
 		}
 
-		Map<String, Object> plan = new HashMap<String, Object>();
+//		Map<String, Object> plan = new HashMap<String, Object>();
 //		plan.put("total", this.goalAmount);
 //		plan.put("current", currentsavingAmount);
 //		plan.put("history", hist);
-		plan.put("summary", summary);
+//		plan.put("summary", summary);
 		
 //		return plan;
 		return summary;//todo
 	}
 
-	//calculate how far current saving from goal saving
-	public double predict_goal_saving(){
-		return getGoalAmount() - getCurrentSavingAmount();
-	}
+//	//calculate how far current saving from goal saving
+//	public double predict_goal_saving(){
+//		return getGoalAmount() - getCurrentSavingAmount();
+//	}
 }

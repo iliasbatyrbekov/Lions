@@ -1,13 +1,17 @@
 package main;
 
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+
 public class BudgetPlan extends Plan {
 
 	private Map<String, Double> goalAmount;
+	private ArrayList<Transaction> allTrans;
 	
 	public BudgetPlan(String planName, 
 			ArrayList<String> timePeriod, 
@@ -15,6 +19,7 @@ public class BudgetPlan extends Plan {
 		
 		super(planName, timePeriod);
 		this.goalAmount = goalAmount;
+		allTrans = new ArrayList<Transaction>();
 	}
 	 
 	public Map<String, Double> getGoalAmount() {
@@ -49,24 +54,25 @@ public class BudgetPlan extends Plan {
 		
 		return remDaysByCategoryMap;
 	}
+	
 	private int getNumDaysPassed() {
-		long temp  = super.getTimePeriodLength("days");
-		return (int) temp;
+		return (int) Period.between(this.getTimePeriodDatesArr().get(0), LocalDate.now()).getDays();
 	}
 	
 	
 	private Map<String, Double> getActualExp() {
 	Map<String, Double> resultMap = new HashMap<String, Double>();
-		//get all trans
-		ArrayList<String> period = super.getTimePeriod();
-		ArrayList<Transaction> allTrans = User.getInstance().getTransactionList(
-				period.get(0), 
-				period.get(1));
+	for (Entry<String, Double> i : goalAmount.entrySet()) {
+		resultMap.put(i.getKey(), 0.0);
+	}
 		
 		allTrans.stream()
 			.filter(t -> t instanceof Expense)
-			.forEach(t -> resultMap.put(
-					((Expense)t).getCategory(), t.getAmount()));
+			.forEach(t -> {
+					Double sum = resultMap.get(((Expense)t).getCategory()) + t.getAmount();
+					resultMap.put(((Expense)t).getCategory(), sum);
+				}
+			);
 		return resultMap;
 	}
 	
@@ -77,17 +83,18 @@ public class BudgetPlan extends Plan {
 		displayedString += "Planned Budget \n";
 		displayedString += "Category \t Money Spent \n";
 		for (Entry<String, Double> i : this.goalAmount.entrySet()) {
-			displayedString += String.format("%s: \t %d \n", i.getKey(), i.getValue());
+			displayedString += String.format("%s: \t %f \n", i.getKey(), i.getValue());
 		}
 		//current expenses
 		displayedString += "Current Expenses \n";
 		displayedString += "Category \t Money Spent \n";
-		for (Entry<String, Double> i : this.getActualExp().entrySet()) {
-			displayedString += String.format("%s: \t %d \n", i.getKey(), i.getValue());
+		Map<String, Double> actExpMap = this.getActualExp();
+		for (Entry<String, Double> i : goalAmount.entrySet()) {
+			displayedString += String.format("%s: \t %f \n", i.getKey(), actExpMap.get(i.getKey()));
 		}
 		//how many days left before going over budget
 		int numDaysSinceStart = this.getNumDaysPassed();
-		if(numDaysSinceStart > 1) {
+		if(numDaysSinceStart > 0) {
 			displayedString += "Days left (on average) before exceeding the budget\n";
 			Map<String, Double> averageDailyExpense = this.getAverageDailyExpense(this.getNumDaysPassed());
 			Map<String, Integer> remDaysByCategoryMap = this.predictRemaining(averageDailyExpense);
@@ -100,6 +107,7 @@ public class BudgetPlan extends Plan {
 					break;
 				case 0:
 					remDaysResponseString = "Overbudget";
+					break;
 				default:
 					remDaysResponseString = Integer.toString(i.getValue());
 					break;
@@ -111,7 +119,12 @@ public class BudgetPlan extends Plan {
 		else {
 			displayedString += "Not enough data for a prediction \n";
 		}
-		
+		System.out.print(displayedString);
 		return displayedString;
+	}
+	
+	public void updatePlan(Transaction transaction) {
+		allTrans.add(transaction);
+		//TODO fits time range?
 	}
 }
