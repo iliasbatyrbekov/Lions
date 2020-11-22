@@ -50,7 +50,7 @@ public class BudgetPlan extends Plan {
 		return remDaysByCategoryMap;
 	}
 	private int getNumDaysPassed() {
-		long temp  = super.getTimePeriodLength("days");
+		long temp  = super.getCurrentDuration();
 		return (int) temp;
 	}
 	

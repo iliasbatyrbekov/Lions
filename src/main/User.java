@@ -126,7 +126,7 @@ public class User {
 		Account acc = searchAccount(accountId);
 		if(p == null) throw new ExPlainNotExist();
 		if (acc == null) throw new ExAccountNotExist();
-		
+
 		int transactionId = 0;
 		if(transactionRecords.size() != 0)
 			this.transactionRecords.get(this.transactionRecords.size()-1).getTransactionID();
