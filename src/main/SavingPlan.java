@@ -17,10 +17,10 @@ public class SavingPlan extends Plan {
 	public SavingPlan(String planName, ArrayList<String> timePeriod, double goalAmount, String purposeOfPlan) {
 		super(planName, timePeriod);
 		this.goalAmount = goalAmount;
-		this.monthlyGoalAmount = goalAmount / this.getTimePeriodLength("month");
-		
+		this.monthlyGoalAmount = goalAmount / super.getTimePeriodLength("month");
+		this.tranRecord=new ArrayList<Transaction>();
 		this.monthlySum = new ArrayList<Double>();
-		for (int i = 0; i < this.getTimePeriodLength("month"); ++i)
+		for (int i = 0; i < super.getTimePeriodLength("month"); ++i)
 			this.monthlySum.add(this.monthlyGoalAmount);
 		
 			this.purposeOfPlan = purposeOfPlan;
@@ -66,6 +66,14 @@ public class SavingPlan extends Plan {
 //		average_saving_period.put(arrayList, average_saving);
 //		return average_saving_period;
 //	}
+	public double getAverageSaving() {
+		double currentsavingAmount = this.getCurrentSavingAmount();
+		double currentMonth = this.getCurrentPointInTime("day");
+		
+		
+		double average = Math.floor(currentsavingAmount / currentMonth);
+		return average;
+	}
 	
 	public void updatePlan(Transaction newSaving) {
 		this.addTransaction(newSaving);
@@ -93,8 +101,8 @@ public class SavingPlan extends Plan {
 		if (currentMonth<1)
 			summary = "Not enough data to generate summary. Please check again after a while...";
 		else {
-			double avgRepaid = Math.floor((this.goalAmount - currentsavingAmount) / currentMonth);
-			int moreMonths = (int) Math.ceil(currentsavingAmount / avgRepaid);
+			double avgSaving = this.getAverageSaving();
+			int moreMonths = (int) Math.ceil(currentsavingAmount / avgSaving);
 			LocalDate endDate = LocalDate.parse(super.getTimePeriod().get(1));
 			String endDateString = endDate.format(DateTimeFormatter.ofPattern("MMMM yyyy"));
 			boolean likely = (noOfMonths < currentMonth+moreMonths) ? false : true;
@@ -103,7 +111,7 @@ public class SavingPlan extends Plan {
 			
 			summary = String.format("From the last %d month(s), you repaid $%f on average per month. "
 									+ "You will need %d more month(s) to settle the loan. ",
-									currentMonth, avgRepaid, moreMonths);
+									currentMonth, avgSaving, moreMonths);
 
 			if (!likely) {
 				// likelihoodString = "not likely";

@@ -108,6 +108,7 @@ public class User {
 		return null;
 	}
 	
+	public void listAllPlans() { Plan.listAll(this.planList); }
 	
 	// TransactionList
 	public void listAllTransactionRecords() { Transaction.listAll(this.transactionRecords); }

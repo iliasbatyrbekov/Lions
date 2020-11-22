@@ -9,13 +9,14 @@ public class Transaction implements Comparable<Transaction>{
 	private String date;
 	private String accountID;
 	private String description;
+	// private static int idGenSeed = 0;
  
-	public Transaction(int transactionID, double amount, String accountID, String description, String date2) { 
-		this.transactionID = transactionID;
+	public Transaction(int transactionID, double amount, String accountID, String description, String date) { 
+		this.transactionID = transactionID;//String this.transactionID = Integer.toString(idGenSeed++)
 		this.accountID = accountID;
 		this.amount = amount;
 		this.description = description;
-		this.date = date2;
+		this.date = date;
 	}
 	
  
@@ -40,7 +41,6 @@ public class Transaction implements Comparable<Transaction>{
 		}
 		return null;
 	}
-
 
 	@Override
 	public int compareTo(Transaction trans) {
