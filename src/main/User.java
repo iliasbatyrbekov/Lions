@@ -120,19 +120,24 @@ public class User {
 	
 	public void addTransaction(String transType, Double amount, String accountId, String planId, String description, String date, String category) throws ExPlainNotExist, ExAccountNotExist, ExUpdateBalanceErr {
 		
-		Plan p = searchPlan(planId);
 		Account acc = searchAccount(accountId);
-		if(p == null) throw new ExPlainNotExist();
 		if (acc == null) throw new ExAccountNotExist();
 
 		int transactionId = 0;
 		if(transactionRecords.size() != 0)
-			this.transactionRecords.get(this.transactionRecords.size()-1).getTransactionID();
+			transactionId = this.transactionRecords.get(this.transactionRecords.size()-1).getTransactionID();
 		
 		if(transType.equals("Expense")){
 			Expense expenseTrans = new Expense(transactionId, amount, accountId, description, date, category);
-			if(acc.updateBalance(amount) == 1) this.transactionRecords.add(expenseTrans);
+			if(acc.updateBalance(amount) == 1)
+				this.transactionRecords.add(expenseTrans);
 			else throw new ExUpdateBalanceErr();
+			
+			Plan plan = searchPlan(planId);
+			if(plan == null) 
+				throw new ExPlainNotExist();
+			else
+				plan.updatePlan(expenseTrans);
 		} else if (transType.equals("Income")) {
 			Income incomeTrans = new Income(transactionId, amount, accountId, description, date, category);
 			if(acc.updateBalance(amount) == 1) this.transactionRecords.add(incomeTrans);
