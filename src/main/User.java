@@ -23,6 +23,18 @@ public class User {
 	}
 	
 	//Account
+	public String checkAccount(String type, String accId) {
+		Account acc = this.searchAccount(accId);
+		if(acc != null) {
+			if(acc instanceof CashAccount && type.equals("Cash")) return "Added in Cash Account";
+			else if(acc instanceof SavingAccount && type.equals("Saving")) return "Added in Saving Account";
+			else if(acc instanceof DebitAccount && type.equals("Debit")) return "Added in Debit Account";
+			else if(acc instanceof CreditCardAccount && type.equals("Credit")) return "Added in Credit Card Account";
+			else return "Account type mismatch";
+		}
+		else return "Account not found";
+	}
+	
 	public ArrayList<Account> getAccountList() { 
 		return this.accountList; 
 	}
@@ -46,7 +58,7 @@ public class User {
 			this.accountList.add(sa);
 			break;
 		case"Credit":
-			CreditCardAccuont cca = new CreditCardAccuont(accID, balance);
+			CreditCardAccount cca = new CreditCardAccount(accID, balance);
 			this.accountList.add(cca);
 			break;
 		case"Debit":
@@ -59,12 +71,6 @@ public class User {
 		}
 	}
 	
-	public void deleteAccount(String accId) throws ExAccountNotExist {
-		Account acc = this.searchAccount(accId);
-		if(acc != null) this.accountList.remove(acc);
-		else throw new ExAccountNotExist();
-	}
-	
 	public Account searchAccount(String accId) {
 		for (Account a : this.accountList) {
 			if(a.getaccID().equals(accId)) return a;
@@ -72,6 +78,9 @@ public class User {
 		return null;
 	}
 	
+	public void addAccount(Account anAccount) {
+		this.accountList.add(anAccount);
+	}
 	
 	
 	//Plan
@@ -89,12 +98,6 @@ public class User {
 		this.planList.add(aplan);
 	}
 	
-	public void deletePlan(String planId) throws ExPlainNotExist {
-		Plan p = this.searchPlan(planId);
-		if(p != null) this.planList.remove(p);
-		else throw new ExPlainNotExist();
-	}
-	
 	public ArrayList<Plan> getPlanList(){
 		return this.planList;
 	}
@@ -108,8 +111,6 @@ public class User {
 		return null;
 	}
 	
-	public void listAllPlans() { Plan.listAll(this.planList); }
-	
 	// TransactionList
 	public void listAllTransactionRecords() { Transaction.listAll(this.transactionRecords); }
 	
@@ -119,19 +120,24 @@ public class User {
 	
 	public void addTransaction(String transType, Double amount, String accountId, String planId, String description, String date, String category) throws ExPlainNotExist, ExAccountNotExist, ExUpdateBalanceErr {
 		
-		Plan p = searchPlan(planId);
 		Account acc = searchAccount(accountId);
-		if(p == null) throw new ExPlainNotExist();
 		if (acc == null) throw new ExAccountNotExist();
-		
+
 		int transactionId = 0;
 		if(transactionRecords.size() != 0)
-			this.transactionRecords.get(this.transactionRecords.size()-1).getTransactionID();
+			transactionId = this.transactionRecords.get(this.transactionRecords.size()-1).getTransactionID();
 		
 		if(transType.equals("Expense")){
 			Expense expenseTrans = new Expense(transactionId, amount, accountId, description, date, category);
-			if(acc.updateBalance(amount) == 1) this.transactionRecords.add(expenseTrans);
+			if(acc.updateBalance(amount) == 1)
+				this.transactionRecords.add(expenseTrans);
 			else throw new ExUpdateBalanceErr();
+			
+			Plan plan = searchPlan(planId);
+			if(plan == null) 
+				throw new ExPlainNotExist();
+			else
+				plan.updatePlan(expenseTrans);
 		} else if (transType.equals("Income")) {
 			Income incomeTrans = new Income(transactionId, amount, accountId, description, date, category);
 			if(acc.updateBalance(amount) == 1) this.transactionRecords.add(incomeTrans);
@@ -152,14 +158,7 @@ public class User {
 	}
  
 	public ArrayList<Transaction> getTransactionList(String fromTime, String endTime) {
-		//TODO: filter from date and to date
 		return this.transactionRecords;
-	}
-	
-	public void deleteTransaction(int transactionId) throws ExTransactionNotExist {
-		Transaction trans = this.findTransactionRecord(transactionId);
-		if(trans != null) this.transactionRecords.remove(trans);
-		else throw new ExTransactionNotExist();
 	}
 	
 }
