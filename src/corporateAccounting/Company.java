@@ -35,8 +35,13 @@ public class Company {
 		if (accountToCredit == null) {
 			System.out.print("Error: " + trans.getCredittedAccount() + " is not a valid account.\n");
 			return false;
-		} else if (accountToDebit == null) {
+		}
+		if (accountToDebit == null) {
 			System.out.print("Error: " + trans.getDebittedAccount() + " is not a valid account.\n");
+			return false;
+		}
+		if (accountToCredit.equals(accountToDebit)) {
+			System.out.print("Error: Cannot debit and credit the same account\n");
 			return false;
 		}
 		
@@ -93,55 +98,111 @@ public class Company {
 	
 	// TODO: only print the ones of non-zero balance
 	public void printBalanceSheet() {
-		String seperationLine = "\n--------------------------------------------------------------+--------------------------------------------------------------+--------------------------------------------------------------|";
-		String accountcategoryTitleFormatString = " %-60s | %-60s | %-60s |";
-		String balanceRowFormat = " %-47s | %10s | %-47s | %10s | %-47s | %10s |";
+		String seperationLine = "\n------------------------------------------+------------------------------------------+------------------------------------------|";
+		String accountcategoryTitleFormatString = " %-40s | %-40s | %-40s |";
+		String balanceRowFormat = " %-27s | %10s | %-27s | %10s | %-27s | %10s |";
 		
-		System.out.println('\n' + new String(new char[187]).replace("\0", "-") + "-");
+		System.out.println('\n' + new String(new char[127]).replace("\0", "-") + "-");
 		System.out.format(accountcategoryTitleFormatString, "ASSETS", "LIABILITY", "STOCK HOLDER'S EQUITY");
 		//System.out.println('\n' + new String(new char[186]).replace("\0", "-"));
 		System.out.println(seperationLine);
 		
-		for (int i=0; i < Math.max(CompanyAccount.assetAccountNames.length + CompanyAccount.contraAssetAccountNames.length, Math.max(CompanyAccount.liabilityAccountNames.length, CompanyAccount.stockHoldersEquityAccountNames.length + CompanyAccount.contrastockHoldersEquityAccountNames.length)); i++) {
-			String assetAcc,assetBal,liabAcc,liabBal,seAcc,seBal;
+		int balanceSheetSize = 0;
+		int nAsset = 0;
+		int nContraAsset = 0;
+		int nLiability = 0;
+		int nStockholdersEquity = 0;
+		int nContraSE = 0;
+		ArrayList<CompanyAccount> assetToPrint = new ArrayList<>();
+		ArrayList<CompanyAccount> liabilityToPrint = new ArrayList<>();
+		ArrayList<CompanyAccount> seToPrint = new ArrayList<>();
+		// # of asset accounts to include in the balance sheet
+		for (String assAcc: CompanyAccount.assetAccountNames) {
+			if (accountList.get(assAcc).getBalance() != 0) 
+				assetToPrint.add(accountList.get(assAcc));
+		}
+		for (String assAcc: CompanyAccount.contraAssetAccountNames) {
+			if (accountList.get(assAcc).getBalance() != 0) 
+				assetToPrint.add(accountList.get(assAcc));
+		}
+		// # of liability accounts to include in the balance sheet
+		for (String liaAcc: CompanyAccount.liabilityAccountNames) {
+			if (accountList.get(liaAcc).getBalance() != 0)
+				liabilityToPrint.add(accountList.get(liaAcc));
+		}
+		// # of stockholder's equity accounts to include in the balance sheet
+		for (String seAcc: CompanyAccount.stockHoldersEquityAccountNames) {
+			if (accountList.get(seAcc).getBalance() != 0) 
+				seToPrint.add(accountList.get(seAcc));
+		}
+		for (String seAcc: CompanyAccount.contrastockHoldersEquityAccountNames) {
+			if (accountList.get(seAcc).getBalance() != 0) 
+				seToPrint.add(accountList.get(seAcc));
+		}
+		
+		balanceSheetSize = Math.max(assetToPrint.size(), Math.max(liabilityToPrint.size(), seToPrint.size()));
+
+		for (int i=0; i < balanceSheetSize; i++) {
+			String assetAcc, assetBal, liabAcc, liabBal, seAcc, seBal;
+			assetAcc = assetBal = liabAcc = liabBal = seAcc = seBal = "";
+			//Assets
+			if(i < assetToPrint.size()) {
+				assetAcc = assetToPrint.get(i).getAccountName();
+				assetBal = String.valueOf(assetToPrint.get(i).getBalance());
+			}
+			//Liabilities
+			if(i < liabilityToPrint.size()) {
+				liabAcc = liabilityToPrint.get(i).getAccountName();
+				liabBal = String.valueOf(liabilityToPrint.get(i).getBalance());
+			}
+			//Stockholders' equity
+			if(i < seToPrint.size()) {
+				seAcc = seToPrint.get(i).getAccountName();
+				seBal = String.valueOf(seToPrint.get(i).getBalance());
+			}
+			System.out.format(balanceRowFormat, assetAcc, assetBal, liabAcc, liabBal, seAcc, seBal);
+			System.out.println(seperationLine);
+		}
+		/*for (int i=0; i < Math.max(CompanyAccount.assetAccountNames.length + CompanyAccount.contraAssetAccountNames.length, Math.max(CompanyAccount.liabilityAccountNames.length, CompanyAccount.stockHoldersEquityAccountNames.length + CompanyAccount.contrastockHoldersEquityAccountNames.length)); i++) {
+			String assetAcc, assetBal, liabAcc, liabBal, seAcc, seBal;
 			//Assets
 			if(i<CompanyAccount.assetAccountNames.length) {
-				assetAcc=accountList.get(CompanyAccount.assetAccountNames[i]).getAccountName();
-				assetBal=String.valueOf(accountList.get(CompanyAccount.assetAccountNames[i]).getBalance());
+				assetAcc = accountList.get(CompanyAccount.assetAccountNames[i]).getAccountName();
+				assetBal = String.valueOf(accountList.get(CompanyAccount.assetAccountNames[i]).getBalance());
 			}
 			else if(i<CompanyAccount.assetAccountNames.length + CompanyAccount.contraAssetAccountNames.length) {
-				assetAcc=accountList.get(CompanyAccount.contraAssetAccountNames[i-CompanyAccount.assetAccountNames.length]).getAccountName();
+				assetAcc = accountList.get(CompanyAccount.contraAssetAccountNames[i-CompanyAccount.assetAccountNames.length]).getAccountName();
 				assetBal=String.valueOf(accountList.get(CompanyAccount.contraAssetAccountNames[i-CompanyAccount.assetAccountNames.length]).getBalance());
 			}
 			else {
-				assetAcc="";
-				assetBal="";
+				assetAcc = "";
+				assetBal = "";
 			}
 			//Liabilities
 			if(i<CompanyAccount.liabilityAccountNames.length) {
-				liabAcc=accountList.get(CompanyAccount.liabilityAccountNames[i]).getAccountName();
-				liabBal=String.valueOf(accountList.get(CompanyAccount.liabilityAccountNames[i]).getBalance());
+				liabAcc = accountList.get(CompanyAccount.liabilityAccountNames[i]).getAccountName();
+				liabBal = String.valueOf(accountList.get(CompanyAccount.liabilityAccountNames[i]).getBalance());
 			}
 			else {
-				liabAcc="";
-				liabBal="";
+				liabAcc = "";
+				liabBal = "";
 			}
 			//Stockholders' equity
 			if(i<CompanyAccount.stockHoldersEquityAccountNames.length) {
-				seAcc=accountList.get(CompanyAccount.stockHoldersEquityAccountNames[i]).getAccountName();
-				seBal=String.valueOf(accountList.get(CompanyAccount.stockHoldersEquityAccountNames[i]).getBalance());
+				seAcc = accountList.get(CompanyAccount.stockHoldersEquityAccountNames[i]).getAccountName();
+				seBal = String.valueOf(accountList.get(CompanyAccount.stockHoldersEquityAccountNames[i]).getBalance());
 			}
 			else if(i<CompanyAccount.stockHoldersEquityAccountNames.length + CompanyAccount.contrastockHoldersEquityAccountNames.length) {
-				seAcc=accountList.get(CompanyAccount.contrastockHoldersEquityAccountNames[i-CompanyAccount.stockHoldersEquityAccountNames.length]).getAccountName();
-				seBal=String.valueOf(accountList.get(CompanyAccount.contrastockHoldersEquityAccountNames[i-CompanyAccount.stockHoldersEquityAccountNames.length]).getBalance());
+				seAcc = accountList.get(CompanyAccount.contrastockHoldersEquityAccountNames[i-CompanyAccount.stockHoldersEquityAccountNames.length]).getAccountName();
+				seBal = String.valueOf(accountList.get(CompanyAccount.contrastockHoldersEquityAccountNames[i-CompanyAccount.stockHoldersEquityAccountNames.length]).getBalance());
 			}
 			else {
-				seAcc="";
-				seBal="";
+				seAcc = "";
+				seBal = "";
 			}
-			System.out.format(balanceRowFormat, assetAcc,assetBal,liabAcc,liabBal,seAcc,seBal);
+			System.out.format(balanceRowFormat, assetAcc, assetBal, liabAcc, liabBal, seAcc, seBal);
 			System.out.println(seperationLine);
-		}
+		}*/
 		
 	}
 	

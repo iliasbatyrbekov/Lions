@@ -79,6 +79,13 @@ public class TestCompany {
 		CompanyTransaction transaction = new CompanyTransaction(company.generateNewID(), new Date(), "Deferred-Revenue", "Service-Revenue", 100, "Provide a month of service");
 		assertEquals(true, company.isValidTransaction(transaction));
 	}
+	@Test
+	public void testIsValidTransaction8() {
+		Company company = new Company();
+		CompanyTransaction transaction = new CompanyTransaction(company.generateNewID(), new Date(), "Cash", "Cash", 1000, "Receive cash from cash");
+		assertEquals(false, company.isValidTransaction(transaction));
+		assertEquals("Error: Cannot debit and credit the same account\n", outContent.toString());
+	}
 	@Test 
 	public void testRecordTransaction1() {
 		Company company = new Company();
