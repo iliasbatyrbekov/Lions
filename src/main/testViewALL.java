@@ -75,11 +75,11 @@ public class testViewALL {
 		ArrayList<Transaction> TL = new ArrayList<>();
 		ArrayList<Account> AL = new ArrayList<>();
 		ArrayList<Plan> PL = new ArrayList<>();
-		Expense Child = new Expense(0, 1000.0, "", "", "", "Child");
+		Expense Child = new Expense(0, 1000.0, "", "", "", "");
 		Child.setMember("Child");
 		TL.add(Child);
 
-		Expense Parent = new Expense(0, 2000.0, "", "", "", "Parent");
+		Expense Parent = new Expense(0, 2000.0, "", "", "", "");
 		Parent.setMember("Parent");
 		TL.add(Parent);
 
