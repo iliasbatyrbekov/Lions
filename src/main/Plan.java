@@ -49,10 +49,6 @@ public class Plan {
 		return timePeriodString;
 	}
 	
-	public ArrayList<LocalDate> getTimePeriodDatesArr() {
-		return timePeriod;
-	}
-	
 	public void setTimePeriod(ArrayList<String> timePeriodString) {
 		if (!this.timePeriod.isEmpty())
 			this.timePeriod.clear();
@@ -90,7 +86,7 @@ public class Plan {
 	
 	public void updatePlan(Transaction transaction) {;}
 
-	public String getPlan() {return "getPlan() works";}
+	public String getPlan() {return "";}
 
 	public static void listAll(ArrayList<Plan> planList) {
 //		System.out.printf("%-30s %1.7f %-20s %-30s %-20s:", "Transaction ID", "Amount", "Account ID", "Description", "Create Date");
