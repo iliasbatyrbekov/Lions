@@ -49,17 +49,14 @@ public class testViewALL {
 		ArrayList<Transaction> TL = new ArrayList<>();
 		ArrayList<Account> AL = new ArrayList<>();
 		ArrayList<Plan> PL = new ArrayList<>();
-		Expense t = new Expense(0, 10000, "123", null, null);
-		t.setCategory("Food");
-		Expense t1 = new Expense(0, 10000, "123", null, null);
-		t1.setCategory("Food");
-		Expense t2 = new Expense(0, 10000, "123", null, null);
-		t2.setCategory("Drinks");
+		Expense t = new Expense(0, 10000, "123", null, null, "Food");
+		Expense t1 = new Expense(0, 10000, "123", null, null, "Food");
+		Expense t2 = new Expense(0, 10000, "123", null, null, "Drinks");
 		TL.add(t);
 		TL.add(t1);
 		TL.add(t2);
 		
-		Income incometran=new Income(5,1000.0,"","","");
+		Income incometran=new Income(5,1000.0,"","","", null);
 		TL.add(incometran);
 
 		View myView = new View(TL, AL, PL);
@@ -71,7 +68,6 @@ public class testViewALL {
 		expected.add("Food: 20000.0");
 
 		assertEquals(expected, result);
-		System.out.println("Expected: " + expected);
 	}
 	
 	@Test
@@ -79,23 +75,23 @@ public class testViewALL {
 		ArrayList<Transaction> TL = new ArrayList<>();
 		ArrayList<Account> AL = new ArrayList<>();
 		ArrayList<Plan> PL = new ArrayList<>();
-		Expense Child = new Expense(1, 1000.0, "", "", "");
+		Expense Child = new Expense(0, 1000.0, "", "", "", "");
 		Child.setMember("Child");
 		TL.add(Child);
 
-		Expense Parent = new Expense(2, 2000.0, "", "", "");
+		Expense Parent = new Expense(0, 2000.0, "", "", "", "");
 		Parent.setMember("Parent");
 		TL.add(Parent);
 
-		Expense Grandparent = new Expense(3, 3000.0, "", "", "");
+		Expense Grandparent = new Expense(0, 3000.0, "", "", "", "");
 		Grandparent.setMember("Grandparent");
 		TL.add(Grandparent);
 		
-		Expense Grandparent2 = new Expense(4, 6000.0, "", "", "");
+		Expense Grandparent2 = new Expense(0, 6000.0, "", "", "", "");
 		Grandparent2.setMember("Grandparent");
 		TL.add(Grandparent2);
 		
-		Income incometran=new Income(5,1000.0,"","","");
+		Income incometran=new Income(5,1000.0,"","","", null);
 		TL.add(incometran);
 
 		View myView = new View(TL, AL, PL);
@@ -106,20 +102,19 @@ public class testViewALL {
 		expected.add("Parent: 2000.0");
 		expected.add("Child: 1000.0");
 		expected.add("Grandparent: 9000.0");
-
 		assertEquals(expected, result);
 	}
 	
 	@Test
 	public void testViewExpensebyAccount() {
-		Expense t = new Expense(0, 10000, "Cash", null, null);
-		Expense t1 = new Expense(0, 10000, "CreditCard", null, null);
-		Expense t2 = new Expense(0, 10000, "Cash", null, null);
+		Expense t = new Expense(0, 10000, "Cash", null, null, null);
+		Expense t1 = new Expense(0, 10000, "CreditCard", null, null, null);
+		Expense t2 = new Expense(0, 10000, "Cash", null, null, null);
 		TL.add(t);
 		TL.add(t1);
 		TL.add(t2);
 		
-		Income incometran=new Income(5,1000.0,"","","");
+		Income incometran=new Income(5,1000.0,"","","", null);
 		TL.add(incometran);
 
 		View myView = new View(TL, AL, PL);
