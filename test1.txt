@@ -5,18 +5,26 @@ AddPlan|GirlFriend|2019-08-01|2021-01-02
 ListAllPlan
 
 AddAccount|Credit|0|1000|0|0|0|0
-AddAccount|Saving|2|-100|0|0.9|2020-01-09
+AddAccount|Saving|2|34000|0|0.9|2020-01-09
 AddAccount|Debit|1|100|0|0|0|0
-AddAccount|Cash|3|200|0|0|0|0
+AddAccount|Cash|3|1200|0|0|0|0
 
 ListAllAccount
 
 
 RecordTransaction|TransferReceive|500|0|1|My mom loved me|2020-11-11|null
-RecordTransaction|Expense|-100|0|1|My girlfriend spent too much|2020-11-19|car
+RecordTransaction|Expense|-100|0|1|My girlfriend spent too much|2020-11-19|car|girlfriend
+RecordTransaction|Expense|-300|3|1|My father wanna sleep with me|2020-01-09|rest|father
+RecordTransaction|Expense|-6200|2|1|My girlfriend spent too much|2019-12-21|entertainment|friend
 RecordTransaction|Income|300|1|0|I earned too much|2020-11-13|salary
 RecordTransaction|TransferRemit|-400|1|0|My gf again la|2020-11-17|null
 
 ListTransactions
 
 ListAllAccount
+
+ViewExpenseByAccount
+
+ViewExpenseByCategory
+
+ViewExpenseByMember
