@@ -34,7 +34,7 @@ public class Main {
 			else if (cmdParts[0].equals("ViewExpenseByCategory"))
 				u.viewExpenseByCategory();
 			else if (cmdParts[0].equals("ViewExpenseByMember"))
-				u.viewExpenseByAccount();
+				u.viewExpenseByMember();
 			
 				
 			

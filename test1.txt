@@ -27,4 +27,4 @@ ViewExpenseByAccount
 
 ViewExpenseByCategory
 
-ViewExpenseByMember|
+ViewExpenseByMember
