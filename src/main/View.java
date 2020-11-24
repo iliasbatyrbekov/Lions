@@ -8,7 +8,7 @@ public class View {
 	private ArrayList<Account>accList;
 	private ArrayList<Plan> planList;
 	
-	View(ArrayList<Transaction> TL,ArrayList<Account> AL, ArrayList<Plan> PL){
+	public View(ArrayList<Transaction> TL,ArrayList<Account> AL, ArrayList<Plan> PL){
 		tranHist=TL;
 		accList=AL;
 		planList=PL;

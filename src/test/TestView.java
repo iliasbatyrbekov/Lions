@@ -1,20 +1,23 @@
-package main;
+package test;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 
-import static org.junit.Assert.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.Test;
+import main.Transaction;
+import main.Account;
+import main.Plan;
+import main.View;
+import main.Income;
+import main.Expense;
 
-public class testViewALL {
+public class TestView {
 	ArrayList<Transaction> TL = new ArrayList<Transaction>();
 	ArrayList<Account> AL = new ArrayList<Account>();
 	ArrayList<Plan> PL = new ArrayList<Plan>();
 
-	//testcase when there are 3 accounts, showing the total balance of each acc
 	@Test
 	public void testViewAllAccountBalance_01(){
 		Account acc1 = new Account("shawn", 2500);
@@ -32,7 +35,6 @@ public class testViewALL {
 		assertEquals(expected, result);
 	}
 
-	//testcase when there is no record found
 	@Test
 	public void testViewAllAccountBalance_02(){
 		Account acc1=new Account("", 0);
@@ -46,9 +48,6 @@ public class testViewALL {
 	
 	@Test
 	public void testViewExpensebyCategory() {
-		ArrayList<Transaction> TL = new ArrayList<>();
-		ArrayList<Account> AL = new ArrayList<>();
-		ArrayList<Plan> PL = new ArrayList<>();
 		Expense t = new Expense(0, 10000, "123", null, null, "Food");
 		Expense t1 = new Expense(0, 10000, "123", null, null, "Food");
 		Expense t2 = new Expense(0, 10000, "123", null, null, "Drinks");
@@ -72,9 +71,6 @@ public class testViewALL {
 	
 	@Test
 	public void testViewExpensebyMember() {
-		ArrayList<Transaction> TL = new ArrayList<>();
-		ArrayList<Account> AL = new ArrayList<>();
-		ArrayList<Plan> PL = new ArrayList<>();
 		Expense Child = new Expense(0, 1000.0, "", "", "", "");
 		Child.setMember("Child");
 		TL.add(Child);
