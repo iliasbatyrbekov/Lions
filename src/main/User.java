@@ -20,7 +20,17 @@ public class User {
 		this.transactionRecords = new ArrayList<>();
 		this.accountList = new ArrayList<>();
 		this.planList = new ArrayList<>();
+		view = new View(this.transactionRecords, this.accountList, this.planList);
 	}
+	
+	//View
+	public void viewExpenseByAccount() { view.viewExpensebyAccount(); }
+	public void viewExpenseByCategory() { view.viewExpensebyCategory(); }
+	public void viewExpenseByMember() {
+		
+		view.viewExpensebyMember();
+	}
+	
 	
 	//Account
 	public String checkAccount(String type, String accId) {
@@ -116,6 +126,29 @@ public class User {
 	
 	public Transaction findTransactionRecord(int transactionId) {
 		return Transaction.searchTransaction(transactionRecords, transactionId);
+	}
+	
+	public void addExpenseTransaciton (String transType, Double amount, String accountId, String planId, String description, String date, String category, String member) throws ExPlainNotExist, ExAccountNotExist, ExUpdateBalanceErr {
+		Account acc = searchAccount(accountId);
+		if (acc == null) throw new ExAccountNotExist();
+
+		int transactionId = 0;
+		if(transactionRecords.size() != 0)
+			transactionId = this.transactionRecords.get(this.transactionRecords.size()-1).getTransactionID();
+		if(transType.equals("Expense")){
+			Expense expenseTrans = new Expense(transactionId, amount, accountId, description, date, category);
+			expenseTrans.setMember(member);
+			if(acc.updateBalance(amount) == 1)
+				this.transactionRecords.add(expenseTrans);
+			else throw new ExUpdateBalanceErr();
+			
+			Plan plan = searchPlan(planId);
+			if(plan == null) 
+				throw new ExPlainNotExist();
+			else
+				plan.updatePlan(expenseTrans);
+		}
+		
 	}
 	
 	public void addTransaction(String transType, Double amount, String accountId, String planId, String description, String date, String category) throws ExPlainNotExist, ExAccountNotExist, ExUpdateBalanceErr {

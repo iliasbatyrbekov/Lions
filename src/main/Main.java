@@ -29,6 +29,13 @@ public class Main {
 				(new CmdAddAccount()).execute(cmdParts);
 			else if (cmdParts[0].equals("ListAllAccount"))
 				u.listAllAccounts();
+			else if (cmdParts[0].equals("ViewExpenseByAccount"))
+				u.viewExpenseByAccount();
+			else if (cmdParts[0].equals("ViewExpenseByCategory"))
+				u.viewExpenseByCategory();
+			else if (cmdParts[0].equals("ViewExpenseByMember"))
+				u.viewExpenseByAccount();
+			
 				
 			
 		}
