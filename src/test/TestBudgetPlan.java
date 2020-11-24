@@ -2,7 +2,11 @@ package test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,8 +24,12 @@ public class TestBudgetPlan {
 	@Test
 	public void testBudgetPlan_1() throws ExPlainNotExist, ExAccountNotExist, ExUpdateBalanceErr, ExAccountTypeNotSupported {
 		
+		LocalDate localDate = LocalDate.now().minusDays(1);
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		String formattedString = localDate.format(formatter);
+		
 		ArrayList<String> timePeriod = new ArrayList<>();
-        timePeriod.add("2020-11-21");
+        timePeriod.add(formattedString);
         timePeriod.add("2020-12-30");
         Map<String, Double> goalAmount = new HashMap<String, Double>();
         goalAmount.put("A", 10.0);
@@ -29,8 +37,8 @@ public class TestBudgetPlan {
         
 		BudgetPlan budgetPlan = new BudgetPlan("name", timePeriod, goalAmount);
 		
-		budgetPlan.updatePlan(new Expense(1, 2.0, "", "", "2020-11-21", "A"));
-		budgetPlan.updatePlan(new Expense(1, 2.0, "", "", "2020-11-21", "B"));
+		budgetPlan.updatePlan(new Expense(1, 2.0, "", "", formattedString, "A"));
+		budgetPlan.updatePlan(new Expense(1, 2.0, "", "", formattedString, "B"));
 		
 		String displayedString = "";
 		displayedString += "Planned Budget \n";
@@ -51,8 +59,12 @@ public class TestBudgetPlan {
 	@Test
 	public void testBudgetPlan_4() throws ExPlainNotExist, ExAccountNotExist, ExUpdateBalanceErr, ExAccountTypeNotSupported {
 		
+		LocalDate localDate = LocalDate.now();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		String formattedString = localDate.format(formatter);
+		
 		ArrayList<String> timePeriod = new ArrayList<>();
-        timePeriod.add("2020-11-22");
+        timePeriod.add(formattedString);
         timePeriod.add("2020-12-30");
         Map<String, Double> goalAmount = new HashMap<String, Double>();
         goalAmount.put("A", 10.0);
@@ -60,8 +72,8 @@ public class TestBudgetPlan {
         
 		BudgetPlan budgetPlan = new BudgetPlan("name", timePeriod, goalAmount);
 		
-		budgetPlan.updatePlan(new Expense(1, 2.0, "", "", "2020-11-22", "A"));
-		budgetPlan.updatePlan(new Expense(1, 2.0, "", "", "2020-11-22", "B"));
+		budgetPlan.updatePlan(new Expense(1, 2.0, "", "", formattedString, "A"));
+		budgetPlan.updatePlan(new Expense(1, 2.0, "", "", formattedString, "B"));
 
 		//this one is time sensetive to the current date
 		String displayedString = "";
@@ -80,6 +92,10 @@ public class TestBudgetPlan {
 	
 	@Test
 	public void testBudgetPlan_5() throws ExPlainNotExist, ExAccountNotExist, ExUpdateBalanceErr, ExAccountTypeNotSupported {
+		
+		LocalDate localDate = LocalDate.now();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd LLLL yyyy");
+		String formattedString = localDate.format(formatter);
 		
 		ArrayList<String> timePeriod = new ArrayList<>();
         timePeriod.add("2020-11-21");
