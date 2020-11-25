@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Map;
 
 
 public class User {
@@ -96,7 +97,41 @@ public class User {
 	//Plan
 	public void listAllPlan() { Plan.listAll(this.planList); }
 	
-	public void addPlan(String planType, String planName, String startDate, String endDate) {
+	public void addPlan(
+			String planTypeString,
+			String planName, 
+			String startDate, 
+			String endDate,
+			Map<String, Double> goalAmountByCategories,
+			Double goalAmount,
+			Double interestRate, 
+			String debtOwner,
+			String description) 
+	{	
+		ArrayList<String> timePeriodString = new ArrayList<>();
+		timePeriodString.add(startDate);
+		timePeriodString.add(endDate);
+		
+		switch (planTypeString) {
+		case "Budget":
+			this.planList.add(new BudgetPlan(planName, timePeriodString, goalAmountByCategories));
+			break;
+		case "Loan":
+			this.planList.add(new LoanPlan(planName, timePeriodString, goalAmount, interestRate, debtOwner));
+			break;
+		case "Saving":
+			this.planList.add(new SavingPlan(planName, timePeriodString, goalAmount, description));
+			break;
+		default:
+			this.addPlan(planName, startDate, endDate);
+			break;
+		}
+	}
+	
+	public void addPlan(
+			String planName, 
+			String startDate, 
+			String endDate) {
 		ArrayList<String> timePeriodString = new ArrayList<>();
 		timePeriodString.add(startDate);
 		timePeriodString.add(endDate);
