@@ -15,8 +15,8 @@ public class Main {
 		
 		// TODO Auto-generated method stub
 		boolean programFinished = false;
-		//Scanner in = new Scanner(new File("C:\\Users\\hsiangtai2\\Desktop\\Lions\\src\\corporateAccounting\\in.txt"));
-		Scanner in = new Scanner(System.in);
+		Scanner in = new Scanner(new File("C:\\Users\\hsiangtai2\\Desktop\\Lions\\src\\corporateAccounting\\in.txt"));
+		//Scanner in = new Scanner(System.in);
 		System.out.println("Welcome to our accounting system. It provides functions such as recording tractions, inventory purchases, recording inventory sales, viewing balance sheet/journal/storage, etc. Please specify which service you need by entering the corresponding command. Type \"help\" to see the full list of available commands.");
 		String allCommands = "==========================================================================\nREC: record transaction\n";
 		allCommands += "B: purchase inventory\n";
@@ -29,7 +29,7 @@ public class Main {
 		allCommands += "Q: quit the program\n";
 		allCommands += "HELP: view the list of available commands\n==========================================================================";
 		while (!programFinished) {
-			System.out.print(">> ");
+			System.out.println(">> ");
 			switch (in.next().toUpperCase()) {
 				case "REC":
 					System.out.println("Please enter the date of the transaction (dd/mm/yyyy), the account to debit, the account to credit, the amount to debit/credit, and a short description regarding the transaction: ");

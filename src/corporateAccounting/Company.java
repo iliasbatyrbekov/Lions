@@ -100,6 +100,7 @@ public class Company {
 		String seperationLine = "\n------------------------------------------+------------------------------------------+------------------------------------------|\n";
 		String headingFormat = " %-40s | %-40s | %-40s |";
 		String balanceRowFormat = " %-27s | %10s | %-27s | %10s | %-27s | %10s |";
+		String bottomLineFormat = " %-27s | %10s | %-70s | %10s |";
 		
 		System.out.print(new String(new char[128]).replace("\0", "-") + "\n");
 		System.out.format(headingFormat, "ASSETS", "LIABILITY", "STOCK HOLDER'S EQUITY");
@@ -135,6 +136,8 @@ public class Company {
 		
 		balanceSheetSize = Math.max(assetToPrint.size(), Math.max(liabilityToPrint.size(), seToPrint.size()));
 
+		double totalAssetBalance = 0;
+		double totalLiabilityPlusSEBalance = 0;
 		for (int i=0; i < balanceSheetSize; i++) {
 			String assetAcc, assetBal, liabAcc, liabBal, seAcc, seBal;
 			assetAcc = assetBal = liabAcc = liabBal = seAcc = seBal = "";
@@ -142,20 +145,34 @@ public class Company {
 			if(i < assetToPrint.size()) {
 				assetAcc = assetToPrint.get(i).getAccountName();
 				assetBal = String.valueOf(assetToPrint.get(i).getBalance());
+				if (assetToPrint.get(i).getAccountType() == CompanyAccountType.DEBIT_ACCOUNT)
+					totalAssetBalance += assetToPrint.get(i).getBalance();
+				else 
+					totalAssetBalance -= assetToPrint.get(i).getBalance();
 			}
 			//Liabilities
 			if(i < liabilityToPrint.size()) {
 				liabAcc = liabilityToPrint.get(i).getAccountName();
 				liabBal = String.valueOf(liabilityToPrint.get(i).getBalance());
+				if (liabilityToPrint.get(i).getAccountType() == CompanyAccountType.CREDIT_ACCOUNT)
+					totalLiabilityPlusSEBalance += liabilityToPrint.get(i).getBalance();
+				else
+					totalLiabilityPlusSEBalance -= liabilityToPrint.get(i).getBalance();
 			}
 			//Stockholders' equity
 			if(i < seToPrint.size()) {
 				seAcc = seToPrint.get(i).getAccountName();
 				seBal = String.valueOf(seToPrint.get(i).getBalance());
+				if (seToPrint.get(i).getAccountType() == CompanyAccountType.CREDIT_ACCOUNT)
+					totalLiabilityPlusSEBalance += seToPrint.get(i).getBalance();
+				else
+					totalLiabilityPlusSEBalance -= seToPrint.get(i).getBalance();
 			}
 			System.out.format(balanceRowFormat, assetAcc, assetBal, liabAcc, liabBal, seAcc, seBal);
 			System.out.print(seperationLine);
 		}
+		System.out.format(bottomLineFormat, "Asset balance: ", String.valueOf(totalAssetBalance), "Liability & Stockholder's equity balance: ", String.valueOf(totalLiabilityPlusSEBalance));
+		System.out.print(seperationLine);
 		
 	}
 	

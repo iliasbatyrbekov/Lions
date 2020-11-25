@@ -212,6 +212,8 @@ public class TestCompany {
 		String expected = new String(new char[128]).replace("\0", "-") + "\n";
 		expected += String.format(" %-40s | %-40s | %-40s |", "ASSETS", "LIABILITY", "STOCK HOLDER'S EQUITY");
 		expected += "\n------------------------------------------+------------------------------------------+------------------------------------------|\n";
+		expected += String.format(" %-27s | %10s | %-70s | %10s |", "Asset balance: ", "0.0", "Liability & Stockholder's equity balance: ", "0.0");
+		expected += "\n------------------------------------------+------------------------------------------+------------------------------------------|\n";
 		assertEquals(expected, outContent.toString());
 	}
 	@Test
@@ -235,6 +237,8 @@ public class TestCompany {
 		expected += seperationLine;
 		expected += String.format(balanceRowFormat, "Accumulated-Depreciation", "500.0", "", "", "Treasury-Stock", "1000.0");
 		expected += seperationLine;
+		expected += String.format(" %-27s | %10s | %-70s | %10s |", "Asset balance: ", "4000.0", "Liability & Stockholder's equity balance: ", "4500.0"); // the balance on the left and right are not the same (yet) because closing entries have not been generated
+		expected += "\n------------------------------------------+------------------------------------------+------------------------------------------|\n";
 		assertEquals(expected, outContent.toString());
 	}
 	@Test
