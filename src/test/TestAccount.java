@@ -11,6 +11,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import corporateAccounting.CompanyTransaction;
 import main.Account;
 import main.CashAccount;
 import main.CreditCardAccount;
