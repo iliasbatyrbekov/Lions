@@ -35,8 +35,8 @@ public class Main {
 				u.viewExpenseByCategory();
 			else if (cmdParts[0].equals("ViewExpenseByMember"))
 				u.viewExpenseByMember();
-			
-				
+			else if (cmdParts[0].equals("SavingPlanGetAverageSaving"))
+				(new CmdSavingPlanGetAverageSaving()).execute(cmdParts);
 			
 		}
 		

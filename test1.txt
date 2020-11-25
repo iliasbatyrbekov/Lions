@@ -28,3 +28,5 @@ ViewExpenseByAccount
 ViewExpenseByCategory
 
 ViewExpenseByMember
+
+SavingPlanGetAverageSaving|2020-09-01|1000
