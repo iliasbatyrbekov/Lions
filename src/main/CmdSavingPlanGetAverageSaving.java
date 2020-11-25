@@ -8,6 +8,6 @@ public class CmdSavingPlanGetAverageSaving {
 		SavingPlan savingPlan = new SavingPlan("SavingPlan1", timePeriod, 10000.0, "Education");
 		savingPlan.updatePlan(new Transaction(1234, Integer.parseInt(cmdParts[2]), "Account1", "Semester A", "2020-10-01"));
 
-        System.out.print("Your avarage saving from start date to today is " + "$" + savingPlan.getAverageSaving() + "/day");
+        System.out.print("Your average saving from start date to today is " + "$" + savingPlan.getAverageSaving() + "/day");
 	}
 }
