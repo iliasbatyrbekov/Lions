@@ -96,7 +96,7 @@ public class User {
 	//Plan
 	public void listAllPlan() { Plan.listAll(this.planList); }
 	
-	public void addPlan(String planName, String startDate, String endDate) {
+	public void addPlan(String planType, String planName, String startDate, String endDate) {
 		ArrayList<String> timePeriodString = new ArrayList<>();
 		timePeriodString.add(startDate);
 		timePeriodString.add(endDate);
