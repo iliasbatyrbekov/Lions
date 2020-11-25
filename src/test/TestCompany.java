@@ -5,12 +5,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import corporateAccounting.Company;
 import corporateAccounting.CompanyAccount;
@@ -201,5 +204,93 @@ public class TestCompany {
 		ArrayList<InventoryStorageEntry> expected = new ArrayList<>();
 		for (int i=0; i<expected.size(); i++) 
 			assertTrue(expected.get(i).getUnitCost() == actual.get(i).getUnitCost() && expected.get(i).getUnits() == actual.get(i).getUnits());
+	}
+	@Test
+	public void testPrintBalanceSheet1() {
+		Company company = new Company();
+		company.printBalanceSheet();
+		String expected = new String(new char[128]).replace("\0", "-") + "\n";
+		expected += String.format(" %-40s | %-40s | %-40s |", "ASSETS", "LIABILITY", "STOCK HOLDER'S EQUITY");
+		expected += "\n------------------------------------------+------------------------------------------+------------------------------------------|\n";
+		assertEquals(expected, outContent.toString());
+	}
+	@Test
+	public void testPrintBalanceSheet2() {
+		Company company = new Company();
+		company.recordTransaction(new CompanyTransaction(company.generateNewID(), new Date(), "Cash", "Accounts-Payable", 5000, "Description 1"));
+		company.recordTransaction(new CompanyTransaction(company.generateNewID(), new Date(), "Treasury-Stock", "Cash", 1000, "Description 2"));
+		company.recordTransaction(new CompanyTransaction(company.generateNewID(), new Date(), "Depreciation-Expense", "Accumulated-Depreciation", 500, "Description 3"));
+		company.recordTransaction(new CompanyTransaction(company.generateNewID(), new Date(), "Cash", "Common-Stock", 500, "Description 4"));
+		company.printBalanceSheet();
+		String headingFormat = " %-40s | %-40s | %-40s |";
+		String balanceRowFormat = " %-27s | %10s | %-27s | %10s | %-27s | %10s |";
+		String seperationLine = "\n------------------------------------------+------------------------------------------+------------------------------------------|\n";
+		String expected = "Transaction successfully added\n";
+		expected += expected;
+		expected += expected;
+		expected += new String(new char[128]).replace("\0", "-") + "\n";
+		expected += String.format(headingFormat, "ASSETS", "LIABILITY", "STOCK HOLDER'S EQUITY");
+		expected += seperationLine;
+		expected += String.format(balanceRowFormat, "Cash", "4500.0", "Accounts-Payable", "5000.0", "Common-Stock", "500.0");
+		expected += seperationLine;
+		expected += String.format(balanceRowFormat, "Accumulated-Depreciation", "500.0", "", "", "Treasury-Stock", "1000.0");
+		expected += seperationLine;
+		assertEquals(expected, outContent.toString());
+	}
+	@Test
+	public void testPrintJournal1() {
+		Company company = new Company();
+		company.printJournal();
+		assertEquals("Transaction is empty\n", outContent.toString());
+	}
+	@Test
+	public void testPrintJournal2() throws ParseException {
+		Company company = new Company();
+		company.recordTransaction(new CompanyTransaction(company.generateNewID(), new SimpleDateFormat("dd/MM/yyyy").parse("20/11/2020"), "Cash", "Accounts-Payable", 5000, "Description 1"));
+		company.recordTransaction(new CompanyTransaction(company.generateNewID(), new SimpleDateFormat("dd/MM/yyyy").parse("20/11/2020"), "Cash", "Accounts-Payable", 2000, "Description 2"));
+		company.printJournal();
+		String format = "%-10s | %-15s | %-30s | %10s | %10s\n";
+		String separationLine = "----------------------------------------------------------------------------------------\n";
+		String expected = "Transaction successfully added\nTransaction successfully added\n";
+		expected += separationLine;
+		expected += String.format(format, "ID", "DATE", "ACCOUNT NAME & DESCRIPTION", "DEBIT", "CREDIT");
+		expected += separationLine;
+		expected += String.format(format, "10000", "2020-11-20", "Cash", "5000.0", "");
+		expected += String.format(format, "", "", "Accounts-Payable", "", "5000.0");
+		expected += String.format(format, "", "", "(Description 1)", "", "");
+		expected += separationLine;
+		expected += String.format(format, "10001", "2020-11-20", "Cash", "2000.0", "");
+		expected += String.format(format, "", "", "Accounts-Payable", "", "2000.0");
+		expected += String.format(format, "", "", "(Description 2)", "", "");
+		expected += separationLine;
+		assertEquals(expected, outContent.toString());
+	}
+	@Test
+	public void testPrintStorage1() {
+		Company company = new Company();
+		company.printStorage();
+
+		String format = " %-30s | %-30s | %-30s |\n";
+		String seperationLine = "--------------------------------+--------------------------------+--------------------------------\n";
+		String expected = seperationLine;
+		expected += String.format(format, "TRANSACTION ID", "UNIT COST", "# REMAINING UNITS");
+		expected += seperationLine;
+		assertEquals(expected, outContent.toString());
+	}
+	@Test
+	public void testPrintStorage2() throws ParseException {
+		Company company = new Company();
+		company.purchaseInventory(5, 1000, new SimpleDateFormat("dd/MM/yyyy").parse("20/11/2020"), "Accounts-Payable");
+		company.printStorage();
+
+		String format = " %-30s | %-30s | %-30s |\n";
+		String seperationLine = "--------------------------------+--------------------------------+--------------------------------\n";
+		String expected = "Transaction successfully added\nInventory successfully purchased and added to storage\n";
+		expected += seperationLine;
+		expected += String.format(format, "TRANSACTION ID", "UNIT COST", "# REMAINING UNITS");
+		expected += seperationLine;
+		expected += String.format(format, "10000", "5.0", "1000");
+		expected += seperationLine;
+		assertEquals(expected, outContent.toString());
 	}
 }

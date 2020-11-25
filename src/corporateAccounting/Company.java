@@ -78,19 +78,18 @@ public class Company {
 			//error message may be shown in isValidTransaction()
 		}
 	}
-	public ArrayList<CompanyTransaction> getJournal() {
+	/*public ArrayList<CompanyTransaction> getJournal() {
 		return journal;
-	}
+	}*/
 	
 	public void printJournal() {
 		if(journal.size()==0) {
-			System.out.println("Transaction is empty");
+			System.out.print("Transaction is empty\n");
 		}
 		for(int i=0; i<journal.size(); i++) {
 			if(i == 0) {
 				journal.get(i).printTransaction(true);
-			}
-			else {
+			} else {
 				journal.get(i).printTransaction(false);
 			}
 		}
@@ -98,21 +97,15 @@ public class Company {
 	
 	// TODO: only print the ones of non-zero balance
 	public void printBalanceSheet() {
-		String seperationLine = "\n------------------------------------------+------------------------------------------+------------------------------------------|";
-		String accountcategoryTitleFormatString = " %-40s | %-40s | %-40s |";
+		String seperationLine = "\n------------------------------------------+------------------------------------------+------------------------------------------|\n";
+		String headingFormat = " %-40s | %-40s | %-40s |";
 		String balanceRowFormat = " %-27s | %10s | %-27s | %10s | %-27s | %10s |";
 		
-		System.out.println('\n' + new String(new char[127]).replace("\0", "-") + "-");
-		System.out.format(accountcategoryTitleFormatString, "ASSETS", "LIABILITY", "STOCK HOLDER'S EQUITY");
-		//System.out.println('\n' + new String(new char[186]).replace("\0", "-"));
-		System.out.println(seperationLine);
+		System.out.print(new String(new char[128]).replace("\0", "-") + "\n");
+		System.out.format(headingFormat, "ASSETS", "LIABILITY", "STOCK HOLDER'S EQUITY");
+		System.out.print(seperationLine);
 		
 		int balanceSheetSize = 0;
-		int nAsset = 0;
-		int nContraAsset = 0;
-		int nLiability = 0;
-		int nStockholdersEquity = 0;
-		int nContraSE = 0;
 		ArrayList<CompanyAccount> assetToPrint = new ArrayList<>();
 		ArrayList<CompanyAccount> liabilityToPrint = new ArrayList<>();
 		ArrayList<CompanyAccount> seToPrint = new ArrayList<>();
@@ -161,60 +154,20 @@ public class Company {
 				seBal = String.valueOf(seToPrint.get(i).getBalance());
 			}
 			System.out.format(balanceRowFormat, assetAcc, assetBal, liabAcc, liabBal, seAcc, seBal);
-			System.out.println(seperationLine);
+			System.out.print(seperationLine);
 		}
-		/*for (int i=0; i < Math.max(CompanyAccount.assetAccountNames.length + CompanyAccount.contraAssetAccountNames.length, Math.max(CompanyAccount.liabilityAccountNames.length, CompanyAccount.stockHoldersEquityAccountNames.length + CompanyAccount.contrastockHoldersEquityAccountNames.length)); i++) {
-			String assetAcc, assetBal, liabAcc, liabBal, seAcc, seBal;
-			//Assets
-			if(i<CompanyAccount.assetAccountNames.length) {
-				assetAcc = accountList.get(CompanyAccount.assetAccountNames[i]).getAccountName();
-				assetBal = String.valueOf(accountList.get(CompanyAccount.assetAccountNames[i]).getBalance());
-			}
-			else if(i<CompanyAccount.assetAccountNames.length + CompanyAccount.contraAssetAccountNames.length) {
-				assetAcc = accountList.get(CompanyAccount.contraAssetAccountNames[i-CompanyAccount.assetAccountNames.length]).getAccountName();
-				assetBal=String.valueOf(accountList.get(CompanyAccount.contraAssetAccountNames[i-CompanyAccount.assetAccountNames.length]).getBalance());
-			}
-			else {
-				assetAcc = "";
-				assetBal = "";
-			}
-			//Liabilities
-			if(i<CompanyAccount.liabilityAccountNames.length) {
-				liabAcc = accountList.get(CompanyAccount.liabilityAccountNames[i]).getAccountName();
-				liabBal = String.valueOf(accountList.get(CompanyAccount.liabilityAccountNames[i]).getBalance());
-			}
-			else {
-				liabAcc = "";
-				liabBal = "";
-			}
-			//Stockholders' equity
-			if(i<CompanyAccount.stockHoldersEquityAccountNames.length) {
-				seAcc = accountList.get(CompanyAccount.stockHoldersEquityAccountNames[i]).getAccountName();
-				seBal = String.valueOf(accountList.get(CompanyAccount.stockHoldersEquityAccountNames[i]).getBalance());
-			}
-			else if(i<CompanyAccount.stockHoldersEquityAccountNames.length + CompanyAccount.contrastockHoldersEquityAccountNames.length) {
-				seAcc = accountList.get(CompanyAccount.contrastockHoldersEquityAccountNames[i-CompanyAccount.stockHoldersEquityAccountNames.length]).getAccountName();
-				seBal = String.valueOf(accountList.get(CompanyAccount.contrastockHoldersEquityAccountNames[i-CompanyAccount.stockHoldersEquityAccountNames.length]).getBalance());
-			}
-			else {
-				seAcc = "";
-				seBal = "";
-			}
-			System.out.format(balanceRowFormat, assetAcc, assetBal, liabAcc, liabBal, seAcc, seBal);
-			System.out.println(seperationLine);
-		}*/
 		
 	}
 	
 	public void printStorage() {
 		String format = " %-30s | %-30s | %-30s |\n";
-		String seperationLine = "--------------------------------+--------------------------------+--------------------------------";
-		System.out.println(seperationLine);
+		String seperationLine = "--------------------------------+--------------------------------+--------------------------------\n";
+		System.out.print(seperationLine);
 		System.out.format(format, "TRANSACTION ID", "UNIT COST", "# REMAINING UNITS");
-		System.out.println(seperationLine);
+		System.out.print(seperationLine);
 		for (InventoryStorageEntry entry: storage) {
 			System.out.format(format, entry.getTransID(), entry.getUnitCost(), entry.getUnits());
-			System.out.println(seperationLine);
+			System.out.print(seperationLine);
 		}
 	}
 	
