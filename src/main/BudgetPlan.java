@@ -70,7 +70,7 @@ public class BudgetPlan extends Plan {
 			.filter(t -> t instanceof Expense)
 			.forEach(t -> {
 					Double sum = resultMap.get(((Expense)t).getCategory()) + t.getAmount();
-					resultMap.put(((Expense)t).getCategory(), sum);
+					resultMap.put(((Expense)t).getCategory(), Math.abs(sum));
 				}
 			);
 		return resultMap;
@@ -81,16 +81,16 @@ public class BudgetPlan extends Plan {
 		
 		String displayedString = "";
 		displayedString += "Planned Budget \n";
-		displayedString += "Category \t Money Spent \n";
+		displayedString += "Category\t\tSpending Planned \n";
 		for (Entry<String, Double> i : this.goalAmount.entrySet()) {
-			displayedString += String.format("%s: \t %f \n", i.getKey(), i.getValue());
+			displayedString += String.format("%s: \t\t\t %f \n", i.getKey(), i.getValue());
 		}
 		//current expenses
 		displayedString += "Current Expenses \n";
-		displayedString += "Category \t Money Spent \n";
+		displayedString += "Category \t\t\t Money Spent \n";
 		Map<String, Double> actExpMap = this.getActualExp();
 		for (Entry<String, Double> i : goalAmount.entrySet()) {
-			displayedString += String.format("%s: \t %f \n", i.getKey(), actExpMap.get(i.getKey()));
+			displayedString += String.format("%s: \t\t\t %f \n", i.getKey(), actExpMap.get(i.getKey()));
 		}
 		//how many days left before going over budget
 		int numDaysSinceStart = this.getNumDaysPassed();
@@ -113,18 +113,19 @@ public class BudgetPlan extends Plan {
 					break;
 				}
 				
-				displayedString += String.format("%s: \t %s \n", i.getKey(), remDaysResponseString);
+				displayedString += String.format("%s:\t\t\t%s\n", i.getKey(), remDaysResponseString);
 			}
 		}
 		else {
 			displayedString += "Not enough data for a prediction \n";
 		}
-		System.out.print(displayedString);
+//		System.out.print(displayedString);
 		return displayedString;
 	}
 	
 	public void updatePlan(Transaction transaction) {
 		allTrans.add(transaction);
 		//TODO fits time range?
+		System.out.println("allTrans is "+ allTrans.toString());
 	}
 }

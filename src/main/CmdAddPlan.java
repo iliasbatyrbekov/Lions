@@ -1,6 +1,7 @@
 package main;
 
 import java.util.*;
+import java.util.stream.IntStream;
 
 public class CmdAddPlan {
 	public void execute(String[] cmdParts) {
@@ -24,9 +25,14 @@ public class CmdAddPlan {
 			ArrayList<String> timePeriod = new ArrayList<>();
 			timePeriod.add(cmdParts[3]);
 			timePeriod.add(cmdParts[4]);
-			//Map<String, Double> goalAmount = new HashMap<>();
-			//Map<String, Double> goalAmount = new Map<>();
-			//u.addBudgetPlan(cmdParts[2], timePeriod, goalAmount);
+			Map<String, Double> goalAmount = new HashMap<>();
+			//will check for n category/goal pairs, n is an integer at index 8
+			int finIndexEclusive = 9 + Integer.parseInt(cmdParts[8]); 
+			for (int i=9;i<finIndexEclusive;) {
+				goalAmount.put(cmdParts[i], Double.parseDouble(cmdParts[i+1]));
+				i+=2;
+			}
+			u.addBudgetPlan(cmdParts[2], timePeriod, goalAmount);
 		}
 		else {
 			//error

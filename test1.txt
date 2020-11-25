@@ -15,6 +15,8 @@ AddPlan|SavingPlan|SavingPlan1|2020-10-01|2021-02-01|100000.0|description
 
 AddPlan|LoanPlan|LoanPlan1|2020-10-01|2021-02-01|20000.0|40.0|debtowner
 
+AddPlan|BudgetPlan|BudgetPlan1|2020-10-01|2021-02-01|0|40.0|do|8|house|100000000|car|50|entertainment|5000|rest|1000
+
 RecordTransaction|TransferReceive|500|0|1|My mom loved me|2020-11-11|null
 RecordTransaction|Expense|-100|0|1|My girlfriend spent too much|2020-11-19|car|girlfriend
 RecordTransaction|Expense|-300|3|1|My father wanna sleep with me|2020-01-09|rest|father
@@ -38,5 +40,7 @@ ViewExpenseByMember
 ViewPlanDetail|0
 
 ViewPlanDetail|1
+
+ViewPlanDetail|2
 
 SavingPlanGetAverageSaving|2020-09-01|1000

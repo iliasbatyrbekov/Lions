@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Map;
+import java.util.function.Predicate;
 
 
 public class User {
@@ -149,10 +150,12 @@ public class User {
 		this.planList.add(sp);
 	}
 	//@Ilias fix BudgetPlan 
-//	public void addBudgetPlan(String planName, ArrayList<String> timePeriod, Map<String, Double> goalAmount) {
-//		BudgetPlan bp = new  BudgetPlan(String planName, ArrayList<String> timePeriod, Map<String, Double> goalAmount);
-//		this.planList.add(bp);
-//	}
+	public void addBudgetPlan(String planName, 
+			ArrayList<String> timePeriod, 
+			Map<String, Double> goalAmount) {
+		BudgetPlan bp = new  BudgetPlan(planName, timePeriod, goalAmount);
+		this.planList.add(bp);
+	}
 	
 	
 	//@Ryan viewPlanDetail
@@ -195,8 +198,14 @@ public class User {
 		if(transType.equals("Expense")){
 			Expense expenseTrans = new Expense(transactionId, amount, accountId, description, date, category);
 			expenseTrans.setMember(member);
-			if(acc.updateBalance(amount) == 1)
-				this.transactionRecords.add(expenseTrans);
+			if(acc.updateBalance(amount) == 1) {
+				this.transactionRecords.add(expenseTrans); 
+				for (Plan p : planList) {
+					if (p instanceof BudgetPlan) {
+						((BudgetPlan)p).updatePlan(expenseTrans);
+					}
+				}
+			}
 			else throw new ExUpdateBalanceErr();
 			
 			Plan plan = searchPlan(planId);
@@ -219,8 +228,9 @@ public class User {
 		
 		if(transType.equals("Expense")){
 			Expense expenseTrans = new Expense(transactionId, amount, accountId, description, date, category);
-			if(acc.updateBalance(amount) == 1)
+			if(acc.updateBalance(amount) == 1) {
 				this.transactionRecords.add(expenseTrans);
+			}
 			else throw new ExUpdateBalanceErr();
 			
 			Plan plan = searchPlan(planId);
