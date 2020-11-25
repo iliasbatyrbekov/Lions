@@ -87,7 +87,11 @@ public class Plan {
 	public void updatePlan(Transaction transaction) {;}
 
 	public String getPlan() {return "";}
-
+		
+	public ArrayList<LocalDate> getTimePeriodDatesArr(){
+		return timePeriod;
+	}
+	
 	public static void listAll(ArrayList<Plan> planList) {
 //		System.out.printf("%-30s %1.7f %-20s %-30s %-20s:", "Transaction ID", "Amount", "Account ID", "Description", "Create Date");
 		for(Plan plan : planList) {
