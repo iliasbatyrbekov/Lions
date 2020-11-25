@@ -25,6 +25,8 @@ public class Main {
 				(new CmdAddPlan()).execute(cmdParts);
 			else if (cmdParts[0].equals("ListAllPlan"))
 				u.listAllPlan();
+			else if (cmdParts[0].equals("ViewPlanDetail"))
+				(new CmdViewPlanDetail()).execute(cmdParts);
 			else if (cmdParts[0].equals("AddAccount"))
 				(new CmdAddAccount()).execute(cmdParts);
 			else if (cmdParts[0].equals("ListAllAccount"))
