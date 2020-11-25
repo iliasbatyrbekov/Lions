@@ -138,6 +138,28 @@ public class User {
 		Plan plan = new Plan(planName, timePeriodString);
 		this.planList.add(plan);
 	}
+	//@Ryan addPlan
+	public void addLoanPlan(String planName, ArrayList<String> timePeriod,double goalAmount, double interestRate, String debtOwner) {
+		LoanPlan lp = new LoanPlan(planName, timePeriod, goalAmount, interestRate, debtOwner);
+		this.planList.add(lp);
+	}
+	//@Ryan addPlan
+	public void addSavingPlan(String planName, ArrayList<String> timePeriod,double goalAmount, String description) {
+		SavingPlan sp = new SavingPlan(planName, timePeriod,goalAmount,description);
+		this.planList.add(sp);
+	}
+	//@Ilias fix BudgetPlan 
+//	public void addBudgetPlan(String planName, ArrayList<String> timePeriod, Map<String, Double> goalAmount) {
+//		BudgetPlan bp = new  BudgetPlan(String planName, ArrayList<String> timePeriod, Map<String, Double> goalAmount);
+//		this.planList.add(bp);
+//	}
+	
+	
+	//@Ryan viewPlanDetail
+	public void getPlanDetailInfo(String pid) {
+		Plan targetplan=searchPlan(pid);
+		System.out.println(targetplan.getPlan());
+	}
 	
 	public void addPlan(Plan aplan) {
 		this.planList.add(aplan);
