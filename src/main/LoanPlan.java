@@ -14,9 +14,7 @@ public class LoanPlan extends Plan{
 	private double goalAmount;//goal loan amount
 	private double interestRate;
 	private double currentAmount;
-//	private double monthlyPayment;
 	private ArrayList<Transaction> tranRecord;
-//	private ArrayList<Double> monthlySum; //[0] monthlyPayment of 1st month, [1] monthlyPayment of 2nd month, ...
 	private String debtOwner;
 	
 	public LoanPlan(String planName, ArrayList<String> timePeriod,double goalAmount, double interestRate, String debtOwner) {
@@ -25,29 +23,15 @@ public class LoanPlan extends Plan{
 		this.currentAmount = 0;
 		this.interestRate = interestRate;
 		this.tranRecord = new ArrayList<Transaction>();
-
-//		this.monthlySum = new ArrayList<Double>();//(Collections.nCopies(this.getTimePeriodLength("month"), this.calculateMonthlyAmount()))
-//		for (int i=0;i<this.getTimePeriodLength("month");++i)
-//			this.monthlySum.add(this.calculateMonthlyPayment());
-		
 		this.debtOwner = debtOwner;
 	}
-	
-//	private double calculateMonthlyPayment() {//monthly loan payment
-//		double monthRate = this.interestRate/12;
-//		double dur = Math.ceil(super.getTimePeriodLength("month"));
-//		double factor = monthRate*Math.pow(1+monthRate, dur) / (Math.pow(1+monthRate, dur)-1);
-//		return this.goalAmount*factor;
-//	}
-	
+		
 	public double getInterestRate() {
 		return interestRate;
 	}
 	
 	public void setInterestRate(double interestRate) {
 		this.interestRate = interestRate;
-//		this.monthlyPayment = calculateMonthlyPayment();
-		//if insufficient past...
 	}
 	
 	public String getDebtOwner() {
@@ -64,40 +48,18 @@ public class LoanPlan extends Plan{
 	
 	public void setGoalAmount(double goalAmount) {
 		this.goalAmount = goalAmount;
-//		this.monthlyPayment = calculateMonthlyPayment();
-		//if insufficient past...
 	}
 	
 	public double getCurrentAmount() {
 		return this.currentAmount;
-//		double currentGoalAmount = 0;
-//		for (Transaction tran : this.tranRecord) {
-//			currentGoalAmount += tran.getAmount();
-//		}
-//		return currentGoalAmount;
 	}
 	@Override
 	public void updatePlan(Transaction transaction) {
 		this.tranRecord.add(transaction);
 		this.currentAmount += transaction.getAmount();
-//		double currentDur = this.getCurrentPointInTime("month");// e.g. 1st month, 3rd month
-//		int currentDurIndex = (int) currentDur - 1;// e.g. [0] == 1st month [2] == 3rd month
-//		double currentLoanAmount = this.monthlySum.get(currentDurIndex) - transaction.getAmount();
-//		
-//		if (0<currentLoanAmount)//monthlyAmount > repayment
-//			this.monthlySum.set(currentDurIndex, currentLoanAmount);
-//		else {
-//			this.monthlySum.set(currentDurIndex, 0.0);
-//			
-//			if (currentDur!=this.getTimePeriodLength("month")) {//if this is not last month
-//				double nextMonthAmount = this.monthlySum.get(currentDurIndex + 1);
-//				this.monthlySum.set(currentDurIndex + 1, nextMonthAmount+currentLoanAmount);
-//			}
-//			//Todo: else notify user the transaction amount exceeded necessary
-//		}
 	}
 	
-	private double getAverageRepayment() {
+	private double getAverageRepayment() {//refactor
 		int currentDur = (int) super.getCurrentDuration();
 		double average = Math.floor(this.currentAmount / currentDur);
 		
@@ -105,8 +67,6 @@ public class LoanPlan extends Plan{
 	}
 
 	private boolean predictChanceOfPayment() {
-//		double currentLoanAmount = this.getCurrentLoanAmount();
-
 		int dur = (int) super.getDuration();
 		int currentDur = (int) super.getCurrentDuration();
 
@@ -116,10 +76,8 @@ public class LoanPlan extends Plan{
 	}
 	
 	public double getAverageLoanRepayment() {
-//		double currentLoanAmount = this.getCurrentLoanAmount();
 		int currentDur = (int) super.getCurrentDuration();
 		double avg = Math.floor(this.currentAmount / currentDur);
-//		System.out.println("avgLoanRepayment "+avg);
 		return avg;
 	}
 	
@@ -129,24 +87,12 @@ public class LoanPlan extends Plan{
 		
 		double avgRepaid = this.getAverageRepayment();
 		int remaining = (int) Math.ceil((this.goalAmount - this.currentAmount) / avgRepaid);
-//		System.out.println("avgRepaid "+avgRepaid);
-//		System.out.println("goalAmount "+this.goalAmount);
-//		System.out.println("currentAmount "+this.currentAmount);
-//		System.out.println("remaining "+remaining);
 		return remaining;
 	}
 	
 	@Override
 	public String getPlan() {//for display
-//		double currentLoanAmount = this.getCurrentLoanAmount();
-
-//		Map<String, Double> hist = new HashMap<String, Double>();
 		int dur = (int) super.getDuration();
-//		LocalDate date = LocalDate.parse(super.getTimePeriod().get(0));
-//		for (int i=0; i<dur; ++i) {
-//			hist.put(date.format(DateTimeFormatter.ofPattern("MMM yyyy")), monthlySum.get(i));
-//			date = date.plusMonths(1);
-//		}
 
 		String summary, advice;
 		int currentDur = (int) super.getCurrentDuration();
@@ -156,31 +102,31 @@ public class LoanPlan extends Plan{
 			double adjustAmount;
 			double avgRepaid = this.getAverageLoanRepayment();
 			int moreTime = this.calculateRemainigTime();
-
-			summary = String.format("From the last %d day(s), you repaid $%.0f on average per day. "
-									+ "You will need %d more day(s) to settle the loan. ",
-									currentDur, avgRepaid, moreTime);
-			
-			LocalDate endDate = LocalDate.parse(super.getTimePeriod().get(1));
-			String endDateString = endDate.format(DateTimeFormatter.ofPattern("MMMM yyyy"));
-			
+			String startDateString = super.getTimePeriod().get(0).toString();
+			String endDateString = super.getTimePeriod().get(1).toString();
 			boolean likely = predictChanceOfPayment();
+			
+			summary = "";
+			summary += String.format("%-20s %-20s\n", "Plan Name", this.getPlanName());
+			summary += String.format("%-20s %-24s\n", "Plan Period", startDateString+" to "+endDateString);
+//			summary += String.format("%-20s %-20s\n", "Days Passed", currentDur);
+			summary += String.format("%-20s %-20s\n", "Total Repayment", this.currentAmount);
+			summary += String.format("%-20s %-20s\n", "Average Repayment", avgRepaid);
+			summary += String.format("%-20s %-20s\n", "Days needed more", moreTime);
+			
+			advice = "";
 			if (!likely) {
 				adjustAmount = Math.ceil(this.currentAmount / (dur - currentDur));
-				advice = String.format("You are not likely to accomplish this loan plan by %s as expected."
-									+ " Save $%.0f daily from now on!", endDateString, adjustAmount);
+				advice += String.format("%-20s %-20s\n", "Chance To Repay", "No");
+				advice += String.format("%-20s %-20s\n", "Advised Avg. Repay", adjustAmount);
+			
 			}
 			else {
-				advice = String.format("You are very likely to accomplish this loan plan by %s as expected.", endDateString);
+				advice += String.format("%-20s %-20s\n", "Chance to Repay", "Yes! Congratulations!");
 			}
 			summary += advice;
 		}
 
-//		Map<String, Object> plan = new HashMap<String, Object>();
-//		plan.put("total", this.goalAmount);
-//		plan.put("current", currentLoanAmount);
-//		plan.put("history", hist);
-//		plan.put("summary", summary);
 		return summary;
 	}
 }
