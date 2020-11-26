@@ -11,7 +11,7 @@ public class Company {
 	public Company() {
 		accountList = CompanyAccount.getAllInitAccounts();
 		journal = new ArrayList<CompanyTransaction>();
-		storage=new ArrayList<InventoryStorageEntry>();
+		storage = new ArrayList<InventoryStorageEntry>();
 		currentID = 10000;
 	}
 	
@@ -22,8 +22,9 @@ public class Company {
 	public HashMap<String, CompanyAccount> getAccountList() {
 		return accountList;
 	}
-	public void setAccountList(HashMap<String, CompanyAccount> accountList) {
-		this.accountList = accountList;
+	
+	public ArrayList<InventoryStorageEntry> getStorage() {
+		return storage;
 	}
 	
 	public boolean isValidTransaction(CompanyTransaction trans) {
@@ -32,25 +33,30 @@ public class Company {
 		CompanyAccount accountToCredit = accountList.get(trans.getCredittedAccount());
 		
 		if (accountToCredit == null) {
-			System.out.println("Error: " + trans.getCredittedAccount() + " is not a valid account.");
+			System.out.print("Error: " + trans.getCredittedAccount() + " is not a valid account.\n");
 			return false;
-		} else if (accountToDebit == null) {
-			System.out.println("Error: " + trans.getDebittedAccount() + " is not a valid account.");
+		}
+		if (accountToDebit == null) {
+			System.out.print("Error: " + trans.getDebittedAccount() + " is not a valid account.\n");
+			return false;
+		}
+		if (accountToCredit.equals(accountToDebit)) {
+			System.out.print("Error: Cannot debit and credit the same account\n");
 			return false;
 		}
 		
 		//for credit account type, if debit means decrease -> may have credit balance < 0
 		if(accountToDebit.getAccountType() == CompanyAccountType.CREDIT_ACCOUNT) {
-			if(accountToDebit.getBalance() - trans.getAmount()<0) {
-				System.out.println("Error: Cannot debit account "+trans.getDebittedAccount());
+			if(accountToDebit.getBalance() - trans.getAmount() < 0) {
+				System.out.print("Error: Cannot debit " + trans.getDebittedAccount() + " account (insufficient balance)\n");
 				return false;
 			}
 		}
 		
 		//for debit account type, if credit means decrease -> may have insufficient fund
 		if(accountToCredit.getAccountType() == CompanyAccountType.DEBIT_ACCOUNT) {
-			if(accountToCredit.getBalance() - trans.getAmount()<0) {
-				System.out.println("Error: Cannot credit account "+trans.getCredittedAccount());
+			if(accountToCredit.getBalance() - trans.getAmount() < 0) {
+				System.out.print("Error: Cannot credit " + trans.getCredittedAccount() + " account (insufficient balance)\n");
 				return false;
 			}
 		}
@@ -58,7 +64,7 @@ public class Company {
 		return true;
 	}
 	
-	public boolean recordTransaction(CompanyTransaction trans) { //use user cli now?
+	public void recordTransaction(CompanyTransaction trans) {
 		if(isValidTransaction(trans)) {
 			//record in journal
 			journal.add(trans);
@@ -66,94 +72,119 @@ public class Company {
 			//also update the accounts balance
 			accountList.get(trans.getDebittedAccount()).recordTransaction(trans);
 			accountList.get(trans.getCredittedAccount()).recordTransaction(trans);
-			return true;
-		}
-		else {
-			System.out.println("Error: Cannot record this Transaction");
-			return false;
+			System.out.print("Transaction successfully added\n");
+		} else {
+			System.out.print("Error: Cannot record this Transaction\n");
 			//error message may be shown in isValidTransaction()
 		}
 	}
-	public ArrayList<CompanyTransaction> getJournal() {
+	/*public ArrayList<CompanyTransaction> getJournal() {
 		return journal;
-	}
+	}*/
 	
 	public void printJournal() {
 		if(journal.size()==0) {
-			System.out.println("Transaction is empty");
+			System.out.print("Transaction is empty\n");
 		}
 		for(int i=0; i<journal.size(); i++) {
 			if(i == 0) {
 				journal.get(i).printTransaction(true);
-			}
-			else {
+			} else {
 				journal.get(i).printTransaction(false);
 			}
 		}
 	}
 	
+	// TODO: only print the ones of non-zero balance
 	public void printBalanceSheet() {
-		String seperationLine = "\n--------------------------------------------------------------+--------------------------------------------------------------+--------------------------------------------------------------|";
-		String accountcategoryTitleFormatString = " %-60s | %-60s | %-60s |";
-		String balanceRowFormat = " %-47s | %10s | %-47s | %10s | %-47s | %10s |";
+		String seperationLine = "\n------------------------------------------+------------------------------------------+------------------------------------------|\n";
+		String headingFormat = " %-40s | %-40s | %-40s |";
+		String balanceRowFormat = " %-27s | %10s | %-27s | %10s | %-27s | %10s |";
+		String bottomLineFormat = " %-27s | %10s | %-70s | %10s |";
 		
-		System.out.println('\n' + new String(new char[187]).replace("\0", "-") + "-");
-		System.out.format(accountcategoryTitleFormatString, "ASSETS", "LIABILITY", "STOCK HOLDER'S EQUITY");
-		//System.out.println('\n' + new String(new char[186]).replace("\0", "-"));
-		System.out.println(seperationLine);
+		System.out.print(new String(new char[128]).replace("\0", "-") + "\n");
+		System.out.format(headingFormat, "ASSETS", "LIABILITY", "STOCK HOLDER'S EQUITY");
+		System.out.print(seperationLine);
 		
-		for (int i=0; i < Math.max(CompanyAccount.assetAccountNames.length + CompanyAccount.contraAssetAccountNames.length, Math.max(CompanyAccount.liabilityAccountNames.length, CompanyAccount.stockHoldersEquityAccountNames.length + CompanyAccount.contrastockHoldersEquityAccountNames.length)); i++) {
-			String assetAcc,assetBal,liabAcc,liabBal,seAcc,seBal;
+		int balanceSheetSize = 0;
+		ArrayList<CompanyAccount> assetToPrint = new ArrayList<>();
+		ArrayList<CompanyAccount> liabilityToPrint = new ArrayList<>();
+		ArrayList<CompanyAccount> seToPrint = new ArrayList<>();
+		// # of asset accounts to include in the balance sheet
+		for (String assAcc: CompanyAccount.assetAccountNames) {
+			if (accountList.get(assAcc).getBalance() != 0) 
+				assetToPrint.add(accountList.get(assAcc));
+		}
+		for (String assAcc: CompanyAccount.contraAssetAccountNames) {
+			if (accountList.get(assAcc).getBalance() != 0) 
+				assetToPrint.add(accountList.get(assAcc));
+		}
+		// # of liability accounts to include in the balance sheet
+		for (String liaAcc: CompanyAccount.liabilityAccountNames) {
+			if (accountList.get(liaAcc).getBalance() != 0)
+				liabilityToPrint.add(accountList.get(liaAcc));
+		}
+		// # of stockholder's equity accounts to include in the balance sheet
+		for (String seAcc: CompanyAccount.stockHoldersEquityAccountNames) {
+			if (accountList.get(seAcc).getBalance() != 0) 
+				seToPrint.add(accountList.get(seAcc));
+		}
+		for (String seAcc: CompanyAccount.contrastockHoldersEquityAccountNames) {
+			if (accountList.get(seAcc).getBalance() != 0) 
+				seToPrint.add(accountList.get(seAcc));
+		}
+		
+		balanceSheetSize = Math.max(assetToPrint.size(), Math.max(liabilityToPrint.size(), seToPrint.size()));
+
+		double totalAssetBalance = 0;
+		double totalLiabilityPlusSEBalance = 0;
+		for (int i=0; i < balanceSheetSize; i++) {
+			String assetAcc, assetBal, liabAcc, liabBal, seAcc, seBal;
+			assetAcc = assetBal = liabAcc = liabBal = seAcc = seBal = "";
 			//Assets
-			if(i<CompanyAccount.assetAccountNames.length) {
-				assetAcc=accountList.get(CompanyAccount.assetAccountNames[i]).getAccountName();
-				assetBal=String.valueOf(accountList.get(CompanyAccount.assetAccountNames[i]).getBalance());
-			}
-			else if(i<CompanyAccount.assetAccountNames.length + CompanyAccount.contraAssetAccountNames.length) {
-				assetAcc=accountList.get(CompanyAccount.contraAssetAccountNames[i-CompanyAccount.assetAccountNames.length]).getAccountName();
-				assetBal=String.valueOf(accountList.get(CompanyAccount.contraAssetAccountNames[i-CompanyAccount.assetAccountNames.length]).getBalance());
-			}
-			else {
-				assetAcc="";
-				assetBal="";
+			if(i < assetToPrint.size()) {
+				assetAcc = assetToPrint.get(i).getAccountName();
+				assetBal = String.valueOf(assetToPrint.get(i).getBalance());
+				if (assetToPrint.get(i).getAccountType() == CompanyAccountType.DEBIT_ACCOUNT)
+					totalAssetBalance += assetToPrint.get(i).getBalance();
+				else 
+					totalAssetBalance -= assetToPrint.get(i).getBalance();
 			}
 			//Liabilities
-			if(i<CompanyAccount.liabilityAccountNames.length) {
-				liabAcc=accountList.get(CompanyAccount.liabilityAccountNames[i]).getAccountName();
-				liabBal=String.valueOf(accountList.get(CompanyAccount.liabilityAccountNames[i]).getBalance());
-			}
-			else {
-				liabAcc="";
-				liabBal="";
+			if(i < liabilityToPrint.size()) {
+				liabAcc = liabilityToPrint.get(i).getAccountName();
+				liabBal = String.valueOf(liabilityToPrint.get(i).getBalance());
+				if (liabilityToPrint.get(i).getAccountType() == CompanyAccountType.CREDIT_ACCOUNT)
+					totalLiabilityPlusSEBalance += liabilityToPrint.get(i).getBalance();
+				else
+					totalLiabilityPlusSEBalance -= liabilityToPrint.get(i).getBalance();
 			}
 			//Stockholders' equity
-			if(i<CompanyAccount.stockHoldersEquityAccountNames.length) {
-				seAcc=accountList.get(CompanyAccount.stockHoldersEquityAccountNames[i]).getAccountName();
-				seBal=String.valueOf(accountList.get(CompanyAccount.stockHoldersEquityAccountNames[i]).getBalance());
+			if(i < seToPrint.size()) {
+				seAcc = seToPrint.get(i).getAccountName();
+				seBal = String.valueOf(seToPrint.get(i).getBalance());
+				if (seToPrint.get(i).getAccountType() == CompanyAccountType.CREDIT_ACCOUNT)
+					totalLiabilityPlusSEBalance += seToPrint.get(i).getBalance();
+				else
+					totalLiabilityPlusSEBalance -= seToPrint.get(i).getBalance();
 			}
-			else if(i<CompanyAccount.stockHoldersEquityAccountNames.length + CompanyAccount.contrastockHoldersEquityAccountNames.length) {
-				seAcc=accountList.get(CompanyAccount.contrastockHoldersEquityAccountNames[i-CompanyAccount.stockHoldersEquityAccountNames.length]).getAccountName();
-				seBal=String.valueOf(accountList.get(CompanyAccount.contrastockHoldersEquityAccountNames[i-CompanyAccount.stockHoldersEquityAccountNames.length]).getBalance());
-			}
-			else {
-				seAcc="";
-				seBal="";
-			}
-			System.out.format(balanceRowFormat, assetAcc,assetBal,liabAcc,liabBal,seAcc,seBal);
-			System.out.println(seperationLine);
+			System.out.format(balanceRowFormat, assetAcc, assetBal, liabAcc, liabBal, seAcc, seBal);
+			System.out.print(seperationLine);
 		}
+		System.out.format(bottomLineFormat, "Asset balance: ", String.valueOf(totalAssetBalance), "Liability & Stockholder's equity balance: ", String.valueOf(totalLiabilityPlusSEBalance));
+		System.out.print(seperationLine);
 		
 	}
 	
 	public void printStorage() {
 		String format = " %-30s | %-30s | %-30s |\n";
-		String seperationLine = "--------------------------------+--------------------------------+--------------------------------";
-		System.out.println(seperationLine);
+		String seperationLine = "--------------------------------+--------------------------------+--------------------------------\n";
+		System.out.print(seperationLine);
 		System.out.format(format, "TRANSACTION ID", "UNIT COST", "# REMAINING UNITS");
-		System.out.println(seperationLine);
+		System.out.print(seperationLine);
 		for (InventoryStorageEntry entry: storage) {
 			System.out.format(format, entry.getTransID(), entry.getUnitCost(), entry.getUnits());
-			System.out.println(seperationLine);
+			System.out.print(seperationLine);
 		}
 	}
 	
@@ -173,7 +204,7 @@ public class Company {
 				recordTransaction(closingTransaction);
 			}
 		}
-		for (String divAccName: CompanyAccount.dividendExpenseAccountNames) {
+		for (String divAccName: CompanyAccount.dividendAccountNames) {
 			double amount = accountList.get(divAccName).getBalance();
 			if (amount != 0) {
 				CompanyTransaction closingTransaction = new CompanyTransaction(generateNewID(), closingDate, retEarnAccName, divAccName, amount, "Closing entry");
@@ -219,91 +250,77 @@ public class Company {
 	}*/
 
 	// TODO function for total units
-		private int getTotalUnits() {
-			int totalUnits = 0;
-			for (InventoryStorageEntry entry: storage) 
-				totalUnits += entry.getUnits();
-			return totalUnits;
-		}
+	private int getTotalUnits() {
+		int totalUnits = 0;
+		for (InventoryStorageEntry entry: storage) 
+			totalUnits += entry.getUnits();
+		return totalUnits;
+	}
 	
 	//need to replace recordtransaction with isValidtransaction()
 	public ArrayList<InventoryStorageEntry> purchaseInventory(double unitCost, int unitsToBuy, Date dt, String credittedAccount){
 		//record purchase transaction
-		double amount=unitCost*unitsToBuy;
-		CompanyTransaction trans=new CompanyTransaction(generateNewID(), dt, "Inventory", credittedAccount, amount, "Purchase Inventory");
+		double amount = unitCost*unitsToBuy;
+		CompanyTransaction trans = new CompanyTransaction(generateNewID(), dt, "Inventory", credittedAccount, amount, "Purchase Inventory");
 		
 		//add to company's journal
-		if(recordTransaction(trans)) {
-			
-			//update storage
-			InventoryStorageEntry entry=new InventoryStorageEntry(trans.getTransactionID(), unitCost, unitsToBuy);
+		if(isValidTransaction(trans)) {
+			recordTransaction(trans);
+			InventoryStorageEntry entry = new InventoryStorageEntry(trans.getTransactionID(), unitCost, unitsToBuy);
 			storage.add(entry);
-			//totalUnits+=unitsToBuy;
-		}
-		else {
-			System.out.println("Error: invalid purchase");
+			System.out.print("Inventory successfully purchased and added to storage\n");
+		} else {
+			System.out.print("Error: invalid purchase\n");
 		}
 		
 		return storage;
 	}
 	
 	public ArrayList<InventoryStorageEntry> sellInventory(double unitPrice, int unitsToSell, Date date, String debittedAccount, String costMethod){
-		if (unitsToSell > getTotalUnits()) System.out.println("Not enough inventory in store");
+		//if (unitsToSell > getTotalUnits()) System.out.println("Not enough inventory in store");
 		//record revenue transaction
-		double amount=unitPrice*unitsToSell;
-		CompanyTransaction revTrans=new CompanyTransaction(generateNewID(), date, debittedAccount, "Sales-Revenue", amount, "Revenue from Goods sold");
-		if(isValidTransaction(revTrans)) {
-			
+		double amount = unitPrice*unitsToSell;
+		CompanyTransaction revTrans = new CompanyTransaction(generateNewID(), date, debittedAccount, "Sales-Revenue", amount, "Revenue from Goods sold");
+		if(unitsToSell <= getTotalUnits() && accountList.get(debittedAccount).getAccountCategory() == CompanyAccountCategory.ASSET) {
+
+			double cost = 0.0;
 			//record cost transaction
 			if(costMethod.equals("FIFO")) {
-				double cost=0.0;
-				int currentUnitsSold=0;
-				for(InventoryStorageEntry entry:storage) {
-					if(currentUnitsSold>=unitsToSell) {
+				for(InventoryStorageEntry entry: storage) {
+					if(unitsToSell <= 0) {
 						break;
-					}
-					else {
-						//entry.setUnits(Math.min(entry, b));
-						int unitsSold = Math.min(entry.getUnits(), unitsToSell-currentUnitsSold);
-						cost += unitsSold * entry.getUnitCost();
-						currentUnitsSold += unitsSold;
+					} else {
+						int unitsSold = Math.min(entry.getUnits(), unitsToSell);
+						unitsToSell -= unitsSold;
 						entry.decreaseUnits(unitsSold);
+						cost += unitsSold * entry.getUnitCost();
 					}
 				}
-				CompanyTransaction costTrans=new CompanyTransaction(generateNewID(), date, "Cost-of-Goods-Sold", "Inventory", cost, "Cost of Goods sold");
-				//here will have bug: if invalid costTrans -> revTrans will still be recorded
-				recordTransaction(revTrans);
-				recordTransaction(costTrans);
-			}
-			else if(costMethod.equals("LIFO")) {
-				double cost=0.0;
-				int currentUnitsSold=0;
+			} else if(costMethod.equals("LIFO")) {
 				for(int i=storage.size()-1; i>=0; i--) {
 					InventoryStorageEntry entry = storage.get(i);
-					if(currentUnitsSold>=unitsToSell) {
+					if(unitsToSell <= 0) {
 						break;
-					}
-					else {
-						int unitsSold = Math.min(entry.getUnits(), unitsToSell-currentUnitsSold);
-						cost += unitsSold * entry.getUnitCost();
-						currentUnitsSold += unitsSold;
+					} else {
+						int unitsSold = Math.min(entry.getUnits(), unitsToSell);
+						unitsToSell -= unitsSold;
 						entry.decreaseUnits(unitsSold);
+						cost += unitsSold * entry.getUnitCost();
 					}
 				}
-				CompanyTransaction costTrans=new CompanyTransaction(generateNewID(), date, "Cost of Goods Sold", "Inventory", cost, "Cost of Goods sold");
-				//here will have bug: if invalid costTrans -> revTrans will still be recorded
-				recordTransaction(revTrans);
-				recordTransaction(costTrans);
+			} else {
+				System.out.print("Error: invalid selling method\n");
+				return storage;
 			}
-			else {
-				System.out.println("Error: invalid sell");
-			}
+			CompanyTransaction costTrans = new CompanyTransaction(generateNewID(), date, "Cost-of-Goods-Sold", "Inventory", cost, "Cost of Goods sold");
+			recordTransaction(revTrans);
+			recordTransaction(costTrans);
 			
+		} else if (unitsToSell > getTotalUnits()) {
+			System.out.print("Error: not enough inventory in store\n");
+		} else { // accountList.get(debittedAccount).getAccountCategory() != CompanyAccountCategory.ASSET
+			System.out.print("Error: " + debittedAccount + " is not an asset account, therefore cannot be debited for the sale of inventory\n");
 		}
-		else {
-			System.out.println("Error: invalid sell: ");
-		}
-		
 		return storage;
 	}
 
