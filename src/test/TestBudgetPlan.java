@@ -42,16 +42,16 @@ public class TestBudgetPlan {
 		
 		String displayedString = "";
 		displayedString += "Planned Budget \n";
-		displayedString += "Category \t Money Spent \n";
-		displayedString += String.format("%s: \t %f \n", "A", 10.0);
-		displayedString += String.format("%s: \t %f \n", "B", 20.0);
+		displayedString += String.format("%-20s %-20s\n", "Category" ,"Spending Planned") ;
+		displayedString += String.format("%-20s %-20f\n", "A", 10.0);
+		displayedString += String.format("%-20s %-20f\n", "B", 20.0);
 		displayedString += "Current Expenses \n";
-		displayedString += "Category \t Money Spent \n";
-		displayedString += String.format("%s: \t %f \n", "A", 2.0);
-		displayedString += String.format("%s: \t %f \n", "B", 2.0);
+		displayedString += String.format("%-20s %-20s n", "Category" ,"Money Spent") ;
+		displayedString += String.format("%-20s %-20f\n", "A", 2.0);
+		displayedString += String.format("%-20s %-20f\n", "B", 2.0);
 		displayedString += "Days left (on average) before exceeding the budget\n";
-		displayedString += String.format("%s: \t %s \n", "A", "4");
-		displayedString += String.format("%s: \t %s \n", "B", "9");
+		displayedString += String.format("%-20s %-20s\n", "A", "4");
+		displayedString += String.format("%-20s %-20s\n", "B", "9");
 		
 		assertEquals(displayedString, budgetPlan.getPlan());
 	}
@@ -78,13 +78,13 @@ public class TestBudgetPlan {
 		//this one is time sensetive to the current date
 		String displayedString = "";
 		displayedString += "Planned Budget \n";
-		displayedString += "Category \t Money Spent \n";
-		displayedString += String.format("%s: \t %f \n", "A", 10.0);
-		displayedString += String.format("%s: \t %f \n", "B", 20.0);
+		displayedString += String.format("%-20s %-20s\n", "Category" ,"Spending Planned") ;
+		displayedString += String.format("%-20s %-20f\n", "A", 10.0);
+		displayedString += String.format("%-20s %-20f\n", "B", 20.0);
 		displayedString += "Current Expenses \n";
-		displayedString += "Category \t Money Spent \n";
-		displayedString += String.format("%s: \t %f \n", "A", 2.0);
-		displayedString += String.format("%s: \t %f \n", "B", 2.0);
+		displayedString += String.format("%-20s %-20s n", "Category" ,"Money Spent") ;
+		displayedString += String.format("%-20s %-20f\n", "A", 2.0);
+		displayedString += String.format("%-20s %-20f\n", "B", 2.0);
 		displayedString += "Not enough data for a prediction \n";
 		
 		assertEquals(displayedString, budgetPlan.getPlan());
@@ -112,16 +112,16 @@ public class TestBudgetPlan {
 		//this one is time sensetive to the current date
 		String displayedString = "";
 		displayedString += "Planned Budget \n";
-		displayedString += "Category \t Money Spent \n";
-		displayedString += String.format("%s: \t %f \n", "A", 10.0);
-		displayedString += String.format("%s: \t %f \n", "B", 20.0);
+		displayedString += String.format("%-20s %-20s\n", "Category" ,"Spending Planned") ;
+		displayedString += String.format("%-20s %-20f\n", "A", 10.0);
+		displayedString += String.format("%-20s %-20f\n", "B", 20.0);
 		displayedString += "Current Expenses \n";
-		displayedString += "Category \t Money Spent \n";
-		displayedString += String.format("%s: \t %f \n", "A", 20.0);
-		displayedString += String.format("%s: \t %f \n", "B", 30.0);
+		displayedString += String.format("%-20s %-20s n", "Category" ,"Money Spent") ;
+		displayedString += String.format("%-20s %-20f\n", "A", 20.0);
+		displayedString += String.format("%-20s %-20f\n", "B", 30.0);
 		displayedString += "Days left (on average) before exceeding the budget\n";
-		displayedString += String.format("%s: \t %s \n", "A", "Overbudget");
-		displayedString += String.format("%s: \t %s \n", "B", "Overbudget");
+		displayedString += String.format("%-20s %-20s\n", "A", "Overbudget");
+		displayedString += String.format("%-20s %-20s\n", "B", "Overbudget");
 		
 		assertEquals(displayedString, budgetPlan.getPlan());
 	}
@@ -141,16 +141,16 @@ public class TestBudgetPlan {
 		//this one is time sensetive to the current date
 		String displayedString = "";
 		displayedString += "Planned Budget \n";
-		displayedString += "Category \t Money Spent \n";
-		displayedString += String.format("%s: \t %f \n", "A", 10.0);
-		displayedString += String.format("%s: \t %f \n", "B", 20.0);
+		displayedString += String.format("%-20s %-20s\n", "Category" ,"Spending Planned");
+		displayedString += String.format("%-20s %-20f\n", "A", 10.0);
+		displayedString += String.format("%-20s %-20f\n", "B", 20.0);
 		displayedString += "Current Expenses \n";
-		displayedString += "Category \t Money Spent \n";
-		displayedString += String.format("%s: \t %f \n", "A", 0.0);
-		displayedString += String.format("%s: \t %f \n", "B", 0.0);
+		displayedString += String.format("%-20s %-20s n", "Category" ,"Money Spent") ;
+		displayedString += String.format("%-20s %-20f\n", "A", 0.0);
+		displayedString += String.format("%-20s %-20f\n", "B", 0.0);
 		displayedString += "Days left (on average) before exceeding the budget\n";
-		displayedString += String.format("%s: \t %s \n", "A", "Analysis not possible (not enough data)");
-		displayedString += String.format("%s: \t %s \n", "B", "Analysis not possible (not enough data)");
+		displayedString += String.format("%-20s %-20s\n", "A", "Analysis not possible (not enough data)");
+		displayedString += String.format("%-20s %-20s\n", "B", "Analysis not possible (not enough data)");
 		
 		assertEquals(displayedString, budgetPlan.getPlan());
 	}

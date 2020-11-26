@@ -81,16 +81,16 @@ public class BudgetPlan extends Plan {
 		
 		String displayedString = "";
 		displayedString += "Planned Budget \n";
-		displayedString += "Category\t\tSpending Planned \n";
+		displayedString += String.format("%-20s %-20s\n", "Category" ,"Spending Planned") ;
 		for (Entry<String, Double> i : this.goalAmount.entrySet()) {
-			displayedString += String.format("%s: \t\t\t %f \n", i.getKey(), i.getValue());
+			displayedString += String.format("%-20s %-20f\n", i.getKey(), i.getValue());
 		}
 		//current expenses
 		displayedString += "Current Expenses \n";
-		displayedString += "Category \t\t\t Money Spent \n";
+		displayedString += String.format("%-20s %-20s n", "Category" ,"Money Spent") ;
 		Map<String, Double> actExpMap = this.getActualExp();
 		for (Entry<String, Double> i : goalAmount.entrySet()) {
-			displayedString += String.format("%s: \t\t\t %f \n", i.getKey(), actExpMap.get(i.getKey()));
+			displayedString += String.format("%-20s %-20f\n", i.getKey(), actExpMap.get(i.getKey()));
 		}
 		//how many days left before going over budget
 		int numDaysSinceStart = this.getNumDaysPassed();
@@ -113,7 +113,7 @@ public class BudgetPlan extends Plan {
 					break;
 				}
 				
-				displayedString += String.format("%s:\t\t\t%s\n", i.getKey(), remDaysResponseString);
+				displayedString += String.format("%-20s %-20s\n", i.getKey(), remDaysResponseString);
 			}
 		}
 		else {
@@ -129,3 +129,4 @@ public class BudgetPlan extends Plan {
 		System.out.println("allTrans is "+ allTrans.toString());
 	}
 }
+
