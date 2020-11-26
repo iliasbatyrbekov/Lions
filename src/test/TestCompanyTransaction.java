@@ -40,9 +40,9 @@ public class TestCompanyTransaction {
 	public void testPrintTransaction2() {
 		CompanyTransaction transaction = new CompanyTransaction("0001", new Date(), "Dividend", "Cash", 5000, "Pay dividends");
 		transaction.printTransaction(true);
-		String tableformat = "%-10s | %-15s | %-30s | %10s | %10s";
+		String tableFormat = "%-10s | %-15s | %-30s | %10s | %10s";
 		String separationLine = "----------------------------------------------------------------------------------------\n";
-		String expected = String.format(tableformat, "0001", "2020-11-21", "Dividend", "5000.0", "") + "\n" + String.format(tableformat, "", "", "Cash", "", "5000.0") + "\n" + String.format(tableformat, "", "", "(Pay dividends)", "", "") + "\n" + separationLine;
+		String expected = separationLine + String.format(tableFormat, "ID", "DATE", "ACCOUNT NAME & DESCRIPTION", "DEBIT", "CREDIT") + "\n" + separationLine + String.format(tableFormat, "0001", "2020-11-21", "Dividend", "5000.0", "") + "\n" + String.format(tableFormat, "", "", "Cash", "", "5000.0") + "\n" + String.format(tableFormat, "", "", "(Pay dividends)", "", "") + "\n" + separationLine;
 		//System.out.println(expected);
 		assertEquals(expected, outContent.toString());
 	}

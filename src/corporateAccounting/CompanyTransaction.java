@@ -24,41 +24,21 @@ public class CompanyTransaction {
 	public String getDebittedAccount() {
 		return debittedAccount;
 	}
-	
-	public void setDebittedAccount(String debittedAccount) {
-		this.debittedAccount=debittedAccount;
-	}
 
 	public String getCredittedAccount() {
 		return credittedAccount;
-	}
-
-	public void setCredittedAccount(String credittedAccount) {
-		this.credittedAccount=credittedAccount;
 	}
 
 	public Date getDate() {
 		return this.date;
 	}
 
-	public void setDate(Date date) {
-		this.date = date;
-	}
-
 	public String getTransactionID() {
 		return this.transactionID;
-	}
-	
-	public void setAmount(double amount) {
-		this.amount = amount;
 	}
 
 	public double getAmount() {
 		return this.amount;
-	}
-
-	public void setTransactionID(String transactionID) {
-		this.transactionID = transactionID;
 	}
 
 	public void printTransaction(Boolean printTablehead) {
@@ -88,14 +68,6 @@ public class CompanyTransaction {
 	    System.out.print("\n");
 	    System.out.print(separationLine);
 
-	}
-	
-	//for simple testing
-	public static void main(String args[]) {
-		Date tday=new Date();
-		CompanyTransaction testTrans=new CompanyTransaction("id12334", tday, "Cash", "AccountsPayable",1000.0, "Borrow from bank");
-		testTrans.printTransaction(true);
-		testTrans.printTransaction(false);
 	}
 
 }
