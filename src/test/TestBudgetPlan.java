@@ -46,7 +46,7 @@ public class TestBudgetPlan {
 		displayedString += String.format("%-20s %-20f\n", "A", 10.0);
 		displayedString += String.format("%-20s %-20f\n", "B", 20.0);
 		displayedString += "Current Expenses \n";
-		displayedString += String.format("%-20s %-20s n", "Category" ,"Money Spent") ;
+		displayedString += String.format("%-20s %-20s \n", "Category" ,"Money Spent") ;
 		displayedString += String.format("%-20s %-20f\n", "A", 2.0);
 		displayedString += String.format("%-20s %-20f\n", "B", 2.0);
 		displayedString += "Days left (on average) before exceeding the budget\n";
@@ -82,7 +82,7 @@ public class TestBudgetPlan {
 		displayedString += String.format("%-20s %-20f\n", "A", 10.0);
 		displayedString += String.format("%-20s %-20f\n", "B", 20.0);
 		displayedString += "Current Expenses \n";
-		displayedString += String.format("%-20s %-20s n", "Category" ,"Money Spent") ;
+		displayedString += String.format("%-20s %-20s \n", "Category" ,"Money Spent") ;
 		displayedString += String.format("%-20s %-20f\n", "A", 2.0);
 		displayedString += String.format("%-20s %-20f\n", "B", 2.0);
 		displayedString += "Not enough data for a prediction \n";
@@ -116,7 +116,7 @@ public class TestBudgetPlan {
 		displayedString += String.format("%-20s %-20f\n", "A", 10.0);
 		displayedString += String.format("%-20s %-20f\n", "B", 20.0);
 		displayedString += "Current Expenses \n";
-		displayedString += String.format("%-20s %-20s n", "Category" ,"Money Spent") ;
+		displayedString += String.format("%-20s %-20s \n", "Category" ,"Money Spent") ;
 		displayedString += String.format("%-20s %-20f\n", "A", 20.0);
 		displayedString += String.format("%-20s %-20f\n", "B", 30.0);
 		displayedString += "Days left (on average) before exceeding the budget\n";
@@ -145,7 +145,7 @@ public class TestBudgetPlan {
 		displayedString += String.format("%-20s %-20f\n", "A", 10.0);
 		displayedString += String.format("%-20s %-20f\n", "B", 20.0);
 		displayedString += "Current Expenses \n";
-		displayedString += String.format("%-20s %-20s n", "Category" ,"Money Spent") ;
+		displayedString += String.format("%-20s %-20s \n", "Category" ,"Money Spent") ;
 		displayedString += String.format("%-20s %-20f\n", "A", 0.0);
 		displayedString += String.format("%-20s %-20f\n", "B", 0.0);
 		displayedString += "Days left (on average) before exceeding the budget\n";

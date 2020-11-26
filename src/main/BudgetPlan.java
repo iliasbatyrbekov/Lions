@@ -87,7 +87,7 @@ public class BudgetPlan extends Plan {
 		}
 		//current expenses
 		displayedString += "Current Expenses \n";
-		displayedString += String.format("%-20s %-20s n", "Category" ,"Money Spent") ;
+		displayedString += String.format("%-20s %-20s \n", "Category" ,"Money Spent") ;
 		Map<String, Double> actExpMap = this.getActualExp();
 		for (Entry<String, Double> i : goalAmount.entrySet()) {
 			displayedString += String.format("%-20s %-20f\n", i.getKey(), actExpMap.get(i.getKey()));
