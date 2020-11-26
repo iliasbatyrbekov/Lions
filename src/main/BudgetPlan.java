@@ -83,14 +83,14 @@ public class BudgetPlan extends Plan {
 		displayedString += "Planned Budget \n";
 		displayedString += String.format("%-20s %-20s\n", "Category" ,"Spending Planned") ;
 		for (Entry<String, Double> i : this.goalAmount.entrySet()) {
-			displayedString += String.format("%-20s %-20f\n", i.getKey(), i.getValue());
+			displayedString += String.format("%-20s %-20.1f\n", i.getKey(), i.getValue());
 		}
 		//current expenses
 		displayedString += "Current Expenses \n";
 		displayedString += String.format("%-20s %-20s \n", "Category" ,"Money Spent") ;
 		Map<String, Double> actExpMap = this.getActualExp();
 		for (Entry<String, Double> i : goalAmount.entrySet()) {
-			displayedString += String.format("%-20s %-20f\n", i.getKey(), actExpMap.get(i.getKey()));
+			displayedString += String.format("%-20s %-20.1f\n", i.getKey(), actExpMap.get(i.getKey()));
 		}
 		//how many days left before going over budget
 		int numDaysSinceStart = this.getNumDaysPassed();
