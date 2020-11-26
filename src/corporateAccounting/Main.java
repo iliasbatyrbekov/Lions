@@ -15,15 +15,15 @@ public class Main {
 		
 		// TODO Auto-generated method stub
 		boolean programFinished = false;
-		Scanner in = new Scanner(new File("C:\\Users\\hsiangtai2\\Desktop\\Lions\\src\\corporateAccounting\\in.txt"));
-		//Scanner in = new Scanner(System.in);
+		//Scanner in = new Scanner(new File("C:\\Users\\hsiangtai2\\Desktop\\Lions\\src\\corporateAccounting\\in.txt"));
+		Scanner in = new Scanner(System.in);
 		System.out.println("Welcome to our accounting system. It provides functions such as recording tractions, inventory purchases, recording inventory sales, viewing balance sheet/journal/storage, etc. Please specify which service you need by entering the corresponding command. Type \"help\" to see the full list of available commands.");
 		String allCommands = "==========================================================================\nREC: record transaction\n";
 		allCommands += "B: purchase inventory\n";
 		allCommands += "S: sell inventory\n";
+		allCommands += "CLS: perform closing entry\n";
 		allCommands += "J: view the journal (chronological record of all transactions)\n";
 		allCommands += "TL: view the T ledger of a specific account\n";
-		allCommands += "CLS: perform closing entry\n";
 		allCommands += "BS: view the balance sheet\n";
 		allCommands += "ST: view the storage entries\n";
 		allCommands += "Q: quit the program\n";
@@ -51,13 +51,13 @@ public class Main {
 				case "J":
 					myCompany.printJournal();
 					break;
-				case "TL":
-					System.out.println("Please enter the name of the account to print");
-					myCompany.getAccountList().get(in.next()).printTLedger();
-					break;
 				case "CLS":
 					System.out.println("Please enter the date to perform closing entry: ");
 					myCompany.generateClosingEntries(new SimpleDateFormat("dd/MM/yyyy").parse(in.next()));
+					break;
+				case "TL":
+					System.out.println("Please enter the name of the account to print");
+					myCompany.getAccountList().get(in.next()).printTLedger();
 					break;
 				case "BS":
 					myCompany.printBalanceSheet();
