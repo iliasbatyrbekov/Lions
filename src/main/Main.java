@@ -39,7 +39,6 @@ public class Main {
 				u.viewExpenseByMember();
 			else if (cmdParts[0].equals("SavingPlanGetAverageSaving"))
 				(new CmdSavingPlanGetAverageSaving()).execute(cmdParts);
-			
 		}
 		
 		if (inFile!=null) inFile.close();

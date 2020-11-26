@@ -119,14 +119,11 @@ public class BudgetPlan extends Plan {
 		else {
 			displayedString += "Not enough data for a prediction \n";
 		}
-//		System.out.print(displayedString);
 		return displayedString;
 	}
 	
 	public void updatePlan(Transaction transaction) {
 		allTrans.add(transaction);
-		//TODO fits time range?
-		System.out.println("allTrans is "+ allTrans.toString());
 	}
 }
 
