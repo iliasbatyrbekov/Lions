@@ -1,5 +1,4 @@
 package corporateAccounting;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class CompanyAccount {
@@ -105,87 +104,74 @@ public class CompanyAccount {
 		transactionList.add(trans);
 		if(trans.getDebittedAccount().equals(accountName)) {
 			if(accountType==CompanyAccountType.DEBIT_ACCOUNT) {
-				balance+=trans.getAmount();
+				balance += trans.getAmount();
+			} else {
+				balance -= trans.getAmount();
 			}
-			else {
-				balance-=trans.getAmount();
-			}
-		}
-		else if(trans.getCredittedAccount().equals(accountName)) {
+		} else if(trans.getCredittedAccount().equals(accountName)) {
 			if(accountType==CompanyAccountType.DEBIT_ACCOUNT) {
-				balance-=trans.getAmount();
-			}
-			else {
-				balance+=trans.getAmount();
+				balance -= trans.getAmount();
+			} else {
+				balance += trans.getAmount();
 			}
 		}
 	}
 	
 	public void printTLedger() {
-		String tableFormat="%-10s | %-15s | %-30s | %10s | %10s";
-		String separationline="--------------------------------------------------------------";
+		//String tableFormat = "%-10s | %-15s | %-30s | %10s | %10s";
+		String separationline = "\n--------------------------------------------------------------\n";
 		
-		System.out.format("%30s", accountName);
-		System.out.println();
-		System.out.println(separationline);
+		System.out.format("%30s", accountName.toUpperCase());
+		//System.out.print("\n");
+		System.out.print(separationline);
 		
 		System.out.format("%-30s | %-30s", "Debit", "Credit");
-		System.out.println();
-		System.out.println(separationline);
+		//System.out.print("\n");
+		System.out.print(separationline);
 		
 		System.out.format("%-15s|%-15s|%-15s|%-15s", "TransID", "Amount","TransID","Amount");
-		System.out.println();
-		System.out.println(separationline);
+		//System.out.print("\n");
+		System.out.print(separationline);
 		
 		//need to categorize transactions to debit and credit
 		ArrayList<CompanyTransaction> debitList = new ArrayList<CompanyTransaction>();
 		ArrayList<CompanyTransaction> creditList = new ArrayList<CompanyTransaction>();
-		for(CompanyTransaction tran:transactionList) {
+		for(CompanyTransaction tran: transactionList) {
 			if(tran.getDebittedAccount().equals(accountName)) {
 				debitList.add(tran);
-			}
-			else if(tran.getCredittedAccount().equals(accountName)) {
+			} else if(tran.getCredittedAccount().equals(accountName)) {
 				creditList.add(tran);
 			}
 		}
 		
-		int maxlen=(debitList.size()>creditList.size())?debitList.size():creditList.size();
-		for(int i=0;i<maxlen;i++) {
-			String debitTransId,debitTransAmount,creditTransId,creditTransAmount;
-			if(i<debitList.size()) {
-				debitTransId=debitList.get(i).getTransactionID();
-				debitTransAmount=String.valueOf(debitList.get(i).getAmount());
+		int maxLen = Math.max(debitList.size(), creditList.size());
+		for(int i=0; i<maxLen; i++) {
+			String debitTransId, debitTransAmount, creditTransId, creditTransAmount;
+			debitTransId = debitTransAmount = creditTransId = creditTransAmount = "";
+			if(i < debitList.size()) {
+				debitTransId = debitList.get(i).getTransactionID();
+				debitTransAmount = String.valueOf(debitList.get(i).getAmount());
+			} 
+			if(i < creditList.size()) {
+				creditTransId = creditList.get(i).getTransactionID();
+				creditTransAmount = String.valueOf(creditList.get(i).getAmount());
 			}
-			else {
-				debitTransId="";
-				debitTransAmount="";
-			}
-			
-			if(i<creditList.size()) {
-				creditTransId=creditList.get(i).getTransactionID();
-				creditTransAmount=String.valueOf(creditList.get(i).getAmount());
-			}
-			else {
-				creditTransId="";
-				creditTransAmount="";
-			}
-			System.out.format("%-15s|%-15s|%-15s|%-15s",debitTransId,debitTransAmount,creditTransId,creditTransAmount);
-			System.out.println();
-			System.out.println(separationline);
+			System.out.format("%-15s|%-15s|%-15s|%-15s", debitTransId, debitTransAmount, creditTransId, creditTransAmount);
+			//System.out.print("\n");
+			System.out.print(separationline);
 		}
-		if(accountType==CompanyAccountType.DEBIT_ACCOUNT) {
+		if(accountType == CompanyAccountType.DEBIT_ACCOUNT) {
 			System.out.format("%-15s|%-15s|%-15s|%-15s", "Total", balance, "", "");
-			System.out.println();
-			System.out.println(separationline);
-		}
-		else {
-			System.out.format("%-15s|%-15s|%-15s|%-15s","","","Total",balance);
-			System.out.println();
-			System.out.println(separationline);
+			//System.out.print("\n");
+			System.out.print(separationline);
+		} else {
+			System.out.format("%-15s|%-15s|%-15s|%-15s", "", "", "Total", balance);
+			//System.out.print("\n");
+			System.out.print(separationline);
 		}
 	}
 	
-	public static void main(String args[]) {
+	/*public static void main(String args[]) {
 		Company lukecompany=new Company();
 		CompanyAccount cashAccount=lukecompany.getAccountList().get("Cash");
 		
@@ -198,6 +184,6 @@ public class CompanyAccount {
 		
 		cashAccount.printTLedger();
 		
-	}
+	}*/
 
 }

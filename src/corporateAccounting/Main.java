@@ -15,7 +15,8 @@ public class Main {
 		
 		// TODO Auto-generated method stub
 		boolean programFinished = false;
-		//Scanner in = new Scanner(new File("C:\\Users\\hsiangtai2\\Desktop\\Lions\\src\\corporateAccounting\\in.txt"));
+		//Scanner in = new Scanner(new File("C:\\Users\\hsiangtai2\\Desktop\\Lions\\src\\corporateAccounting\\in2.txt"));
+		//Scanner in = new Scanner(new File("C:\\Users\\tai10\\Desktop\\CS3343 project\\Lions\\src\\corporateAccounting\\in2.txt"));
 		Scanner in = new Scanner(System.in);
 		System.out.println("Welcome to our accounting system. It provides functions such as recording tractions, inventory purchases, recording inventory sales, viewing balance sheet/journal/storage, etc. Please specify which service you need by entering the corresponding command. Type \"help\" to see the full list of available commands.");
 		String allCommands = "==========================================================================\nREC: record transaction\n";

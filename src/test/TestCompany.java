@@ -13,10 +13,7 @@ import java.util.Date;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
-
 import corporateAccounting.Company;
-import corporateAccounting.CompanyAccount;
 import corporateAccounting.CompanyTransaction;
 import corporateAccounting.InventoryStorageEntry;
 
