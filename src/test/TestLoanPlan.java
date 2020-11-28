@@ -1,33 +1,62 @@
 package test;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
 import main.Plan;
+import main.DateSystem;
 import main.LoanPlan;
 import main.Transaction;
 
 public class TestLoanPlan {
 	LoanPlan loanPlan;
+	ArrayList<String> timePeriod;
 	
 	@BeforeEach
 	public void setUp() throws Exception {
-		ArrayList<String> timePeriod = new ArrayList<>();
+		class DateSystemStub extends DateSystem {
+			public String getTodayDate() { return "2020-11-01"; };
+		}
+		
+		timePeriod = new ArrayList<>();
         timePeriod.add("2020-09-01");
         timePeriod.add("2020-12-31");
+        DateSystemStub stub = new DateSystemStub(); 
         
-        loanPlan = new LoanPlan("LoanPlan1", timePeriod, 10000.0, 10, "Jack");
+        loanPlan = new LoanPlan("LoanPlan1", timePeriod, 10000.0, 10, "Jack", stub);
 	}
 	
+	@AfterEach
 	public void tearDown() {
 		loanPlan = null;
+		timePeriod = null;
 	}
 	
-//	@SuppressWarnings("deprecation")	
+//	@Test void testUpdatePlanFailedWithTestStub() { //Used before when Transaction class was not finished
+//		class TransactionStub extends Transaction {
+//			public String getDate() {
+//				return "2020-08-01";
+//			}
+//		}
+//		
+//		TransactionStub stub = new TransactionStub();
+//		LoanPlan loanPlan3 = new LoanPlan("LoanPlan3", timePeriod, 999.0, 5, "Jacky", stub);
+//		loanPlan3.updatePlan(stub);
+//	}
+	
+	@Test
+	public void testUpdatePlanFailed() {
+		Transaction transaction = new Transaction(1234, 300.0, "Account1", "Semester A", "2020-08-01");
+		LoanPlan loanPlan2 = new LoanPlan("LoanPlan2", timePeriod, 999.0, 5, "Jacky");
+		loanPlan2.updatePlan(transaction);
+	}
+	
 	@Test
 	public void testSetGetInterestRate() {
 		double newInterestRate = 45;
@@ -63,23 +92,38 @@ public class TestLoanPlan {
 	
 	@Test
 	public void testAverageLoanRepayment(){
-		loanPlan.updatePlan(new Transaction(1234, 300.0, "Account1", "Semester A", "2020-10-01"));
-        loanPlan.updatePlan(new Transaction(1235, 699.9, "Account1", "Semester B", "2020-12-22"));
+		String TensDayBefore = LocalDate.now().minusDays(10).toString();
+		String FourDaysBefore = LocalDate.now().minusDays(4).toString();
+		String TwoDaysBefore = LocalDate.now().minusDays(2).toString();
+		String TenDaysAfter = LocalDate.now().plusDays(10).toString();
+		
+		ArrayList<String> timePeriod3 = new ArrayList<>();
+		timePeriod3.add(TensDayBefore);
+		timePeriod3.add(TenDaysAfter);
+		LoanPlan loanPlan3 = new LoanPlan("LoanPlan4", timePeriod3, 10000.0, 10, "Jack");
+		
+		loanPlan3.updatePlan(new Transaction(1234, 300.0, "Account1", "Semester A", FourDaysBefore));
+        loanPlan3.updatePlan(new Transaction(1235, 699.9, "Account1", "Semester B", TwoDaysBefore));
         
-        double result = loanPlan.getAverageLoanRepayment();
-//        System.out.println("time period "+plan.getTimePeriod());
-//        System.out.println("time length "+ ((Plan)loanPlan).getCurrentDuration());
-//        System.out.println("result "+result);
-        assertEquals(12.0, result);
+        double result = loanPlan3.getAverageLoanRepayment();
+        assertEquals(99.0, result);
 	}
 	
 	@Test
 	public void testGetPlanLikely() {
 		loanPlan.updatePlan(new Transaction(1234, 1696.0, "Account1", "Semester A", "2020-10-01"));
         loanPlan.updatePlan(new Transaction(1235, 69696.9, "Account1", "Semester B", "2020-12-22"));
+        
         String summary = loanPlan.getPlan();
-//        System.out.println("summary likely "+summary);
-        String expectedSummary = "From the last 82 day(s), you repaid $870 on average per day. You will need 0 more day(s) to settle the loan. You are very likely to accomplish this loan plan by December 2020 as expected.";
+        String expectedSummary = "";
+        expectedSummary += String.format("%-20s %-20s\n", "Plan Name", "LoanPlan1");
+        expectedSummary += String.format("%-20s %-24s\n", "Plan Period", "2020-09-01 to 2020-12-31");
+        expectedSummary += String.format("%-20s %-20s\n", "Total Repayment", "10000.0");
+        expectedSummary += String.format("%-20s %-20s\n", "Current Repayment", "10000.0");
+        expectedSummary += String.format("%-20s %-20s\n", "Average Repayment", "163.0");
+        expectedSummary += String.format("%-20s %-20s\n", "Days needed more", "0");
+        expectedSummary += String.format("%-20s %-20s\n", "Chance To Repay", "Yes! Congratulations!");
+        
         assertEquals(expectedSummary, summary);
 	}
 	
@@ -87,28 +131,47 @@ public class TestLoanPlan {
 	public void testGetPlanUnlikely() {
 		loanPlan.updatePlan(new Transaction(1234, 80.0, "Account1", "Semester A", "2020-10-01"));
         loanPlan.updatePlan(new Transaction(1235, 6.9, "Account1", "Semester B", "2020-12-22"));
+        
         String summary = loanPlan.getPlan();
-//        System.out.println("total "+ ((Plan)loanPlan).getDuration());
-//        System.out.println("current "+ ((Plan)loanPlan).getCurrentDuration());
-        System.out.println("summary unlikely "+summary);
-        String expectedSummary = "From the last 82 day(s), you repaid $1 on average per day. You will need 9914 more day(s) to settle the loan. You are not likely to accomplish this loan plan by December 2020 as expected. Save $3 daily from now on!";
+        
+        String expectedSummary = "";
+        expectedSummary += String.format("%-20s %-20s\n", "Plan Name", "LoanPlan1");
+        expectedSummary += String.format("%-20s %-24s\n", "Plan Period", "2020-09-01 to 2020-12-31");
+        expectedSummary += String.format("%-20s %-20s\n", "Total Repayment", "10000.0");
+        expectedSummary += String.format("%-20s %-20s\n", "Current Repayment", "86.9");
+        expectedSummary += String.format("%-20s %-20s\n", "Average Repayment", "1.0");
+        expectedSummary += String.format("%-20s %-20s\n", "Days needed more", "9914");
+        expectedSummary += String.format("%-20s %-20s\n", "Chance To Repay", "No");
+        expectedSummary += String.format("%-20s %-20s\n", "Advised Avg. Repay", "166.0");
+        
         assertEquals(expectedSummary, summary);
 	}
 	
+//	@Test //tested with test stub before code was incomplete
+//	public void testGetPlanNotEnoughDataWithTestStub() {
+//		class DateSystemStub2 extends DateSystem {
+//			public String getTodayDate() { return "2020-09-25"; };
+//		}
+//		DateSystemStub2 stub2 = new DateSystemStub2();
+//		LoanPlan loanPlan4 = new LoanPlan("LoanPlan4", timePeriod, 10000.0, 10, "Jack", stub2);
+//		
+//		loanPlan4.updatePlan(new Transaction(1234, 80.0, "Account1", "Semester A", "2020-09-21"));
+//        loanPlan4.updatePlan(new Transaction(1235, 6.9, "Account1", "Semester B", "2020-09-22"));
+//        String summary = loanPlan4.getPlan();
+//        String expectedSummary = "Not enough data to generate summary. Please check again after a while...";
+//        assertEquals(expectedSummary, summary);
+//	}
+	
 	@Test
 	public void testGetPlanNotEnoughData() {
-		ArrayList<String> timePeriod = new ArrayList<>();
-        timePeriod.add("2020-11-21");
-        timePeriod.add("2021-02-01");
-        
-        loanPlan = new LoanPlan("LoanPlan1", timePeriod, 10000.0, 10, "Jack");
-		
-		loanPlan.updatePlan(new Transaction(1234, 80.0, "Account1", "Semester A", "2020-11-21"));
-        loanPlan.updatePlan(new Transaction(1235, 6.9, "Account1", "Semester B", "2020-11-22"));
-        String summary = loanPlan.getPlan();
-//        System.out.println("total "+ ((Plan)loanPlan).getDuration());
-//        System.out.println("current "+ ((Plan)loanPlan).getCurrentDuration());
-//        System.out.println("summary unlikely "+summary);
+		ArrayList<String> timePeriod2 = new ArrayList<>();
+		timePeriod2.add(LocalDate.now().minusDays(1).toString());
+		timePeriod2.add(LocalDate.now().plusDays(10).toString());
+		LoanPlan loanPlan4 = new LoanPlan("LoanPlan4", timePeriod2, 10000.0, 10, "Jack");
+	
+		loanPlan4.updatePlan(new Transaction(1234, 80.0, "Account1", "Semester A", "2020-09-21"));
+        loanPlan4.updatePlan(new Transaction(1235, 6.9, "Account1", "Semester B", "2020-09-22"));
+        String summary = loanPlan4.getPlan();
         String expectedSummary = "Not enough data to generate summary. Please check again after a while...";
         assertEquals(expectedSummary, summary);
 	}

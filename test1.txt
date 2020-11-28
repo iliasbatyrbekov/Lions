@@ -17,9 +17,9 @@ RecordTransaction|Expense|-300|3|1|My father wanna sleep with me|2020-01-09|rest
 RecordTransaction|Expense|-6200|2|1|My girlfriend spent too much|2019-12-21|entertainment|friend
 RecordTransaction|Income|300|1|0|I earned too much|2020-11-13|salary
 RecordTransaction|TransferRemit|-400|1|0|My gf again la|2020-11-17|null
-RecordTransaction|Expense|50000|0|0|Save for house1 for girlfriend1|2020-11-20|house|girlfriend
-RecordTransaction|Expense|69696|0|0|Save for house2 for girlfriend2|2020-11-25|house|girlfriend
-RecordTransaction|Expense|15000|0|1|Repayment for house3 for wife 1|2020-11-26|house|wife
+RecordTransaction|Income|50000|0|0|Save for house1 for girlfriend1|2020-11-20|house|girlfriend
+RecordTransaction|Income|69696|0|0|Save for house2 for girlfriend2|2020-11-25|house|girlfriend
+RecordTransaction|Expense|-1500|0|1|Repayment for house3 for wife 1|2020-11-26|house|wife
 
 ListTransactions
 
@@ -37,4 +37,4 @@ ViewPlanDetail|1
 
 ViewPlanDetail|2
 
-SavingPlanGetAverageSaving|2020-09-01|1000
+SavingPlanGetAverageSaving|2020-09-01|2021-02-01|1000
