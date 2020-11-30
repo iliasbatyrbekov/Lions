@@ -39,6 +39,21 @@ public class TestSavingPlan {
 		timePeriod = null;
 	}
 	
+//	@Test void testUpdatePlanFailedWithTestStub() { //Used before when Transaction class was not finished
+//	class TransactionStub extends Transaction {
+//		public String getDate() {
+//			return "2020-08-01";
+//		}
+//			public double getAmount {
+//			return 100.0;
+//			}
+//	}
+//	
+//	TransactionStub stub = new TransactionStub();
+//	LoanPlan loanPlan3 = new LoanPlan("LoanPlan3", timePeriod, 999.0, 5, "Jacky", stub);
+//	loanPlan3.updatePlan(stub);
+//}
+	
 	@Test
 	public void testUpdatePlanFailed() {
 		Transaction transaction = new Transaction(1234, 300.0, "Account1", "Semester A", "2020-08-01");

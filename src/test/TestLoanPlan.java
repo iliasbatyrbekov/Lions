@@ -43,6 +43,9 @@ public class TestLoanPlan {
 //			public String getDate() {
 //				return "2020-08-01";
 //			}
+// 			public double getAmount {
+//				return 100.0;
+// 			}
 //		}
 //		
 //		TransactionStub stub = new TransactionStub();
@@ -147,7 +150,7 @@ public class TestLoanPlan {
         assertEquals(expectedSummary, summary);
 	}
 	
-//	@Test //tested with test stub before code was incomplete
+//	@Test //tested with test stub before required function was not ready
 //	public void testGetPlanNotEnoughDataWithTestStub() {
 //		class DateSystemStub2 extends DateSystem {
 //			public String getTodayDate() { return "2020-09-25"; };

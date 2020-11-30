@@ -79,6 +79,18 @@ public class TestPlan {
 		assertEquals(false, isBetween);
 	}
 	
+//	@Test void testUpdatePlanWithTestStub() { //Used before when Transaction class was not finished
+//		class TransactionStub extends Transaction {
+//			public String getDate() {
+//				return "2020-08-01";
+//			}
+//		}
+//		
+//		TransactionStub stub = new TransactionStub();
+//		LoanPlan loanPlan3 = new LoanPlan("LoanPlan3", timePeriod, 999.0, 5, "Jacky", stub);
+//		loanPlan3.updatePlan(stub);
+//	}
+
 	@Test
 	public void testUpdatePlan() {
 		Transaction transaction = new Transaction(123, 1000.0, "0", "Tran1", "2020-11-18");
