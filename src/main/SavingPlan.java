@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SavingPlan extends Plan {
+	public DateSystem dateSystem;
 	private double goalAmount;
 	private double currentAmount;
 	private ArrayList<Transaction> tranRecord;
@@ -18,6 +19,16 @@ public class SavingPlan extends Plan {
 		this.currentAmount = 0;
 		this.tranRecord=new ArrayList<Transaction>();
 		this.description = description;
+		this.dateSystem = DateSystem.getDateSystem();
+	}
+	
+	public SavingPlan(String planName, ArrayList<String> timePeriod, double goalAmount, String description, DateSystem dateSystem) {
+		super(planName, timePeriod);
+		this.goalAmount = goalAmount;
+		this.currentAmount = 0;
+		this.tranRecord=new ArrayList<Transaction>();
+		this.description = description;
+		this.dateSystem = dateSystem;
 	}
 	
 	public double getGoalAmount() {
@@ -39,7 +50,7 @@ public class SavingPlan extends Plan {
 	}
 	
 	public double getAverageSaving() {
-		double currentDur = (int) super.getCurrentDuration();
+		double currentDur = (int) super.getDuration(this.dateSystem.getTodayDate());
 		
 		double average = Math.floor(this.currentAmount / currentDur);
 		return average;
@@ -47,13 +58,26 @@ public class SavingPlan extends Plan {
 	
 	@Override
 	public void updatePlan(Transaction newSaving) {
+		if (!super.isBetween(newSaving.getDate())) {// transaction date out of range
+			System.out.println("Transaction Not Included: Date Out Of Range");
+			return;
+		}
+		
 		this.tranRecord.add(newSaving);
-		this.currentAmount += newSaving.getAmount();
+		double updateAmount = Math.abs(newSaving.getAmount());
+		this.currentAmount += updateAmount;
+		
+		if (this.goalAmount <= this.currentAmount) {
+			double extra = this.currentAmount - this.goalAmount;
+			System.out.println("You have successfully saved up! With extra $"+extra);
+			
+			this.currentAmount = this.goalAmount;
+		}
 	}
 	
 	private boolean predictChance() {
-		int dur = (int) super.getDuration();
-		int currentDur = (int) super.getCurrentDuration();
+		int dur = (int) super.getDuration("");
+		int currentDur = (int) super.getDuration(this.dateSystem.getTodayDate());
 
 		int moreMonths = calculateRemainigTime();
 
@@ -61,7 +85,7 @@ public class SavingPlan extends Plan {
 	}
 	
 	private int calculateRemainigTime() {
-		if (this.goalAmount < this.currentAmount)
+		if (this.goalAmount <= this.currentAmount)
 			return 0;
 		
 		double avgSaving = this.getAverageSaving();
@@ -69,10 +93,10 @@ public class SavingPlan extends Plan {
 	}
 
 	public String getPlan() {//for display
-		int dur = (int) super.getDuration();
+		int dur = (int) super.getDuration("");
 
 		String summary, advice;
-		int currentDur = (int) super.getCurrentDuration();
+		int currentDur = (int) super.getDuration(this.dateSystem.getTodayDate());
 		if (currentDur<30)
 			summary = "Not enough data to generate summary. Please check again after a while...";
 		else {
@@ -87,18 +111,18 @@ public class SavingPlan extends Plan {
 			summary = "";
 			summary += String.format("%-20s %-20s\n", "Plan Name", this.getPlanName());
 			summary += String.format("%-20s %-24s\n", "Plan Period", startDateString+" to "+endDateString);
-//			summary += String.format("%-20s %-20s\n", "Days Passed", currentDur);
-			summary += String.format("%-20s %-20s\n", "Total Saving", this.currentAmount);
+			summary += String.format("%-20s %-20s\n", "Total Saving", this.goalAmount);
+			summary += String.format("%-20s %-20s\n", "Current Saving", this.currentAmount);
 			summary += String.format("%-20s %-20s\n", "Average Saving", avgSaving);
-			summary += String.format("%-20s %-20s\n", "Days needed more", moreTime);
+			summary += String.format("%-20s %-20s\n", "Days Needed More", moreTime);
 			advice = "";
 			if (!likely) {
-				adjustAmount = Math.ceil(this.currentAmount / (dur - currentDur));
+				adjustAmount = Math.ceil((this.goalAmount - this.currentAmount) / (dur - currentDur));
 				advice += String.format("%-20s %-20s\n", "Chance To Save Up", "No");
 				advice += String.format("%-20s %-20s\n", "Advised Avg. Saving", adjustAmount);
 			}
 			else {
-				advice += String.format("%-20s %-20s\n", "Chance to save up", "Yes! Congratulations!");
+				advice += String.format("%-20s %-20s\n", "Chance To Save Up", "Yes! Congratulations!");
 			}
 			summary += advice;
 		}

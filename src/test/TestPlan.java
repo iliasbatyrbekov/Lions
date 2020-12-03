@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
 import main.Plan;
@@ -23,6 +24,7 @@ public class TestPlan {
         plan = new Plan("Plan1", timePeriod);
 	}
 	
+	@AfterEach
 	public void tearDown() {
 		plan = null;
 	}
@@ -51,21 +53,44 @@ public class TestPlan {
 	
 	@Test
 	public void testGetDuration() {
-		long duration = plan.getDuration();
-		System.out.println("duration "+duration);
+		long duration = plan.getDuration("");
+//		System.out.println("duration "+duration);
 		assertEquals(duration, duration);
 	}
 	
 	@Test
-	public void testGetCurrentDuration() {
+	public void testGetSpecificDuration() {
 		String startDateString = plan.getTimePeriod().get(0);
-		long correctCurrentDuration = ChronoUnit.DAYS.between(LocalDate.parse(startDateString), LocalDate.now());
 		
-		long currentDuration = plan.getCurrentDuration();
+		long currentDuration = plan.getDuration("2020-10-01");
 //		System.out.println();
-		assertEquals(correctCurrentDuration, currentDuration);
+		assertEquals(30, currentDuration);
 	}
 	
+	@Test
+	public void testIsBetweenTrue() {
+		boolean isBetween = plan.isBetween("2020-10-01");
+		assertEquals(true, isBetween);
+	}
+	
+	@Test
+	public void testIsBetweenFalse() {
+		boolean isBetween = plan.isBetween("2020-08-01");
+		assertEquals(false, isBetween);
+	}
+	
+//	@Test void testUpdatePlanWithTestStub() { //Used before when Transaction class was not finished
+//		class TransactionStub extends Transaction {
+//			public String getDate() {
+//				return "2020-08-01";
+//			}
+//		}
+//		
+//		TransactionStub stub = new TransactionStub();
+//		LoanPlan loanPlan3 = new LoanPlan("LoanPlan3", timePeriod, 999.0, 5, "Jacky", stub);
+//		loanPlan3.updatePlan(stub);
+//	}
+
 	@Test
 	public void testUpdatePlan() {
 		Transaction transaction = new Transaction(123, 1000.0, "0", "Tran1", "2020-11-18");
