@@ -1,3 +1,7 @@
+HELP
+INVALID-COMMAND
+REC
+21/11/2020 Cash Cash 10000 Borrow money from the bank
 REC
 21/11/2020 Cash Notes-Payable 10000 Borrow money from the bank
 REC

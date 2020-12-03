@@ -31,7 +31,7 @@ public class CompanyAccount {
 		return assetAccountNames;
 	}
 	
-	// returns an arraylist of company accounts for now. will change to a map later for effieicnty purposes
+	// returns an arraylist of company accounts for now. will change to a map later for efficiency purposes
 	public static HashMap<String, CompanyAccount> getAllInitAccounts() {
 		HashMap<String, CompanyAccount> allAccounts = new HashMap<>();
 		
