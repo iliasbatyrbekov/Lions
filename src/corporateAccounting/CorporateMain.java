@@ -19,9 +19,14 @@ public class CorporateMain {
 		boolean programFinished = false;
 		//Scanner in = new Scanner(new File("C:\\Users\\hsiangtai2\\Desktop\\Lions\\src\\corporateAccounting\\in2.txt"));
 		//Scanner in = new Scanner(new File("C:\\Users\\tai10\\Desktop\\CS3343 project\\Lions\\src\\corporateAccounting\\in2.txt"));
-		Scanner in = new Scanner(new File("testCorporate.txt"));
-		//Scanner in = new Scanner(System.in);
-		System.out.println("Welcome to our accounting system. It provides functions such as recording tractions, inventory purchases, recording inventory sales, viewing balance sheet/journal/storage, etc. Please specify which service you need by entering the corresponding command. Type \"help\" to see the full list of available commands.");
+		//Scanner in = new Scanner(new File("testCorporate.txt"));
+		Scanner in = new Scanner(System.in);
+		System.out.println("Welcome to our accounting system. It provides functions such as recording tractions, inventory purchases, recording inventory sales, viewing balance sheet/journal/storage, etc. Please select whether to use our cli (command line interface) service or to directly input the commands via a text file of testcases: (cli/textfile) ");
+		if (in.next().equals("textfile")) {
+			System.out.println("Please enter the filename of the text file: ");
+			in = new Scanner(new File(in.next()));
+		}
+		System.out.println("Please specify which service you need by entering the corresponding command. Type \\\"help\\\" to see the full list of available commands.");
 		String allCommands = "==========================================================================\nREC: record transaction\n";
 		allCommands += "B: purchase inventory\n";
 		allCommands += "S: sell inventory\n";
