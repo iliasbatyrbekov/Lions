@@ -1,17 +1,19 @@
 package main;
 
+import java.util.Date;
+
 public class TransferRemit extends Transaction {
-	public TransferRemit(String transactionID) {
-		super(transactionID);
+	public TransferRemit(int transactionID, double amount, String accountID, String description, String date) {
+		super(transactionID, amount, accountID, description, date);
 	}
 
 	private String member;
 	private String remitAccount;
 	
-	public String getAccount() {
+	public String getRemitAccount() {
 		return this.remitAccount;
 	};
-	public void setAccount(String accountId) {
+	public void setRemitAccount(String accountId) {
 		this.remitAccount = accountId;
 	};
 	

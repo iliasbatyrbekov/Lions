@@ -1,74 +1,52 @@
 package main;
 
+import java.util.ArrayList;
+
 public class Account {
 	private String accID;
 	private double debt;
-	private double asset;
 	private double balance;
-	private String password;
 	
-	public Account(String accID, String password) {
+	public Account(String accID) {
 		this.accID = accID;
-		this.asset =  0;
 		this.balance = 0;
 		this.debt = 0;
-		this.password = password;
 	}
 	
-	public Account(String accID, String password, double balance) {
+	public Account(String accID, double balance) {
 		this.accID = accID;
-		this.asset =  0;
 		this.balance = balance;
 		this.debt = 0;
-		this.password = password;
 	}
 
 	
-	public Account(String accID, String password, double balance, double asset, double debt) {
+	public Account(String accID, double balance, double debt) {
 		this.accID = accID;
-		this.asset =  asset;
 		this.balance = balance;
 		this.debt = debt;
-		this.password = password;
 	}
 	
-	
-	public double getAsset() {
-		return asset;
+	public int updateBalance(double updateToBalance) {
+		this.balance += updateToBalance;
+		return 1;
 	}
 	public double getDebt() {
-		return debt;
+		return this.debt;
 	}
 	public double getBalance() {
-		return balance;
+		return this.balance;
 	}
 	public String getaccID() {
-		return accID;
+		return this.accID;
 	}
-	
-	public double setAsset(double asset, String password) {
-		if(this.password.equals(password)) {
-			this.balance = asset;
-			return asset;
+
+	public static void listAll(ArrayList<Account> accountList) {
+		System.out.printf("%-20s %-20s %-20s\n",
+				"Account ID", "Debt", "Balance");
+		
+		for(Account account : accountList) {
+			System.out.printf("%-20s %-20f %-20f\n",
+					account.accID, account.debt, account.balance);
 		}
-		return -2.0;
 	}
-	public double setDebt(double asset, String password) {
-		if(this.password.equals(password)) {
-			this.asset = asset;
-			return asset;
-		}
-		return -2.0;
-	}
-	public double setBalance(double balance, String password) {
-		if(this.password.equals(password)) {
-			this.asset = balance;
-			return balance;
-		}
-		return -2.0;
-	}
-	public void setaccID(String accID) {
-		this.accID = accID;
-	}
-	
 }

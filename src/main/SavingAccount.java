@@ -1,21 +1,20 @@
 package main;
 
-import java.util.Date;
 
 public class SavingAccount extends Account{
 	private double interest;
-	private Date withdrawDate;
+	private String withdrawDate;
 
-	public SavingAccount(String accID, String password, double balance, double interest, Date withdrawDate) {
-		super(accID, password, balance);
+	public SavingAccount(String accID, double balance, double interest, String withdrawDate) {
+		super(accID, balance);
 		this.interest = interest;
 		this.withdrawDate = withdrawDate;
 	}
 	
-	public Date getWithdrawDate() {
+	public String getWithdrawDate() {
 		return withdrawDate;
 	}
-	public void setWithdrawDate(Date withdrawDate) {
+	public void setWithdrawDate(String withdrawDate) {
 		this.withdrawDate = withdrawDate;
 	}
 	
