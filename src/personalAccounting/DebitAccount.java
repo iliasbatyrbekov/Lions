@@ -1,8 +1,8 @@
-package main;
+package personalAccounting;
 
-public class CashAccount extends Account {
+public class DebitAccount extends Account {
 
-	public CashAccount(String accID, double balance) {
+	public DebitAccount(String accID, double balance) {
 		super(accID, balance);
 	}
 	

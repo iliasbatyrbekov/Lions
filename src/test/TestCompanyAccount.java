@@ -46,8 +46,8 @@ import org.junit.Test;
 
 import corporateAccounting.CompanyAccount;
 import corporateAccounting.CompanyTransaction;
-import main.Account;
-import main.Transaction;
+import personalAccounting.Account;
+import personalAccounting.Transaction;
 
 public class TestCompanyAccount {
 	

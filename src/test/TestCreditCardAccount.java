@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.Test;
 
-import main.CreditCardAccount;
+import personalAccounting.CreditCardAccount;
 
 public class TestCreditCardAccount {
 	

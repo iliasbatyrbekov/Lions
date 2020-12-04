@@ -12,12 +12,12 @@ import java.util.Map;
 
 import org.junit.Test;
 
-import main.BudgetPlan;
-import main.ExAccountNotExist;
-import main.ExAccountTypeNotSupported;
-import main.ExPlainNotExist;
-import main.ExUpdateBalanceErr;
-import main.Expense;
+import personalAccounting.BudgetPlan;
+import personalAccounting.ExAccountNotExist;
+import personalAccounting.ExAccountTypeNotSupported;
+import personalAccounting.ExPlainNotExist;
+import personalAccounting.ExUpdateBalanceErr;
+import personalAccounting.Expense;
 
 public class TestBudgetPlan {
 

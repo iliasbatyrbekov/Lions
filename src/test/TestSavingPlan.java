@@ -9,11 +9,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
-import main.DateSystem;
-import main.LoanPlan;
-import main.Plan;
-import main.SavingPlan;
-import main.Transaction;
+import personalAccounting.DateSystem;
+import personalAccounting.LoanPlan;
+import personalAccounting.Plan;
+import personalAccounting.SavingPlan;
+import personalAccounting.Transaction;
 
 public class TestSavingPlan {
 	SavingPlan savingPlan;
