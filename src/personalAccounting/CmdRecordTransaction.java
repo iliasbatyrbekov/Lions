@@ -1,4 +1,4 @@
-package main;
+package personalAccounting;
 
 public class CmdRecordTransaction {
 	public void execute(String[] cmdParts) {

@@ -1,4 +1,4 @@
-package main;
+package personalAccounting;
 
 public class ExTransactionNotExist extends Exception{
 	private static final long serialVersionUID = 1L;

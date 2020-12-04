@@ -1,4 +1,4 @@
-package main;
+package personalAccounting;
 
 public class CreditCardAccount extends Account {
 	private double interest;

@@ -6,12 +6,13 @@ import java.util.HashMap;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.Test;
-import main.Transaction;
-import main.Account;
-import main.Plan;
-import main.View;
-import main.Income;
-import main.Expense;
+
+import personalAccounting.Account;
+import personalAccounting.Expense;
+import personalAccounting.Income;
+import personalAccounting.Plan;
+import personalAccounting.Transaction;
+import personalAccounting.View;
 
 public class TestView {
 	ArrayList<Transaction> TL = new ArrayList<Transaction>();

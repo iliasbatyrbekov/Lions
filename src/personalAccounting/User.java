@@ -1,4 +1,4 @@
-package main;
+package personalAccounting;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 

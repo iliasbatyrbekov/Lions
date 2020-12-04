@@ -4,8 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.Test;
 
-import main.Account;
-import main.DebitAccount;
+import personalAccounting.Account;
+import personalAccounting.DebitAccount;
 
 public class TestDebitAccount {
 	

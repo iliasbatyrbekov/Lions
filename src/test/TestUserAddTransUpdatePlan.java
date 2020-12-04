@@ -14,15 +14,14 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import main.User;
-import main.ExAccountNotExist;
-import main.ExAccountTypeNotSupported;
-import main.ExPlainNotExist;
-import main.ExUpdateBalanceErr;
-import main.Income;
-//import main.Plan;
-import main.SavingPlan;
-import main.Transaction;
+import personalAccounting.ExAccountNotExist;
+import personalAccounting.ExAccountTypeNotSupported;
+import personalAccounting.ExPlainNotExist;
+import personalAccounting.ExUpdateBalanceErr;
+import personalAccounting.Income;
+import personalAccounting.SavingPlan;
+import personalAccounting.Transaction;
+import personalAccounting.User;
 
 public class TestUserAddTransUpdatePlan {
 	User user;

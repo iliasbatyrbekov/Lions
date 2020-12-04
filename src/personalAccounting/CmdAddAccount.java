@@ -1,4 +1,4 @@
-package main;
+package personalAccounting;
 
 public class CmdAddAccount {
 	public void execute(String[] cmdParts) {

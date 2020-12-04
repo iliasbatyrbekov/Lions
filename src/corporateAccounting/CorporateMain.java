@@ -1,16 +1,18 @@
 package corporateAccounting;
 
 import java.util.Scanner;  // Import the Scanner class
+
+import personalAccounting.Transaction;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;  
-import java.util.Date;  
-import main.Transaction;
+import java.util.Date;
 
-public class Main {
+public class CorporateMain {
 
-	public static void main(String[] args) throws ParseException, FileNotFoundException {
+	public static void corporateMain() throws ParseException, FileNotFoundException {
 		Company myCompany = new Company();
 		
 		// TODO Auto-generated method stub
