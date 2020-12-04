@@ -12,12 +12,12 @@ import org.junit.Before;
 import org.junit.Test;
 
 import corporateAccounting.CompanyTransaction;
-import main.Account;
-import main.CashAccount;
-import main.CreditCardAccount;
-import main.DebitAccount;
-import main.SavingAccount;
-import main.Transaction;
+import personalAccounting.Account;
+import personalAccounting.CashAccount;
+import personalAccounting.CreditCardAccount;
+import personalAccounting.DebitAccount;
+import personalAccounting.SavingAccount;
+import personalAccounting.Transaction;
 
 public class TestAccount {
 	

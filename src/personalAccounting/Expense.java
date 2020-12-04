@@ -1,4 +1,4 @@
-package main;
+package personalAccounting;
 
 public class Expense extends Transaction {
 	private String category;

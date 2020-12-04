@@ -1,4 +1,4 @@
-package main; 
+package personalAccounting; 
  
 import java.util.Date;
 import java.util.ArrayList; 

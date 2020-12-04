@@ -8,8 +8,9 @@ import java.io.PrintStream;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import main.Account;
-import main.CashAccount;
+
+import personalAccounting.Account;
+import personalAccounting.CashAccount;
 
 public class TestCashAccount {
 	

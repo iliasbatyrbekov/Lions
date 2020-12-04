@@ -1,4 +1,4 @@
-package main;
+package personalAccounting;
 
 // import java.util.Collections;
 // import java.util.List;

@@ -10,15 +10,15 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import main.ExAccountNotExist;
-import main.ExAccountTypeNotSupported;
-import main.ExPlainNotExist;
-import main.ExUpdateBalanceErr;
-import main.Income;
-import main.Plan;
-import main.SavingPlan;
-import main.Transaction;
-import main.User;
+import personalAccounting.ExAccountNotExist;
+import personalAccounting.ExAccountTypeNotSupported;
+import personalAccounting.ExPlainNotExist;
+import personalAccounting.ExUpdateBalanceErr;
+import personalAccounting.Income;
+import personalAccounting.Plan;
+import personalAccounting.SavingPlan;
+import personalAccounting.Transaction;
+import personalAccounting.User;
 
 public class TestUserUtilityFunction {
 	

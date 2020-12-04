@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.Test;
 
-import main.SavingAccount;
+import personalAccounting.SavingAccount;
 
 public class TestSavingAccount {
 	
