@@ -1,0 +1,44 @@
+HELP
+INVALID-COMMAND
+REC
+21/11/2020 Cash Cash 10000 Borrow money from the bank
+REC
+21/11/2020 Cash Notes-Payable 10000 Borrow money from the bank
+REC
+22/11/2020 Notes-Payable Cash 1000 Return money to the bank
+J
+TL
+Cash
+TL
+Notes-Payable
+REC
+21/11/2020 Cash Service-Revenue 1500 Provide soccer training
+CLS
+31/12/2020
+J
+TL
+Cash
+TL
+Service-Revenue
+TL
+Retained-Earnings
+BS
+B
+3 20 25/11/2020 Cash
+B
+4 30 26/11/2020 Cash
+ST
+S
+7 40 28/11/2020 Cash FIFO
+ST
+B
+5 50 29/11/2020 Cash
+ST
+S
+8 30 30/11/2020 Cash LIFO
+ST
+J
+CLS
+31/12/2021
+BS
+Q
