@@ -1,6 +1,7 @@
 package test;
 import static org.junit.Assert.assertEquals;
 
+
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ import personalAccounting.ExUpdateBalanceErr;
 import personalAccounting.Income;
 import personalAccounting.Transaction;
 import personalAccounting.User;
+
 
 public class TestTransaction {
 	

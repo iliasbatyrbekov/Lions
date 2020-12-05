@@ -26,7 +26,7 @@ It clearly points out the importance of financial management. During this era, t
 
 # Installation & Run
 
-Dillinger requires [Java SE](https://www.oracle.com/java/technologies/javase-downloads.html) and [Java SE Development Kit](https://www.oracle.com/java/technologies/javase-downloads.html) to run.
+**Lions3** requires [Java SE](https://www.oracle.com/java/technologies/javase-downloads.html) and [Java SE Development Kit](https://www.oracle.com/java/technologies/javase-downloads.html) to run.
 *This software recommend users install Java SE Runtime Environment version >= 8 (JRE8), lower version is not guarantee to work.*
 
 To chechk JRE version on your local machine, please turn on your cmd/ terminal and run
@@ -50,12 +50,21 @@ $ sh execute.sh
 
 you will see a confirmation text to ask you if you want to go on further, press **ENTER** to proceed
 
-### Personal
-```sh
+### Choose Personal or Corporation
+```
 # Please select the accounting system to use (personal/corporate):
-$ personal
+$ personal  # If you want to user personal finance management system:
+$ corporate  # If you want to user corporation finance management system:
 
-# Please input the file pathname:
+```
+### Personal
+After the user choose personal, the terminal will pop up the avaliable function and shortcut for user to select.\
+**for more detail of these functions, please check out the User Guideline below*
+```sh
+# Please specify which function you will like to use:
+$ T
+
+# Please input the file path name:
 $ testPersonal.txt
 ```
 
@@ -65,27 +74,29 @@ $ testPersonal.txt
 $ corporate
 ```
 
-**ERROR?**
+**Error?**
 if normal start up can't run the jar projecr, please run to initial the java project
 ```
 java -jar lions3.jar
 ```
 
 # User GuideLine
-### TestPersonal.txt
-| Execution Name | Parameters | Description |
-| ----- | ------ | ---- |
-| Add Account | (Account Type, ID, balance, debt, interest, withdraw date)  | This is a function to add a variety of accounts and record inside the accounts list of the user. There are four types of account which will also be differentiated inside this function.
-| Add Plan | (Plan Type, Name, Start date, End date, Goal Amount, Interest Rate, Debt Owner, Description)  | The plan has three different types and each type has its corresponding parameters. This function will create a plan based on the type specified by the user and added to the plan list.
-| Record Transaction | (Transaction Type, amount, Account ID, Plan ID, Description, Date, Category)  | This function is for the user to add transactions and recorded them in the user transaction history. Every transaction can specify the account and the plan which the user want to recorded in.
-| List All Account | NULL | list all the accounts for this user
-| List All Plan | NULL | list all the plans for this user
-| List Transactions | NULL | list all the transactions for this user
-| View Expense By Account | NULL | The user can view the expense by each account
-| View Expense By Category | NULL | The user can view the expense by each category
-| View Expense By Member | NULL | The user can view the expense by each member
-| View Plan Detail | Plan ID | The user can view a single plan detail, and the content of the detail will be changed refer to the plan type.
-| Saving Plan Get Average Saving | NULL | It's a utility function to calculate the average saving amount of giving duration of time |
+### Personal Finance Management System
+| Short Cut | Execution Name | Parameters | Description |
+| ----- | ----- | ------ | ---- |
+| T | Input text file | file name | It will read the .txt file with comman in it |
+| EXIT | Exit the program | NULL | Stop the program |
+| AA | Add Account | (Account Type, ID, balance, debt, interest, withdraw date)  | This is a function to add a variety of accounts and record inside the accounts list of the user. There are four types of account which will also be differentiated inside this function.
+| AP | Add Plan | (Plan Type, Name, Start date, End date, Goal Amount, Interest Rate, Debt Owner, Description)  | The plan has three different types and each type has its corresponding parameters. This function will create a plan based on the type specified by the user and added to the plan list.
+| RC | Record Transaction | (Transaction Type, amount, Account ID, Plan ID, Description, Date, Category)  | This function is for the user to add transactions and recorded them in the user transaction history. Every transaction can specify the account and the plan which the user want to recorded in.
+| LA | List All Account | NULL | list all the accounts for this user
+| LP | List All Plan | NULL | list all the plans for this user
+| LT | List Transactions | NULL | list all the transactions for this user
+| VEA | View Expense By Account | NULL | The user can view the expense by each account
+| VEC | View Expense By Category | NULL | The user can view the expense by each category
+| VEM | View Expense By Member | NULL | The user can view the expense by each member
+| VP | View Plan Detail | Plan ID | The user can view a single plan detail, and the content of the detail will be changed refer to the plan type.
+| CAS | Saving Plan Get Average Saving | NULL | It's a utility function to calculate the average saving amount of giving duration of time |
 
 ### TestCorporation.txt
 | Execution Name | Parameters | Description |
