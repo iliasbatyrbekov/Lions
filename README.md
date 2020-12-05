@@ -51,7 +51,7 @@ $ sh execute.sh
 you will see a confirmation text to ask you if you want to go on further, press **ENTER** to proceed
 
 ### Choose Personal or Corporation
-```
+```sh
 # Welcome To Lions3 Finance Management System!
 # Please select the accounting system to use ([P] personal/ [C] corporate/ [E] exit):
 $ P  # If you want to user personal finance management system
