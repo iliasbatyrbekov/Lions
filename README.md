@@ -52,9 +52,9 @@ you will see a confirmation text to ask you if you want to go on further, press 
 
 ### Choose Personal or Corporation
 ```
-# Please select the accounting system to use (personal/corporate):
-$ personal  # If you want to user personal finance management system:
-$ corporate  # If you want to user corporation finance management system:
+# Please select the accounting system to use ([P] personal/ [C] corporate/ [E] exit):
+$ P  # If you want to user personal finance management system:
+$ C  # If you want to user corporation finance management system:
 
 ```
 ### Personal
@@ -71,7 +71,13 @@ $ testPersonal.txt
 ### Corporation
 ```sh
 # Please select the accounting system to use (personal/corporate):
-$ corporate
+$ C
+# Please select whether to use our cli (command line interface) service or to directly input the commands via a text file of testcases: ([CLI] cli / [T] textfile) 
+$ CLI # if you would like to use the command-line interface to interact with the system
+$ T # if you are to input the commands directly via a text file
+
+# Please enter the filename of the text file:
+$ testCorporate.txt
 ```
 
 
@@ -99,11 +105,20 @@ java -jar lions3.jar
 | VP | View Plan Detail | Plan ID | The user can view a single plan detail, and the content of the detail will be changed refer to the plan type.
 | CAS | Saving Plan Get Average Saving | NULL | It's a utility function to calculate the average saving amount of giving duration of time |
 
-### TestCorporation.txt
-| Commnad | Execution Name | Parameters | Description |
+### TestCorporation.txt (all commands are case-insensitive)
+| Command | Execution Name | Parameters | Example |
 | ----- | ----- | ------ | ---- |
-| A | a | f | c |
-
+| REC | record transaction | date (dd/mm/yyyy), account to debit, account to credit, amount, description | REC <br>21/11/2020 Cash Cash 10000 Borrow money from the bank |
+| ALL | view all available accounts |n/a||
+| B | purchase inventory | unit cost, # units, account to credit/pay with|B<br>5 50 29/11/2020 Cash|
+| S | sell inventory | unit price, # units to sell, date (dd/mm/yyyy), account to debit, cost method [FIFO/LIFO]|S<br>8 30 30/11/2020 Cash LIFO|
+|CLS| perform closing entries | date (dd/mm/yyyy) | CLS <br>30/11/2020|
+| J | view journal | n/a ||
+| TL | view the T-ledger of an account | account name | TL <br>Service-Revenue|
+| BS | view balance sheet | n/a ||
+| ST | view storage | n/a ||
+| Q | return to homepage | n/a ||
+|HELP| view all commands| n/a ||
 
 # Techs
 
