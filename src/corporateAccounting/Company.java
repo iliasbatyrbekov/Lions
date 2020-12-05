@@ -31,13 +31,13 @@ public class Company {
 		
 		CompanyAccount accountToDebit = accountList.get(trans.getDebittedAccount());
 		CompanyAccount accountToCredit = accountList.get(trans.getCredittedAccount());
-		
-		if (accountToCredit == null) {
-			System.out.print("Error: " + trans.getCredittedAccount() + " is not a valid account.\n");
-			return false;
-		}
+
 		if (accountToDebit == null) {
 			System.out.print("Error: " + trans.getDebittedAccount() + " is not a valid account.\n");
+			return false;
+		}
+		if (accountToCredit == null) {
+			System.out.print("Error: " + trans.getCredittedAccount() + " is not a valid account.\n");
 			return false;
 		}
 		if (accountToCredit.equals(accountToDebit)) {
@@ -45,20 +45,18 @@ public class Company {
 			return false;
 		}
 		
-		//for credit account type, if debit means decrease -> may have credit balance < 0
-		if(accountToDebit.getAccountType() == CompanyAccountType.CREDIT_ACCOUNT) {
-			if(accountToDebit.getBalance() - trans.getAmount() < 0) {
-				System.out.print("Error: Cannot debit " + trans.getDebittedAccount() + " account (insufficient balance)\n");
-				return false;
-			}
+		// for credit account type, debiting a credit account means a decrease in its balance -> may have insufficient balance
+		if(accountToDebit.getAccountType() == CompanyAccountType.CREDIT_ACCOUNT 
+				&& accountToDebit.getBalance() - trans.getAmount() < 0) {
+			System.out.print("Error: Cannot debit " + trans.getDebittedAccount() + " account (insufficient balance)\n");
+			return false;
 		}
 		
-		//for debit account type, if credit means decrease -> may have insufficient fund
-		if(accountToCredit.getAccountType() == CompanyAccountType.DEBIT_ACCOUNT) {
-			if(accountToCredit.getBalance() - trans.getAmount() < 0) {
-				System.out.print("Error: Cannot credit " + trans.getCredittedAccount() + " account (insufficient balance)\n");
-				return false;
-			}
+		//for debit account type, crediting a debit account means a decrease in its balance -> may have insufficient balance
+		if(accountToCredit.getAccountType() == CompanyAccountType.DEBIT_ACCOUNT 
+				&& accountToCredit.getBalance() - trans.getAmount() < 0) {
+			System.out.print("Error: Cannot credit " + trans.getCredittedAccount() + " account (insufficient balance)\n");
+			return false;
 		}
 		
 		return true;
@@ -220,34 +218,6 @@ public class Company {
 		}
 		return accountList.get("Retained-Earnings").getBalance();
 	}
-	
-	//for simple testing
-	/*public static void main(String args[]) {
-		test generateClosingEntries
-		Date tday = new Date();
-		CompanyTransaction testTrans1=new CompanyTransaction("id12334", tday, "Cash", "AccountsPayable", 1000.0, "Borrow from bank");
-		CompanyTransaction testTrans2=new CompanyTransaction("id12335", tday, "Inventory", "Cash", 1000.0, "Buy Inventory");
-		CompanyTransaction testTrans3=new CompanyTransaction("id12336", tday, "Cash", "CommonStock", 1000.0, "Issue Common Stock");
-		CompanyTransaction testTran4 = new CompanyTransaction("777", tday, "Cash", "Service Revenue", 300, "Provide soccer training");
-		Company lukecompany=new Company();
-		lukecompany.journal.add(testTrans1);
-		lukecompany.journal.add(testTrans2);
-		lukecompany.journal.add(testTrans3);
-		lukecompany.recordTransaction(testTran4);
-		lukecompany.generateClosingEntries();
-		lukecompany.printJournal();
-		
-		
-		Date tday = new Date();
-		Company lukecompany = new Company();
-		lukecompany.recordTransaction(new CompanyTransaction("id12334", tday, "Cash", "Accounts-Payable", 1000.0, "Borrow from bank"));
-		lukecompany.purchaseInventory(3, 50, tday, "Cash");
-		lukecompany.purchaseInventory(5, 100, tday, "Cash");
-		lukecompany.sellInventory(7, 180, tday, "Cash", "FIFO");
-		
-		lukecompany.printJournal();
-		
-	}*/
 
 	// TODO function for total units
 	private int getTotalUnits() {
@@ -277,7 +247,6 @@ public class Company {
 	}
 	
 	public ArrayList<InventoryStorageEntry> sellInventory(double unitPrice, int unitsToSell, Date date, String debittedAccount, String costMethod){
-		//if (unitsToSell > getTotalUnits()) System.out.println("Not enough inventory in store");
 		//record revenue transaction
 		double amount = unitPrice*unitsToSell;
 		CompanyTransaction revTrans = new CompanyTransaction(generateNewID(), date, debittedAccount, "Sales-Revenue", amount, "Revenue from Goods sold");

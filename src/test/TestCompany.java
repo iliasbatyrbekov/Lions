@@ -48,43 +48,43 @@ public class TestCompany {
 	@Test
 	public void testIsValidTransaction3() {
 		Company company = new Company();
+		CompanyTransaction transaction = new CompanyTransaction(company.generateNewID(), new Date(), "Cash", "Cash", 1000, "Receive cash from cash");
+		assertEquals(false, company.isValidTransaction(transaction));
+		assertEquals("Error: Cannot debit and credit the same account\n", outContent.toString());
+	}
+	@Test
+	public void testIsValidTransaction4() {
+		Company company = new Company();
 		CompanyTransaction transaction = new CompanyTransaction(company.generateNewID(), new Date(), "Notes-Payable", "Cash", 1000, "Pay off notes payable owed");
 		assertEquals(false, company.isValidTransaction(transaction));
 		assertEquals("Error: Cannot debit Notes-Payable account (insufficient balance)\n", outContent.toString());
 	}
 	@Test
-	public void testIsValidTransaction4() {
+	public void testIsValidTransaction5() {
 		Company company = new Company();
 		CompanyTransaction transaction = new CompanyTransaction(company.generateNewID(), new Date(), "Cash", "Notes-Receivable", 1000, "Receive cash from notes");
 		assertEquals(false, company.isValidTransaction(transaction));
 		assertEquals("Error: Cannot credit Notes-Receivable account (insufficient balance)\n", outContent.toString());
 	}
 	@Test
-	public void testIsValidTransaction5() {
+	public void testIsValidTransaction6() {
 		Company company = new Company();
 		CompanyTransaction transaction = new CompanyTransaction(company.generateNewID(), new Date(), "Cash", "Accounts-Payable", 1000, "Borrow money from the bank");
 		assertEquals(true, company.isValidTransaction(transaction));
 	}
 	@Test
-	public void testIsValidTransaction6() {
+	public void testIsValidTransaction7() {
 		Company company = new Company();
 		company.getAccountList().get("Cash").setBalance(1000);
 		CompanyTransaction transaction = new CompanyTransaction(company.generateNewID(), new Date(), "Equipment", "Cash", 1000, "Buy equipment with cash");
 		assertEquals(true, company.isValidTransaction(transaction));
 	}
 	@Test
-	public void testIsValidTransaction7() {
+	public void testIsValidTransaction8() {
 		Company company = new Company();
 		company.getAccountList().get("Deferred-Revenue").setBalance(1200);  // simulate increasing deferred revenue by $1200 ($100/month for a year)
 		CompanyTransaction transaction = new CompanyTransaction(company.generateNewID(), new Date(), "Deferred-Revenue", "Service-Revenue", 100, "Provide a month of service");
 		assertEquals(true, company.isValidTransaction(transaction));
-	}
-	@Test
-	public void testIsValidTransaction8() {
-		Company company = new Company();
-		CompanyTransaction transaction = new CompanyTransaction(company.generateNewID(), new Date(), "Cash", "Cash", 1000, "Receive cash from cash");
-		assertEquals(false, company.isValidTransaction(transaction));
-		assertEquals("Error: Cannot debit and credit the same account\n", outContent.toString());
 	}
 	@Test 
 	public void testRecordTransaction1() {

@@ -12,22 +12,15 @@ import java.util.Date;
 
 public class CorporateMain {
 
-	public static void corporateMain() throws ParseException, FileNotFoundException {
+	public static void corporateMain(Scanner in) throws ParseException, FileNotFoundException {
 		Company myCompany = new Company();
 		
-		// TODO Auto-generated method stub
 		boolean programFinished = false;
-		//Scanner in = new Scanner(new File("C:\\Users\\hsiangtai2\\Desktop\\Lions\\src\\corporateAccounting\\in2.txt"));
-		//Scanner in = new Scanner(new File("C:\\Users\\tai10\\Desktop\\CS3343 project\\Lions\\src\\corporateAccounting\\in2.txt"));
-		//Scanner in = new Scanner(new File("testCorporate.txt"));
-		Scanner in = new Scanner(System.in);
-		System.out.println("Welcome to our accounting system. It provides functions such as recording tractions, inventory purchases, recording inventory sales, viewing balance sheet/journal/storage, etc. Please select whether to use our cli (command line interface) service or to directly input the commands via a text file of testcases: (cli/textfile) ");
-		if (in.next().equals("textfile")) {
-			System.out.println("Please enter the filename of the text file: ");
-			in = new Scanner(new File(in.next()));
-		}
-		System.out.println("Please specify which service you need by entering the corresponding command. Type \\\"help\\\" to see the full list of available commands.");
+		
+		System.out.println("Welcome to our accounting system. It provides functions such as recording tractions, inventory purchases, recording inventory sales, viewing balance sheet/journal/storage, etc. Please specify which service you need by entering the corresponding command. Type \\\"help\\\" to see the full list of available commands.");
+		
 		String allCommands = "==========================================================================\nREC: record transaction\n";
+		allCommands += "ALL: view all accounts in the system that can be altered\n";
 		allCommands += "B: purchase inventory\n";
 		allCommands += "S: sell inventory\n";
 		allCommands += "CLS: perform closing entry\n";
@@ -37,6 +30,32 @@ public class CorporateMain {
 		allCommands += "ST: view the storage entries\n";
 		allCommands += "Q: quit the program\n";
 		allCommands += "HELP: view the list of available commands\n==========================================================================";
+		
+		String allAccounts = "ASSET ACCOUNTS:\n";
+		for (String accName: CompanyAccount.assetAccountNames)
+			allAccounts += (" - " + accName + "\n");
+		allAccounts += "CONTRA ASSET ACCOUNTS:\n";
+		for (String accName: CompanyAccount.contraAssetAccountNames)
+			allAccounts += (" - " + accName + "\n");
+		allAccounts += "LIABILITY ACCOUNTS:\n";
+		for (String accName: CompanyAccount.liabilityAccountNames)
+			allAccounts += (" - " + accName + "\n");
+		allAccounts += "STOCKHOLDER'S EQUITY ACCOUNTS:\n";
+		for (String accName: CompanyAccount.stockHoldersEquityAccountNames)
+			allAccounts += (" - " + accName + "\n");
+		allAccounts += "CONTRA STOCKHOLDER'S EQUITY ACCOUNTS:\n";
+		for (String accName: CompanyAccount.contrastockHoldersEquityAccountNames)
+			allAccounts += (" - " + accName + "\n");
+		allAccounts += "REVENUE ACCOUNTS:\n";
+		for (String accName: CompanyAccount.revenueAccountNames)
+			allAccounts += (" - " + accName + "\n");
+		allAccounts += "CONTRA REVENUE ACCOUNTS:\n";
+		for (String accName: CompanyAccount.contraRevenueAccountNames)
+			allAccounts += (" - " + accName + "\n");
+		allAccounts += "DIVIDEND ACCOUNTS:\n";
+		for (String accName: CompanyAccount.dividendAccountNames)
+			allAccounts += (" - " + accName + "\n");
+		
 		while (!programFinished) {
 			System.out.println(">> ");
 			switch (in.next().toUpperCase()) {
@@ -48,6 +67,9 @@ public class CorporateMain {
 					} else {
 						System.out.println("Invalid transaction.");
 					}
+					break;
+				case "ALL":
+					System.out.println(allAccounts);
 					break;
 				case "B":
 					System.out.println("Please enter the unit cost, units to buy, the date of the purchase, and the account to credit: ");

@@ -1,5 +1,6 @@
 HELP
 INVALID-COMMAND
+ALL
 REC
 21/11/2020 Cash Cash 10000 Borrow money from the bank
 REC
@@ -35,9 +36,13 @@ B
 5 50 29/11/2020 Cash
 ST
 S
+8 100 30/11/2020 Cash LIFO
+S
 8 30 30/11/2020 Cash LIFO
 ST
 J
+REC
+22/11/2020 Dividends-Cash Cash 500 Pay out dividends to stockholders
 CLS
 31/12/2021
 BS

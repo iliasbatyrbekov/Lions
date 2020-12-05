@@ -3,13 +3,13 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import main.ExAccountNotExist;
-import main.ExAccountTypeNotSupported;
-import main.ExPlainNotExist;
-import main.ExUpdateBalanceErr;
-import main.Expense;
-import main.Transaction;
-import main.User;
+import personalAccounting.ExAccountNotExist;
+import personalAccounting.ExAccountTypeNotSupported;
+import personalAccounting.ExPlainNotExist;
+import personalAccounting.ExUpdateBalanceErr;
+import personalAccounting.Expense;
+import personalAccounting.Transaction;
+import personalAccounting.User;
 
 
 public class TestExpense {
