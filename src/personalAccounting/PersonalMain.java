@@ -14,10 +14,10 @@ public class PersonalMain {
 		while(!exit) {
 			User u = User.getInstance();
 			System.out.printf("\n==============================================================================="
-					+ "\n\nWelcome to Lions3 personal fincance management system!\nPlease specify which function you will like to use:  ");
+					+ "\n\nWelcome to Lions3 personal fincance management system!");
 			System.out.printf("\n\n---------------------------------------------REFERENCE------------------------------------------\n"
 					+ "%-40s | %-40s \n%-40s | %-40s | %-40s\n%-40s | %-40s | %-40s\n%-40s | %-40s | %-40s\n%-40s | %-40s\n"
-					+ "------------------------------------------------------------------------------------------------\n",
+					+ "------------------------------------------------------------------------------------------------\n\n\nPlease specify which function you will like to use:  ",
 					"[T] Input Text File", "[EXIT] exit", "[AA] Add Account", "[AP] Add Plan", "[RC] Record Transaction",
 					"[LA] List All Account", "[LP] List All Plan", "[LT] List All Transaction",
 					"[VEA] View Expense by Account", "[VEC] View Expense by Category", "[VEM] View Expense by Member",
