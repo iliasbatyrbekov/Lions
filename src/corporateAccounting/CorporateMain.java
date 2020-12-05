@@ -28,7 +28,7 @@ public class CorporateMain {
 		allCommands += "TL: view the T ledger of a specific account\n";
 		allCommands += "BS: view the balance sheet\n";
 		allCommands += "ST: view the storage entries\n";
-		allCommands += "Q: quit the program\n";
+		allCommands += "Q: return to homescreen\n";
 		allCommands += "HELP: view the list of available commands\n==========================================================================";
 		
 		String allAccounts = "ASSET ACCOUNTS:\n";

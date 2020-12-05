@@ -18,12 +18,12 @@ public class PersonalMain {
 			System.out.printf("\n\n---------------------------------------------REFERENCE------------------------------------------\n"
 					+ "%-40s | %-40s \n%-40s | %-40s | %-40s\n%-40s | %-40s | %-40s\n%-40s | %-40s | %-40s\n%-40s | %-40s\n"
 					+ "------------------------------------------------------------------------------------------------\n\n\nPlease specify which function you will like to use:  ",
-					"[T] Input Text File", "[EXIT] exit", "[AA] Add Account", "[AP] Add Plan", "[RC] Record Transaction",
+					"[T] Input Text File", "[HOME] return to home page", "[AA] Add Account", "[AP] Add Plan", "[RC] Record Transaction",
 					"[LA] List All Account", "[LP] List All Plan", "[LT] List All Transaction",
 					"[VEA] View Expense by Account", "[VEC] View Expense by Category", "[VEM] View Expense by Member",
 					"[VP] View Plan Detail", "[CAS] Calculate Average Saving");
 			String ui = in.next();
-			if(ui.equals("EXIT")) { exit = true; in.close(); }
+			if(ui.equals("HOME")) { exit = true; in.close(); }
 			else if(ui.equals("T")) {
 				System.out.print("Please input the file pathname: ");
 				String filepathname = in.next();
