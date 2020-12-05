@@ -1,5 +1,5 @@
 # CS3343 Lions3 (Group 3)
-
+[Check Out Github Repository](https://github.com/iliasbatyrbekov/Lions)
 ![N|Solid](https://www.shareicon.net/data/256x256/2015/11/25/677545_running_512x512.png)
 
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/y/iliasbatyrbekov/Lions) ![GitHub contributors](https://img.shields.io/github/contributors/iliasbatyrbekov/Lions) ![GitHub Repo stars](https://img.shields.io/github/stars/iliasbatyrbekov/Lions?style=social) ![GitHub forks](https://img.shields.io/github/forks/iliasbatyrbekov/Lions?style=social) 
