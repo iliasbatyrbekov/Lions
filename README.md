@@ -52,9 +52,10 @@ you will see a confirmation text to ask you if you want to go on further, press 
 
 ### Choose Personal or Corporation
 ```
+# Welcome To Lions3 Finance Management System!
 # Please select the accounting system to use ([P] personal/ [C] corporate/ [E] exit):
-$ P  # If you want to user personal finance management system:
-$ C  # If you want to user corporation finance management system:
+$ P  # If you want to user personal finance management system
+$ C  # If you want to user corporation finance management system
 
 ```
 ### Personal
@@ -69,9 +70,8 @@ $ testPersonal.txt
 ```
 
 ### Corporation
+If the user chooses to use the corporation accounting system by typing [C] in the previous step, the system will then prompt the user to decide whether to use the CLI (command-line interface) or directly input the commands via a textfile.
 ```sh
-# Please select the accounting system to use (personal/corporate):
-$ C
 # Please select whether to use our cli (command line interface) service or to directly input the commands via a text file of testcases: ([CLI] cli / [T] textfile) 
 $ CLI # if you would like to use the command-line interface to interact with the system
 $ T # if you are to input the commands directly via a text file
