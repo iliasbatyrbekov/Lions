@@ -23,7 +23,7 @@ public class PersonalMain {
 					"[VEA] View Expense by Account", "[VEC] View Expense by Category", "[VEM] View Expense by Member",
 					"[VP] View Plan Detail", "[CAS] Calculate Average Saving");
 			String ui = in.next();
-			if(ui.equals("HOME")) { exit = true; in.close(); }
+			if(ui.equals("HOME")) { exit = true; }
 			else if(ui.equals("T")) {
 				System.out.print("Please input the file pathname: ");
 				String filepathname = in.next();

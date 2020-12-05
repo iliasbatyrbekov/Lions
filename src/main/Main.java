@@ -44,7 +44,7 @@ public class Main {
 					"");
 			System.out.printf("%75s\n", "Welcome To Lions3 Finance Management System!");
 			System.out.printf("%85s\n", "Please select the accounting system to use ([P] personal/ [C] corporate/ [E] exit):");
-			String input = in.nextLine().trim();
+			String input = in.next();
 			if (input.equals("C")) {
 				Scanner corporateIn = new Scanner(System.in);
 				System.out.println("Welcome to our Lions3 Corporation Accounting System!!"
