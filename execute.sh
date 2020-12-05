@@ -1,3 +1,3 @@
 #!/bin/bash
-read -p Hello, This bash file will running the .jar file called lions3.jar. Are you sure you want to run it?
+read -p "Hello, This bash file will running the .jar file called lions3.jar. Press enter to continue..."
 java -jar lions3.jar
