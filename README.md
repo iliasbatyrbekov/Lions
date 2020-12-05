@@ -74,6 +74,7 @@ $ testPersonal.txt
 $ corporate
 ```
 
+
 **Error?**
 if normal start up can't run the jar projecr, please run to initial the java project
 ```
@@ -82,10 +83,10 @@ java -jar lions3.jar
 
 # User GuideLine
 ### Personal Finance Management System
-| Short Cut | Execution Name | Parameters | Description |
+| Command | Execution Name | Parameters | Description |
 | ----- | ----- | ------ | ---- |
-| T | Input text file | file name | It will read the .txt file with comman in it |
-| EXIT | Exit the program | NULL | Stop the program |
+| T | Input text file | file name | It will read the .txt file with comman in it. |
+| HOME | Back To Home | NULL | Back to home page UI. |
 | AA | Add Account | (Account Type, ID, balance, debt, interest, withdraw date)  | This is a function to add a variety of accounts and record inside the accounts list of the user. There are four types of account which will also be differentiated inside this function.
 | AP | Add Plan | (Plan Type, Name, Start date, End date, Goal Amount, Interest Rate, Debt Owner, Description)  | The plan has three different types and each type has its corresponding parameters. This function will create a plan based on the type specified by the user and added to the plan list.
 | RC | Record Transaction | (Transaction Type, amount, Account ID, Plan ID, Description, Date, Category)  | This function is for the user to add transactions and recorded them in the user transaction history. Every transaction can specify the account and the plan which the user want to recorded in.
@@ -99,9 +100,9 @@ java -jar lions3.jar
 | CAS | Saving Plan Get Average Saving | NULL | It's a utility function to calculate the average saving amount of giving duration of time |
 
 ### TestCorporation.txt
-| Execution Name | Parameters | Description |
-| ----- | ------ | ---- |
-| a | f | c |
+| Commnad | Execution Name | Parameters | Description |
+| ----- | ----- | ------ | ---- |
+| A | a | f | c |
 
 
 # Techs
