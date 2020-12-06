@@ -92,18 +92,18 @@ java -jar lions3.jar
 | Command | Execution Name | Parameters | Description |
 | ----- | ----- | ------ | ---- |
 | T | Input text file | file name | It will read the .txt file with comman in it. |
-| HOME | Back To Home | NULL | Back to home page UI. |
+| HOME | Back To Home | n/a | Back to home page UI. |
 | AA | Add Account | (Account Type, ID, balance, debt, interest, withdraw date)  | This is a function to add a variety of accounts and record inside the accounts list of the user. There are four types of account which will also be differentiated inside this function.
 | AP | Add Plan | (Plan Type, Name, Start date, End date, Goal Amount, Interest Rate, Debt Owner, Description)  | The plan has three different types and each type has its corresponding parameters. This function will create a plan based on the type specified by the user and added to the plan list.
 | RC | Record Transaction | (Transaction Type, amount, Account ID, Plan ID, Description, Date, Category)  | This function is for the user to add transactions and recorded them in the user transaction history. Every transaction can specify the account and the plan which the user want to recorded in.
-| LA | List All Account | NULL | list all the accounts for this user
-| LP | List All Plan | NULL | list all the plans for this user
-| LT | List Transactions | NULL | list all the transactions for this user
-| VEA | View Expense By Account | NULL | The user can view the expense by each account
-| VEC | View Expense By Category | NULL | The user can view the expense by each category
-| VEM | View Expense By Member | NULL | The user can view the expense by each member
+| LA | List All Account | n/a | list all the accounts for this user
+| LP | List All Plan | n/a | list all the plans for this user
+| LT | List Transactions | n/a | list all the transactions for this user
+| VEA | View Expense By Account | n/a | The user can view the expense by each account
+| VEC | View Expense By Category | n/a | The user can view the expense by each category
+| VEM | View Expense By Member | n/a | The user can view the expense by each member
 | VP | View Plan Detail | Plan ID | The user can view a single plan detail, and the content of the detail will be changed refer to the plan type.
-| CAS | Saving Plan Get Average Saving | NULL | It's a utility function to calculate the average saving amount of giving duration of time |
+| CAS | Saving Plan Get Average Saving | n/a | It's a utility function to calculate the average saving amount of giving duration of time |
 
 ### TestCorporation.txt (all commands are case-insensitive)
 | Command | Execution Name | Parameters | Example |
